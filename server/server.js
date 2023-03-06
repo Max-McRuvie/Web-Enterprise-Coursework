@@ -7,16 +7,12 @@ import userRoutes from './routes/user.routes.js';
 // Config
 import config from '../config/config.js';
 const PORT = config.port;
-
+const MONGOURI = config.mongoUri;
 // Express
 const app = express();
 
 // Connect to MongoDB
-mongoose.Promise = global.Promise
-mongoose.connect(config.mongoUri, { dbName: "users" })
-mongoose.connection.on('error', err => {
-  throw new Error(`unable to connect to database: ${config.mongoUri}`)
-})
+await mongoose.connect(MONGOURI);
 
 // Body Parser
 app.use(bodyParser.json())

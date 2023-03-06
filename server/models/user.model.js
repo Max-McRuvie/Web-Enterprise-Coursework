@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
 
 // Virtual Fields
 UserSchema.virtual('password')
-    .set((password) => {
+    .set(function(password) {
         this._password = password
         this.salt = this.makeSalt()
         this.hashed_password = this.encryptPassword(password)

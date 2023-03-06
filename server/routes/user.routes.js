@@ -5,8 +5,8 @@ import authCtrl from '../controllers/auth.controller.js';
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/api/users')
-    .get(userCtrl.list)
-    .post(userCtrl.create);
+  .get(userCtrl.list)
+  .post(userCtrl.create)
 
 router.route('/api/users/:userId')
     .get(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.read)

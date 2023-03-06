@@ -2,7 +2,10 @@ import path from 'path';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+
+// Routes
 import userRoutes from './routes/user.routes.js';
+import authRoutes from './routes/auth.routes.js';
 
 // Config
 import config from '../config/config.js';
@@ -19,6 +22,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use("/", userRoutes)
+app.use("/", authRoutes)
 
 // 404 not found
 app.use((req, res, next) => {

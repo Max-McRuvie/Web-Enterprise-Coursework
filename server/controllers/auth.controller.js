@@ -1,7 +1,7 @@
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 import jwt from 'jsonwebtoken';
-import expressJwt from 'express-jwt';
-import config from '../../config/config';
+import { expressjwt } from "express-jwt";
+import config from '../../config/config.js';
 
 const signin = async (req, res) => {
     try{
@@ -48,11 +48,11 @@ const signout = (req, res) => {
     })
 }
 
-const requireSignin = expressJwt({
+const requireSignin = expressjwt({
     secret: config.jwtSecret,
     userProperty: 'auth',
     algorithms: ['HS256']
-})
+  })
 
 const hasAuthorization = (req, res, next) => {
     const autherized = reg.profile && req.auth && req.profile._id == req.auth._id;

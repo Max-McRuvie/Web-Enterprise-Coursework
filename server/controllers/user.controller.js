@@ -19,30 +19,31 @@ const create = async (req, res, next) => {
 
 // List all users
 const list = async (req, res, next, id) => {
-    try {
-        await user.save()
-        return res.status(200).json({
-          message: "Successfully signed up!"
-        })
-      } catch (err) {
-        return res.status(400).json({
-          error: errorHandler.getErrorMessage(err)
-        })
-      }  
+  try {
+    let users = await User.find().select('name email updated created')
+    res.json(users)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
 }
 
 // Find user by ID
 const userByID = async (req, res, next, id) => {
-    try {
-        await user.save()
-        return res.status(200).json({
-          message: "Successfully signed up!"
-        })
-      } catch (err) {
-        return res.status(400).json({
-          error: errorHandler.getErrorMessage(err)
-        })
-      }
+  try {
+    let user = await User.findById(id)
+    if (!user)
+      return res.status('400').json({
+        error: "User not found"
+      })
+    req.profile = user
+    next()
+  } catch (err) {
+    return res.status('400').json({
+      error: "Could not retrieve user"
+    })
+  }
 }
 
 // Read user profile
@@ -54,30 +55,34 @@ const read = (req, res) => {
 
 // Update user profile
 const update = async (req, res, next) => {
-    try {
-        await user.save()
-        return res.status(200).json({
-          message: "Successfully signed up!"
-        })
-      } catch (err) {
-        return res.status(400).json({
-          error: errorHandler.getErrorMessage(err)
-        })
-      }  
+  try {
+    let user = req.profile
+    user = lodash.extend(user, req.body)
+    user.updated = Date.now()
+    await user.save()
+    user.hashed_password = undefined
+    user.salt = undefined
+    res.json(user)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
 }
 
 // Delete user profile
 const remove = async (req, res, next) => {
-    try {
-        await user.save()
-        return res.status(200).json({
-          message: "Successfully signed up!"
-        })
-      } catch (err) {
-        return res.status(400).json({
-          error: errorHandler.getErrorMessage(err)
-        })
-      }
+  try {
+    let user = req.profile
+    let deletedUser = await user.remove()
+    deletedUser.hashed_password = undefined
+    deletedUser.salt = undefined
+    res.json(deletedUser)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
 }
 
 export default { create, userByID, read, list, remove, update }

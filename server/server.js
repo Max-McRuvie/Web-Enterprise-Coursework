@@ -35,7 +35,7 @@ app.use((err, req, res, next) => {
 
 // 404 not found
 app.use((req, res, next) => {
-    res.send("Page not found!")
+    res.send("This page does not exist!")
 })
 
 app.listen(PORT, () => {

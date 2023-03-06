@@ -3,11 +3,11 @@ import userCtrl from '../controllers/user.controller.js';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.route('api/users')
+router.route('/api/users')
     .get(userCtrl.list)
     .post(userCtrl.create);
 
-router.route('api/users/:userId')
+router.route('/api/users/:userId')
     .get(userCtrl.read)
     .put(userCtrl.update)
     .delete(userCtrl.remove);

@@ -3,7 +3,7 @@ import lodash from 'lodash';
 import errorHandler from './../helpers/dbErrorHandler.js';
 
 // Create a new user
-const create = async (req, res, next) => {
+const create = async (req, res) => {
     const user = new User(req.body)
     try {
         await user.save()
@@ -55,7 +55,7 @@ const read = (req, res) => {
 }
 
 // Update user profile
-const update = async (req, res, next) => {
+const update = async (req, res) => {
   try {
     let user = req.profile
     user = lodash.extend(user, req.body)
@@ -72,7 +72,7 @@ const update = async (req, res, next) => {
 }
 
 // Delete user profile
-const remove = async (req, res, next) => {
+const remove = async (req, res) => {
   try {
     let user = req.profile
     let deletedUser = await user.remove()

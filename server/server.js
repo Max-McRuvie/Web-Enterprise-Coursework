@@ -2,6 +2,8 @@ import path from 'path';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 // Routes
 import userRoutes from './routes/user.routes.js';
@@ -14,6 +16,10 @@ const MONGOURI = config.mongoUri;
 // Express
 const app = express();
 
+// Path
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // Connect to MongoDB
 await mongoose.connect(MONGOURI);
 
@@ -21,6 +27,7 @@ await mongoose.connect(MONGOURI);
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// Routes
 app.use("/", userRoutes)
 app.use("/", authRoutes)
 
@@ -31,6 +38,20 @@ app.use((err, req, res, next) => {
     }else if(err){
         res.status(400).json({"error": err.name + ": " + err.message});
     }
+});
+
+// CORS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+
+// Serve static files from the React app
+app.use('/static', express.static(path.join(__dirname, '../build/static')));
+
+app.get('*', (req, res) => {
+    res.sendFile('index.html', {root: path.join(__dirname, '../build/')});
 });
 
 // 404 not found

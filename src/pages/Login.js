@@ -2,7 +2,11 @@ import React, {useState} from "react";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setAuthBool, unsetAuthBool } from '../state/user/userReducer';
-import store from '../state/store';
+import { Grid, TextField, Button, Typography } from '@mui/material';
+import { Form } from 'react-router-dom';
+import Text from '@mui/material/Typography';
+
+
 
 export default function Login() {
     const [values, setValues] = useState({
@@ -38,20 +42,30 @@ export default function Login() {
     }
 
     return (
-      <div id="signup">
-        <form>
-          <label>
-            e-mail:
-            <input type="text" name="email" onChange={handleChange('email')}/>
-          </label>
-          <br></br>
-          <label>
-            Password:
-            <input type="text" name="password" onChange={handleChange('password')}/>
-          </label>
-          <br></br>
-          <input type="submit" value="Submit" onClick={handleSubmit} />
-        </form>
-      </div>
+      <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
+            <Grid container item xs={3} direction="column">
+                <Text variant="h4" sx={{marginBottom: "2%"}}>Login</Text>
+                <Form onSubmit={handleSubmit}>
+                        <TextField 
+                            label="Email"
+                            variant="outlined"
+                            required
+                            sx={{marginBottom: "2%"}}
+                            fullWidth
+                            onChange={handleChange('email')}
+                        />
+                        <TextField 
+                            label="Password"
+                            variant="outlined"
+                            required
+                            sx={{marginBottom: "2%"}}
+                            type="password"
+                            fullWidth
+                            onChange={handleChange('password')}
+                        />
+                        <Button variant="contained" sx={{marginBottom: "2%"}} type="submit">Submit</Button>
+                    </Form>
+            </Grid>
+        </Grid>
     );
 }

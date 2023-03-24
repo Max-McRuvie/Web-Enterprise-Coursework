@@ -1,14 +1,19 @@
 import React, {useState} from "react";
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setAuthBool, unsetAuthBool } from '../state/user/userReducer';
+import store from '../state/store';
 
-export default function Signup() {
+export default function Login() {
     const [values, setValues] = useState({
         password: '',
         email: '',
-        open: false,
-        error: ''
+        authorised: false,
+        token: ''
       })
     
+    const dispatch = useDispatch();
+
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value })
     }
@@ -23,11 +28,13 @@ export default function Signup() {
             .then(response => {
             console.log("Setting JWT in storage")
             sessionStorage.setItem('auth', JSON.stringify(response.data));
+            setValues({ ...values, 'authorised': true })
+            setValues({ ...values, 'token': JSON.stringify(response.data) })
+            dispatch(setAuthBool())
             })
             .catch(err => {
             console.log(err)
             });
-
     }
 
     return (

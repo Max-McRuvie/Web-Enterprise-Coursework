@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Logoff from "./pages/Logoff";
+import Quote from './pages/Quote';
 
 import store from './state/store';
 import { Provider } from 'react-redux';
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/quote",
+        element: <Quote />,
       },
       {
         path: "/signup",

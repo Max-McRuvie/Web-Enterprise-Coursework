@@ -10,11 +10,22 @@ import {useSelector, useDispatch} from 'react-redux';
 import { getAuthBool } from '../state/user/userReducer';
 import { setAuthBool, unsetAuthBool } from '../state/user/userReducer';
 import store from '../state/store';
+import { styled } from '@mui/material/styles';
+
 
 
 const { main, darkNavbar, light, contrastText } = theme.palette.primary;
 
+const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
+    ':hover': {
+      backgroundColor: light,
+        color: darkNavbar,
+    },
+}));
+
+
 export default function Root() {
+
     const dispatch = useDispatch();
     const authUser = sessionStorage.getItem('auth');
     if (authUser) {
@@ -25,12 +36,12 @@ export default function Root() {
       console.log(store.getState())
     }
 
-    let loginDisplay = <Button href='/login'>Login</Button>;
-    let signupDisplay = <Button href='/signup'>Sign Up</Button>;
+    let loginDisplay = <StyledButton variant='raised' href='/login'>Login</StyledButton>;
+    let signupDisplay = <StyledButton variant='raised' href='/signup'>Sign Up</StyledButton>;
 
     if (useSelector(getAuthBool)) {
-        loginDisplay = <Button href='/logoff'>Logout</Button>;
-        signupDisplay = <Button href='/profile'>Profile</Button>;
+        loginDisplay = <StyledButton variant='raised' href='/logoff'>Logout</StyledButton>;
+        signupDisplay = <StyledButton variant='raised' href='/profile'>Profile</StyledButton>;
     }
 
     return (
@@ -48,7 +59,7 @@ export default function Root() {
                             >
                                 <MenuIcon />
                             </IconButton> */}
-                            <Button color="inherit" href='/'>Home</Button>
+                            <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
                         </div>
                         <div styles={{direction:"row"}}>
                             {loginDisplay}

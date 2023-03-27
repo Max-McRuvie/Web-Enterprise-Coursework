@@ -7,8 +7,8 @@ import Button from '@mui/material/Button';
 import theme from '../theme';
 import { ThemeProvider } from '@mui/material/styles';
 import {useSelector, useDispatch} from 'react-redux';
-import { getAuthBool } from '../state/user/userReducer';
-import { setAuthBool, unsetAuthBool } from '../state/user/userReducer';
+import { getAuthBool } from '../state/auth/authReducer';
+import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
 import store from '../state/store';
 import { styled } from '@mui/material/styles';
 

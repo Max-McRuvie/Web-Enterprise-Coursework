@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setAuthBool, unsetAuthBool } from '../state/user/userReducer';
+import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
 import { Grid, TextField, Button, Typography } from '@mui/material';
 import { Form } from 'react-router-dom';
 import Text from '@mui/material/Typography';
@@ -25,15 +25,20 @@ export default function Login() {
     const handleSubmit = (e) => {
             e.preventDefault();
             console.log("Logging In")
-            let data = {"email": values.email, "password" : values.password}
-            var requestURI = "http://localhost:3000/auth.signin"
+            let data = {
+                "email": values.email, 
+                "password" : values.password
+            }
+
+            var requestURI = "http://localhost:3000/auth/signin"
             console.log(requestURI)
             axios.post(requestURI, data)
             .then(response => {
-            console.log("Setting JWT in storage")
-            sessionStorage.setItem('auth', JSON.stringify(response.data));
-            setValues({ ...values, 'authorised': true })
-            setValues({ ...values, 'token': JSON.stringify(response.data) })
+                console.log("Setting JWT in storage")
+                sessionStorage.setItem('auth', JSON.stringify(response.data));
+                setValues({ ...values, 'authorised': true })
+                setValues({ ...values, 'token': JSON.stringify(response.data) })
+            
             dispatch(setAuthBool())
             })
             .catch(err => {

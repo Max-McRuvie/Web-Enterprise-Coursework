@@ -9,8 +9,11 @@ import { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
+import { saveQuote } from '../features/quote/quote-api';
 
 const { main, light, darkNavbar, contrastText } = theme.palette.primary;
+
+
 
 const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
     backgroundColor: darkNavbar,
@@ -21,6 +24,11 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 }));
 
 const Quote = () => {
+    const [projectInfo, setprojectInfo] = useState({
+        title: "",
+        description: "",
+        workers: [{hourlyRate: 0, hoursRequired: 0}],
+    })
 
     const handleWorkerChange = (e, index, field) => {
         const workers = [...projectInfo.workers];
@@ -28,20 +36,21 @@ const Quote = () => {
         setprojectInfo({ ...projectInfo, workers });
     };
 
-    const [projectInfo, setprojectInfo] = useState({
-        title: "",
-        description: "",
-        workers: [{hourlyRate: 0, hoursRequired: 0}],
-    })
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        let cost_per_person = projectInfo.workers.reduce((acc, worker) => {
-            return acc + (worker.hourlyRate * worker.hoursRequired)
-        }, 0)
+        console.log("Submitting quote")
+        saveQuote(projectInfo)
 
-        console.log(projectInfo)
-        console.log(cost_per_person)
+        // let cost_per_person = projectInfo.workers.reduce((acc, worker) => {
+        //     return acc + (worker.hourlyRate * worker.hoursRequired)
+        // }, 0)
+
+        // let total_cost = cost_per_person * projectInfo.workers.length
+
+        // setQuote({
+        //     cost_per_person: cost_per_person,
+        //     total_cost: total_cost,
+        // })
     }
 
     return (
@@ -120,6 +129,12 @@ const Quote = () => {
                         Submit
                     </StyledButton>
                     </Form>
+
+                    { quote.total_cost > 0 && (
+                        <Box sx={{ marginTop: "2%" }}>
+                            <Text variant="h5">Total Cost: ${quote.total_cost}</Text>
+                        </Box>
+                    )}
             </Grid>
         </Grid>
     )

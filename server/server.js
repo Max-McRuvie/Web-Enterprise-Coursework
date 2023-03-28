@@ -8,6 +8,7 @@ import { dirname } from 'path';
 // Routes
 import userRoutes from './routes/user.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import quoteRoutes from './routes/quote.routes.js';
 
 // Config
 import config from '../config/config.js';
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // Routes
 app.use("/", userRoutes)
 app.use("/", authRoutes)
+app.use("/", quoteRoutes)
 
 // Authorisation error handler
 app.use((err, req, res, next) => {

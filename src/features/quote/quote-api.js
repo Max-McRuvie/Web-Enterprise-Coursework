@@ -1,5 +1,12 @@
 import axios from "axios";
 
+const calculateQuote = (quote) => {
+    return axios.post(`http://localhost:3000/api/calculation`, quote)
+        .then(response => {
+            return response.data.finalQuote
+        })
+}
+
 const saveQuote = (quote) => {
     let item = sessionStorage.getItem('auth');
     const data = JSON.parse(item)
@@ -9,9 +16,8 @@ const saveQuote = (quote) => {
         uID: userID,
         title: quote.title,
         workers: quote.workers,
+        total_cost: quote.total_cost,
     }
-
-    console.log(requestData)
 
     try{
         return axios.post(`http://localhost:3000/api/quotes`, requestData)
@@ -26,4 +32,5 @@ const saveQuote = (quote) => {
 
 export {
     saveQuote,
+    calculateQuote
 }

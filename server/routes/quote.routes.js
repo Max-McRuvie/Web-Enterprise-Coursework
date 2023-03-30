@@ -10,5 +10,9 @@ router.route('/api/calculation')
 
 router.route('/api/quotes')
     .post(quoteCtrl.createQuote);
+    
+
+router.route('/api/quotes/:userId')
+    .get(quoteCtrl.listQuotes)
 
 export default router;

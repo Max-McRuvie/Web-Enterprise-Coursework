@@ -35,7 +35,21 @@ const createQuote = async (req, res) => {
     }
 }
 
+const listQuotes = async (req, res) => {
+    try {
+        const id = req.params.userId
+        let quotes = await Quote.find({uID : id})
+        // .select('quote author');
+        res.json(quotes);
+    } catch (err) {
+        return res.status(400).json({
+            error: {err}
+        })
+    }
+}
+
 export default {
     createQuote,
+    listQuotes,
     calculateQuote,
 }

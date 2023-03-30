@@ -61,6 +61,7 @@ export default function Root() {
                             </IconButton> */}
                             <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
                             <StyledButton color="inherit" variant='raised' href='/quote'>Get Quote</StyledButton>
+                            <StyledButton color="inherit" variant='raised' href='/quote-list'>Quote List</StyledButton>
                         </div>
                         <div styles={{direction:"row"}}>
                             {loginDisplay}

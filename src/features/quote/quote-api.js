@@ -30,7 +30,21 @@ const saveQuote = (quote) => {
     }
 }
 
+
+const getQuoteList = () => {
+    let item = sessionStorage.getItem('auth');
+    const data = JSON.parse(item)
+    let userId = data.user._id
+
+    return axios.get(`http://localhost:3000/api/quotes/${userId}`)
+    .then(response => {
+      return response.data;
+    });
+
+}
+
 export {
     saveQuote,
+    getQuoteList,
     calculateQuote
 }

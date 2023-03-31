@@ -13,6 +13,9 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Logoff from "./pages/Logoff";
 import Quote from './pages/Quote';
+import QuoteList from './pages/QuoteList';
+import Profile from './pages/Profile';
+
 
 import store from './state/store';
 import { Provider } from 'react-redux';
@@ -30,6 +33,14 @@ const router = createBrowserRouter([
       {
         path: "/quote",
         element: <Quote />,
+      },
+      {
+        path: "/quote-list",
+        element: <QuoteList />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "/signup",

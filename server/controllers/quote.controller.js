@@ -48,8 +48,28 @@ const listQuotes = async (req, res) => {
     }
 }
 
+const removeQuote = async (req, res) => {
+    try {
+      let id = req.body.quoteIds;
+      let userId = req.params.userId;
+        
+      if (Array.isArray(id)) {
+        await Quote.deleteMany({ _id: { $in: id}, uID: userId });
+        res.sendStatus(204);
+      } else {
+        await Quote.deleteOne({ _id: id, uID: userId });
+        res.sendStatus(204);
+      }
+    } catch (err) {
+      return res.status(400).json({
+        error: { err },
+      });
+    }
+  };
+
 export default {
     createQuote,
     listQuotes,
     calculateQuote,
+    removeQuote
 }

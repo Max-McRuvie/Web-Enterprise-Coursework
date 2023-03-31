@@ -40,11 +40,29 @@ const getQuoteList = () => {
     .then(response => {
       return response.data;
     });
+}
 
+const deleteQuote = (quoteIds) => {
+    let item = sessionStorage.getItem('auth');
+    const data = JSON.parse(item)
+    let userId = data.user._id
+    console.log(quoteIds)
+
+    if (!Array.isArray(quoteIds)) {
+        quoteIds = [quoteIds];
+    }
+
+    return axios.delete(`http://localhost:3000/api/quotes/${userId}`, {
+        data: { quoteIds: quoteIds }
+    })
+    .then(response => {
+        return response.data;
+    });
 }
 
 export {
     saveQuote,
     getQuoteList,
-    calculateQuote
+    calculateQuote,
+    deleteQuote
 }

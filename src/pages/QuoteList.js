@@ -1,5 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { getQuoteList, deleteQuote } from '../features/quote/quote-api'
+import {
+    Paper,
+    Grid,
+    Typography,
+    Button,
+    Container,
+    Checkbox
+} from '@mui/material'
+import { styled } from '@mui/material/styles';
+import theme from '../theme';
+
+const { main, light, darkNavbar, contrastText } = theme.palette.primary;
+
+const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
+    backgroundColor: darkNavbar,
+    color: contrastText,
+    margin: "2%",
+    '&:hover': {
+        backgroundColor: light,
+        color: darkNavbar,
+        border: "1px solid",
+    },
+}));
 
 const QuoteList = () => {
     const [quoteList, setQuoteList] = useState([])
@@ -13,6 +36,7 @@ const QuoteList = () => {
                 setQuoteList(response)
             }
         )
+        console.log(quoteList)
     }, [])
 
     const handleToggleQuote = (quoteId) => {
@@ -34,17 +58,28 @@ const QuoteList = () => {
     }
     
     return (
-        <div>
-            <h1>Quote List</h1>
-            {quoteList.map((quote) => (
-                <div key={quote._id}>
-                     <input type="checkbox" onChange={() => handleToggleQuote(quote._id)} />
-                    <h2>{quote.title}</h2>
-                    <p>{quote.total_cost}</p>
-                </div>
-            ))}
-            <button onClick={handleDeleteQuote}>Delete</button>
-        </div>
+        <Container>
+            <Grid container spacing={3} marginTop={"2%"}>
+                {quoteList.map((quote) => (
+                    <Grid item xs={12} sm={6} md={4} key={quote._id}>
+                    <Paper elevation={3}>
+                        <Typography variant="h6">Title: {quote.title}</Typography>
+                        <Typography variant="body1">Workers: {quote.workers.length}</Typography>
+                        <Typography variant="body1">Total Cost: £{quote.total_cost}</Typography>
+                        <Checkbox
+                            checked={selectedQuotes.includes(quote._id)}
+                            onChange={() => handleToggleQuote(quote._id)}
+                            sx={{
+                                color: darkNavbar, 
+                                '&.Mui-checked': {color: darkNavbar}
+                            }}
+                        />
+                    </Paper>
+                    </Grid>
+                ))}
+            </Grid>
+        <StyledButton onClick={handleDeleteQuote}>Delete</StyledButton>
+        </Container>
     )
 }
 

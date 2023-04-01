@@ -30,13 +30,19 @@ const saveQuote = (quote) => {
     }
 }
 
+const getQuote = (quoteId) => {
+    return axios.get(`http://localhost:3000/api/quotes/${quoteId}`)
+    .then(response => {
+        return response.data;
+    });
+}
 
 const getQuoteList = () => {
     let item = sessionStorage.getItem('auth');
     const data = JSON.parse(item)
     let userId = data.user._id
 
-    return axios.get(`http://localhost:3000/api/quotes/${userId}`)
+    return axios.get(`http://localhost:3000/api/${userId}/quotes`)
     .then(response => {
       return response.data;
     });
@@ -52,7 +58,7 @@ const deleteQuote = (quoteIds) => {
         quoteIds = [quoteIds];
     }
 
-    return axios.delete(`http://localhost:3000/api/quotes/${userId}`, {
+    return axios.delete(`http://localhost:3000/api/${userId}/quotes`, {
         data: { quoteIds: quoteIds }
     })
     .then(response => {
@@ -62,6 +68,7 @@ const deleteQuote = (quoteIds) => {
 
 export {
     saveQuote,
+    getQuote,
     getQuoteList,
     calculateQuote,
     deleteQuote

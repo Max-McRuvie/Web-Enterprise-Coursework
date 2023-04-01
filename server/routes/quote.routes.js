@@ -12,11 +12,11 @@ router.route('/api/quotes')
     .post(quoteCtrl.createQuote);
     
 
-router.route('/api/quotes/:userId')
+router.route('/api/:userId/quotes')
     .get(quoteCtrl.listQuotes)
     .delete(quoteCtrl.removeQuote);
 
-// router.route('/api/quotes/:userId/:quoteId')
-//     .delete(quoteCtrl.removeQuote);
+router.route('/api/quotes/:quoteId')
+    .get(quoteCtrl.getQuoteByID);
 
 export default router;

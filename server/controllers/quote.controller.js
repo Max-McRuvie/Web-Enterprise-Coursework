@@ -8,9 +8,24 @@ const fudgeFactorCalculator = (amount) => {
 
 const calculateQuote = async (req, res) => {
     const projectInfo = req.body;
+
+    console.log(projectInfo)
     let totalLaborCost = 0;
     for (let i = 0; i < projectInfo.workers.length; i++) {
         const worker = projectInfo.workers[i];
+        switch (worker.hourlyRate) {
+            case "Junior":
+                worker.hourlyRate = 10;
+                break;
+            case "Standard":
+                worker.hourlyRate = 15;
+                break;
+            case "Senior":
+                worker.hourlyRate = 20;
+                break;
+            default:
+                worker.hourlyRate = 0;
+        }
         const workerCost = worker.hourlyRate * fudgeFactorCalculator(worker.hoursRequired);
         totalLaborCost += Number(workerCost);
     }

@@ -29,9 +29,9 @@ const WorkersFields = ({workers, handleFieldChange, handleRemoveField}) => {
                 value={worker.hourlyRate}
                 onChange={(e) => handleFieldChange(e, index, "hourlyRate", "workers")}
                 >
-                <MenuItem value="10">Junior</MenuItem>
-                <MenuItem value="15">Standard</MenuItem>
-                <MenuItem value="20">Senior</MenuItem>
+                <MenuItem value="Junior">Junior</MenuItem>
+                <MenuItem value="Standard">Standard</MenuItem>
+                <MenuItem value="Senior">Senior</MenuItem>
                 </TextField>
                 <TextField
                 label={`Hours Required`}

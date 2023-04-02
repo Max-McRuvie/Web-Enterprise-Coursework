@@ -17,6 +17,7 @@ router.route('/api/:userId/quotes')
     .delete(quoteCtrl.removeQuote);
 
 router.route('/api/quotes/:quoteId')
-    .get(quoteCtrl.getQuoteByID);
+    .get(quoteCtrl.getQuoteByID)
+    .put(quoteCtrl.updateQuote);
 
 export default router;

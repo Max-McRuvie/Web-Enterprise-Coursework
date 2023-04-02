@@ -37,7 +37,6 @@ const createQuote = async (req, res) => {
 
 const getQuoteByID = async (req, res) => {
     try {
-        console.log(req.params.quoteId)
         const id = req.params.quoteId;
         let quote = await Quote.find({_id : id})
         res.json(quote);
@@ -55,6 +54,21 @@ const listQuotes = async (req, res) => {
         // .select('quote author');
         res.json(quotes);
     } catch (err) {
+        return res.status(400).json({
+            error: {err}
+        })
+    }
+}
+
+const updateQuote = async (req, res) => {
+    try{
+        let id = req.params.quoteId
+        let quote = req.body
+
+        await Quote.updateOne({_id : id}, quote)
+        res.sendStatus(204);
+    }
+    catch (err) {
         return res.status(400).json({
             error: {err}
         })
@@ -84,6 +98,7 @@ export default {
     createQuote,
     listQuotes,
     getQuoteByID,
+    updateQuote,
     calculateQuote,
     removeQuote
 }

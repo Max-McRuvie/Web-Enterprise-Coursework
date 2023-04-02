@@ -56,15 +56,14 @@ const QuoteForm = ({ quote, edit }) => {
     }
 
     const handleSave = async (e) => {
+        e.preventDefault();
         console.log("Saving quote")
-        let response = await saveQuote(quoteId, projectInfo)
-        console.log(response)
+        await saveQuote(projectInfo)
     }
 
     const handleUpdate = async (e) => {
-        console.log("Updating quote")
-        let response = await updateQuote(quoteId, projectInfo)
-        console.log(response)
+        e.preventDefault();
+        await updateQuote(quoteId, projectInfo)
     }
     
       useEffect(() => {
@@ -86,7 +85,7 @@ const QuoteForm = ({ quote, edit }) => {
                         sx={{marginBottom: "2%"}}
                         value={projectInfo.title}
                         fullWidth
-                        onChange={(e) => setProjectInfo({ ...projectInfo, title: e.target.value })}
+                        onChange={(e) => setProjectInfo({...projectInfo, title: e.target.value})}
                     />
                     {projectInfo.workers.map((worker, index) => {
                         return (

@@ -8,6 +8,7 @@ import {
     Container,
     Checkbox
 } from '@mui/material'
+import { Link } from 'react-router-dom'
 import { styled } from '@mui/material/styles';
 import theme from '../theme';
 
@@ -29,14 +30,11 @@ const QuoteList = () => {
     const [selectedQuotes, setSelectedQuotes] = useState([])
 
     useEffect(() => {
-        console.log("QuoteList mounted")
         getQuoteList()
             .then((response) => {
-                console.log(response)
                 setQuoteList(response)
             }
         )
-        console.log(quoteList)
     }, [])
 
     const handleToggleQuote = (quoteId) => {
@@ -74,8 +72,12 @@ const QuoteList = () => {
                                 '&.Mui-checked': {color: darkNavbar}
                             }}
                         />
+                        <div>
+                            <StyledButton component={Link} to={`/quote/${quote._id}`}>Edit</StyledButton>
+                         </div>
                     </Paper>
                     </Grid>
+                    
                 ))}
             </Grid>
         <StyledButton onClick={handleDeleteQuote}>Delete</StyledButton>

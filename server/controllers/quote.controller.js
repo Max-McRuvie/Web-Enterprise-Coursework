@@ -1,11 +1,17 @@
 import Quote from '../models/quote.model.js';
 
+const fudgeFactorCalculator = (amount) => {
+    let fudgeFactor = 1.5;
+
+    return amount * fudgeFactor;
+}
+
 const calculateQuote = async (req, res) => {
     const projectInfo = req.body;
     let totalLaborCost = 0;
     for (let i = 0; i < projectInfo.workers.length; i++) {
         const worker = projectInfo.workers[i];
-        const workerCost = worker.hourlyRate * worker.hoursRequired;
+        const workerCost = worker.hourlyRate * fudgeFactorCalculator(worker.hoursRequired);
         totalLaborCost += Number(workerCost);
     }
 
@@ -15,7 +21,7 @@ const calculateQuote = async (req, res) => {
     }
 
     let finalQuote = {
-        totalCost: totalLaborCost
+        totalCost: Math.round(totalLaborCost)
     }
 
     return res.status(200).json({

@@ -47,17 +47,29 @@ const QuoteForm = ({ quote, edit }) => {
         total_cost: '',
       });
 
-      const handleWorkerChange = (e, index, field) => {
-        const workers = [...projectInfo.workers];
-        workers[index][field] = e.target.value;
-        setProjectInfo({ ...projectInfo, workers });
+    const handleFieldChange = (e, index, field, type) => {
+        if (type === "workers") {
+            const workers = [...projectInfo.workers];
+            workers[index][field] = e.target.value;
+            setProjectInfo({ ...projectInfo, workers });
+        } else if (type === "physicalResources") {
+            const physicalResources = [...projectInfo.physicalResources];
+            physicalResources[index][field] = e.target.value;
+            setProjectInfo({ ...projectInfo, physicalResources });
+        }
     };
 
-    const handlePhysicalResourcesChange = (e, index, field) => {
-        const resources = [...projectInfo.physicalResources];
-        resources[index][field] = e.target.value;
-        setProjectInfo({ ...projectInfo, resources });
-    };
+    const handleRemoveField = (index, type) => {
+        if (type === "workers") {
+          const workers = [...projectInfo.workers];
+          workers.splice(index, 1);
+          setProjectInfo({ ...projectInfo, workers });
+        } else if (type === "physicalResources") {
+          const physicalResources = [...projectInfo.physicalResources];
+          physicalResources.splice(index, 1);
+          setProjectInfo({ ...projectInfo, physicalResources });
+        }
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -102,10 +114,15 @@ const QuoteForm = ({ quote, edit }) => {
                         fullWidth
                         onChange={(e) => setProjectInfo({...projectInfo, title: e.target.value})}
                     />
-                    <WorkersFields workers={projectInfo.workers} handleWorkerChange={handleWorkerChange} />
+                    <Grid container spacing={2} sx={{ display: 'flex' }}>
+                        <Grid item sx={{ flex: 1 }}>
+                            <WorkersFields workers={projectInfo.workers} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField} />
+                        </Grid>
+                        <Grid item sx={{ flex: 1 }}>
+                            <PhysicalResourcesFields physicalResources={projectInfo.physicalResources} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField}/>
+                        </Grid>
+                    </Grid>
 
-                    <PhysicalResourcesFields physicalResources={projectInfo.physicalResources} handlePhysicalResourcesChange={handlePhysicalResourcesChange} />
-            
                     <Box sx={{ textAlign: "center" }}>
                         <StyledButton
                         sx={{ margin: "2%" }}
@@ -128,11 +145,14 @@ const QuoteForm = ({ quote, edit }) => {
                         onClick={() =>
                             setProjectInfo({
                             ...projectInfo,
-                            workers: projectInfo.workers.slice(0, -1),
+                            physicalResources: [
+                                ...projectInfo.physicalResources,
+                                { cost: 0 },
+                            ],
                             })
                         }
                         >
-                        Remove Worker
+                        Add Physical Resource
                         </StyledButton>
                     </Box>
                     <StyledButton type="submit" variant={"contained"}>

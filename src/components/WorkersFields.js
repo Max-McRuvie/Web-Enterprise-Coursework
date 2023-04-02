@@ -1,8 +1,8 @@
 import React from "react";
-import { Box, TextField, MenuItem } from "@mui/material";
+import { Box, TextField, MenuItem, Button } from "@mui/material";
 import Text from "@mui/material/Typography";
 
-const WorkersFields = ({workers, handleWorkerChange}) => {
+const WorkersFields = ({workers, handleFieldChange, handleRemoveField}) => {
     return (
         <>
         {workers && workers.map((worker, index) => {
@@ -16,7 +16,7 @@ const WorkersFields = ({workers, handleWorkerChange}) => {
                 type="text"
                 fullWidth
                 value={worker.name}
-                onChange={(e) => handleWorkerChange(e, index, "name")}
+                onChange={(e) => handleFieldChange(e, index, "name", "workers")}
                 />
                 
                 <TextField
@@ -27,7 +27,7 @@ const WorkersFields = ({workers, handleWorkerChange}) => {
                 fullWidth
                 select
                 value={worker.hourlyRate}
-                onChange={(e) => handleWorkerChange(e, index, "hourlyRate")}
+                onChange={(e) => handleFieldChange(e, index, "hourlyRate", "workers")}
                 >
                 <MenuItem value="10">Junior</MenuItem>
                 <MenuItem value="15">Standard</MenuItem>
@@ -39,9 +39,19 @@ const WorkersFields = ({workers, handleWorkerChange}) => {
                 sx={{ marginBottom: "2%" }}
                 fullWidth
                 value={worker.hoursRequired}
-                onChange={(e) => handleWorkerChange(e, index, "hoursRequired")}
+                onChange={(e) => handleFieldChange(e, index, "hoursRequired", "workers")}
                 />
+                <Button
+                    sx={{ margin: "2%" }}
+                    variant={"contained"}
+                    onClick={() =>
+                        handleRemoveField(index, "workers")
+                    }
+                >
+                    Remove Worker
+                </Button>
             </Box>
+            
             );
         })}
         </>

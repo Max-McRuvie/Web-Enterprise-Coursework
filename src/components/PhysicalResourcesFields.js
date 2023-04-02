@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, TextField } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import Text from "@mui/material/Typography";
 
-const PhysicalResourcesFields = ({physicalResources, handlePhysicalResourceChange}) => {
+const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRemoveField}) => {
     return (
         <>
          {physicalResources && physicalResources.map((resource, index) => {
@@ -16,7 +16,7 @@ const PhysicalResourcesFields = ({physicalResources, handlePhysicalResourceChang
                             type="text"
                             fullWidth
                             value={resource.title}
-                            onChange={(e) => handlePhysicalResourceChange(e, index, "title")}
+                            onChange={(e) => handleFieldChange(e, index, "title", "physicalResources")}
                             />
                            
                             <TextField
@@ -26,8 +26,17 @@ const PhysicalResourcesFields = ({physicalResources, handlePhysicalResourceChang
                             fullWidth
                             type="number"
                             value={resource.cost}
-                            onChange={(e) => handlePhysicalResourceChange(e, index, "cost")}
+                            onChange={(e) => handleFieldChange(e, index, "cost", "physicalResources")}
                             />
+                            <Button
+                                sx={{ margin: "2%" }}
+                                variant={"contained"}
+                                onClick={() =>
+                                    handleRemoveField(index, "physicalResources")
+                                }
+                            >
+                                Remove Resource
+                            </Button>
                         </Box>
                         );
                     })}

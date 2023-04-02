@@ -14,6 +14,7 @@ import { calculateQuote, saveQuote, updateQuote } from '../features/quote/quote-
 import { useParams } from 'react-router-dom';
 
 import WorkersFields from './WorkersFields';
+import PhysicalResourcesFields from './PhysicalResourcesFields';
 
 const { main, light, darkNavbar, contrastText } = theme.palette.primary;
 
@@ -32,9 +33,16 @@ const QuoteForm = ({ quote, edit }) => {
         title: '',
         workers: [
           {
+            name: '',
             hourlyRate: '',
             hoursRequired: '',
           },
+        ],
+        physicalResources: [
+            {
+                title: '',
+                cost: 0,
+            },
         ],
         total_cost: '',
       });
@@ -43,6 +51,12 @@ const QuoteForm = ({ quote, edit }) => {
         const workers = [...projectInfo.workers];
         workers[index][field] = e.target.value;
         setProjectInfo({ ...projectInfo, workers });
+    };
+
+    const handlePhysicalResourcesChange = (e, index, field) => {
+        const resources = [...projectInfo.physicalResources];
+        resources[index][field] = e.target.value;
+        setProjectInfo({ ...projectInfo, resources });
     };
 
     const handleSubmit = async (e) => {
@@ -89,6 +103,9 @@ const QuoteForm = ({ quote, edit }) => {
                         onChange={(e) => setProjectInfo({...projectInfo, title: e.target.value})}
                     />
                     <WorkersFields workers={projectInfo.workers} handleWorkerChange={handleWorkerChange} />
+
+                    <PhysicalResourcesFields physicalResources={projectInfo.physicalResources} handlePhysicalResourcesChange={handlePhysicalResourcesChange} />
+            
                     <Box sx={{ textAlign: "center" }}>
                         <StyledButton
                         sx={{ margin: "2%" }}

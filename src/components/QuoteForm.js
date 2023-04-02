@@ -10,7 +10,8 @@ import Text from '@mui/material/Typography';
 import { Form } from 'react-router-dom';
 import theme from '../theme';
 import { styled } from '@mui/material/styles';
-import { calculateQuote, saveQuote } from '../features/quote/quote-api';
+import { calculateQuote, saveQuote, updateQuote } from '../features/quote/quote-api';
+import { useParams } from 'react-router-dom';
 
 
 const { main, light, darkNavbar, contrastText } = theme.palette.primary;
@@ -24,6 +25,8 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 }));
 
 const QuoteForm = ({ quote, edit }) => {
+    const { quoteId } = useParams();
+
     const [projectInfo, setProjectInfo] = useState({
         title: '',
         workers: [
@@ -54,7 +57,13 @@ const QuoteForm = ({ quote, edit }) => {
 
     const handleSave = async (e) => {
         console.log("Saving quote")
-        let response = await saveQuote(projectInfo)
+        let response = await saveQuote(quoteId, projectInfo)
+        console.log(response)
+    }
+
+    const handleUpdate = async (e) => {
+        console.log("Updating quote")
+        let response = await updateQuote(quoteId, projectInfo)
         console.log(response)
     }
     
@@ -146,7 +155,7 @@ const QuoteForm = ({ quote, edit }) => {
                         <Box sx={{ marginTop: "2%" }}>
                             <Text variant="h5">Total Cost: ${projectInfo.total_cost}</Text>
                             { edit ? (
-                                <Button variant="contained" sx={{ marginTop: "2%" }}>Update Quote</Button>
+                                <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleUpdate}>Update Quote</Button>
                             ) : (
                                 <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleSave}>Save Quote</Button>
                             )}

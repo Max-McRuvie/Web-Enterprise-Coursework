@@ -48,11 +48,17 @@ const getQuoteList = () => {
     });
 }
 
+const updateQuote = (quoteId, quote) => {
+    return axios.put(`http://localhost:3000/api/quotes/${quoteId}`, quote)
+        .then(response => {
+            return response.data;
+        });
+}
+
 const deleteQuote = (quoteIds) => {
     let item = sessionStorage.getItem('auth');
     const data = JSON.parse(item)
     let userId = data.user._id
-    console.log(quoteIds)
 
     if (!Array.isArray(quoteIds)) {
         quoteIds = [quoteIds];
@@ -70,6 +76,7 @@ export {
     saveQuote,
     getQuote,
     getQuoteList,
+    updateQuote,
     calculateQuote,
     deleteQuote
 }

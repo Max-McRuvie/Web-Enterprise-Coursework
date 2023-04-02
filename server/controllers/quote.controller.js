@@ -6,7 +6,12 @@ const calculateQuote = async (req, res) => {
     for (let i = 0; i < projectInfo.workers.length; i++) {
         const worker = projectInfo.workers[i];
         const workerCost = worker.hourlyRate * worker.hoursRequired;
-        totalLaborCost += workerCost;
+        totalLaborCost += Number(workerCost);
+    }
+
+    for(let i = 0; i < projectInfo.physicalResources.length; i++) {
+        const resource = projectInfo.physicalResources[i];
+        totalLaborCost += Number(resource.cost);
     }
 
     let finalQuote = {

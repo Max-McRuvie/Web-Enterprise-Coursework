@@ -16,6 +16,7 @@ const saveQuote = (quote) => {
         uID: userID,
         title: quote.title,
         workers: quote.workers,
+        physicalResources: quote.physicalResources,
         total_cost: quote.total_cost,
     }
 

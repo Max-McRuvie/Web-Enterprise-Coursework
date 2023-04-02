@@ -24,6 +24,7 @@ const EditQuote = () => {
                 setQuote({
                     title: response[0].title,
                     workers: response[0].workers,
+                    physicalResources: response[0].physicalResources,
                     cost: response[0].total_cost,
                 })
             }

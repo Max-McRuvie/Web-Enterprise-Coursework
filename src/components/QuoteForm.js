@@ -13,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import { calculateQuote, saveQuote, updateQuote } from '../features/quote/quote-api';
 import { useParams } from 'react-router-dom';
 
+import WorkersFields from './WorkersFields';
 
 const { main, light, darkNavbar, contrastText } = theme.palette.primary;
 
@@ -87,35 +88,7 @@ const QuoteForm = ({ quote, edit }) => {
                         fullWidth
                         onChange={(e) => setProjectInfo({...projectInfo, title: e.target.value})}
                     />
-                    {projectInfo.workers.map((worker, index) => {
-                        return (
-                        <Box key={index}>
-                            <Text>Worker {index + 1}</Text>
-                            <TextField
-                            label="Hourly Rate"
-                            variant="filled"
-                            sx={{ marginBottom: "2%" }}
-                            type="number"
-                            fullWidth
-                            select
-                            value={worker.hourlyRate}
-                            onChange={(e) => handleWorkerChange(e, index, "hourlyRate")}
-                            >
-                            <MenuItem value="10">Junior</MenuItem>
-                            <MenuItem value="15">Standard</MenuItem>
-                            <MenuItem value="20">Senior</MenuItem>
-                            </TextField>
-                            <TextField
-                            label={`Hours Required`}
-                            variant="filled"
-                            sx={{ marginBottom: "2%" }}
-                            fullWidth
-                            value={worker.hoursRequired}
-                            onChange={(e) => handleWorkerChange(e, index, "hoursRequired")}
-                            />
-                        </Box>
-                        );
-                    })}
+                    <WorkersFields workers={projectInfo.workers} handleWorkerChange={handleWorkerChange} />
                     <Box sx={{ textAlign: "center" }}>
                         <StyledButton
                         sx={{ margin: "2%" }}

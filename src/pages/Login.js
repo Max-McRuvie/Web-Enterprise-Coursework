@@ -5,18 +5,15 @@ import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
 import { Grid, TextField, Button, Typography } from '@mui/material';
 import { Form } from 'react-router-dom';
 import Text from '@mui/material/Typography';
-
-
+import auth from '../features/auth/auth-helper'
+import { signin } from '../features/auth/auth-api.js'
 
 export default function Login() {
     const [values, setValues] = useState({
         password: '',
         email: '',
         authorised: false,
-        token: ''
       })
-    
-    const dispatch = useDispatch();
 
     const handleChange = name => event => {
         setValues({ ...values, [name]: event.target.value })
@@ -25,25 +22,16 @@ export default function Login() {
     const handleSubmit = (e) => {
             e.preventDefault();
             console.log("Logging In")
-            let data = {
+            let userData = {
                 "email": values.email, 
                 "password" : values.password
             }
 
-            var requestURI = "http://localhost:3000/auth/signin"
-            console.log(requestURI)
-            axios.post(requestURI, data)
-            .then(response => {
-                console.log("Setting JWT in storage")
-                sessionStorage.setItem('auth', JSON.stringify(response.data));
-                setValues({ ...values, 'authorised': true })
-                setValues({ ...values, 'token': JSON.stringify(response.data) })
-            
-            dispatch(setAuthBool())
+            signin(userData).then((response) => {
+                auth.authenticate(response, () => {
+                    setValues({ ...values, 'authorised': true })
             })
-            .catch(err => {
-            console.log(err)
-            });
+            })
     }
 
     return (

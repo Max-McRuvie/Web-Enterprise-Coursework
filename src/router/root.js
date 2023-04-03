@@ -11,6 +11,7 @@ import { getAuthBool } from '../state/auth/authReducer';
 import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
 import store from '../state/store';
 import { styled } from '@mui/material/styles';
+import auth from '../features/auth/auth-helper';
 
 
 
@@ -25,21 +26,12 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 
 
 export default function Root() {
-
-    const dispatch = useDispatch();
-    const authUser = sessionStorage.getItem('auth');
-    if (authUser) {
-      dispatch(setAuthBool())
-      console.log(store.getState())
-    }else {
-      dispatch(unsetAuthBool())
-      console.log(store.getState())
-    }
+    const authCheck = auth.isAuthenticated()
 
     let loginDisplay = <StyledButton variant='raised' href='/login'>Login</StyledButton>;
     let signupDisplay = <StyledButton variant='raised' href='/signup'>Sign Up</StyledButton>;
 
-    if (useSelector(getAuthBool)) {
+    if (authCheck) {
         loginDisplay = <StyledButton variant='raised' href='/logoff'>Logout</StyledButton>;
         signupDisplay = <StyledButton variant='raised' href='/profile'>Profile</StyledButton>;
     }
@@ -59,9 +51,17 @@ export default function Root() {
                             >
                                 <MenuIcon />
                             </IconButton> */}
-                            <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
-                            <StyledButton color="inherit" variant='raised' href='/quote'>Get Quote</StyledButton>
-                            <StyledButton color="inherit" variant='raised' href='/quote-list'>Quote List</StyledButton>
+                            { !authCheck 
+                                ? 
+                                    <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
+                                : 
+                                <>
+                                    <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
+                                    <StyledButton color="inherit" variant='raised' href='/quote'>Get Quote</StyledButton>
+                                    <StyledButton color="inherit" variant='raised' href='/quote-list'>Quote List</StyledButton>
+                                </>
+                                
+                            }
                         </div>
                         <div styles={{direction:"row"}}>
                             {loginDisplay}

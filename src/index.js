@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Quote from './pages/Quote';
+import EditQuote from './pages/EditQuote';
 import QuoteList from './pages/QuoteList';
 import Profile from './pages/Profile';
 
@@ -34,6 +35,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Quote />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/quote/:quoteId",
+        element: (
+          <PrivateRoute>
+            <EditQuote />
           </PrivateRoute>
         ),
       },

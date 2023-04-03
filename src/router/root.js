@@ -26,6 +26,12 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 
 
 export default function Root() {
+    if(auth.isAuthenticated()) {
+        console.log("auth is true")
+    }else {
+        console.log("auth is false")
+    }
+
     const authCheck = auth.isAuthenticated()
 
     let loginDisplay = <StyledButton variant='raised' href='/login'>Login</StyledButton>;

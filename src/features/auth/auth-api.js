@@ -1,11 +1,13 @@
 import axios from "axios";
 
-const signin = async (email, password) => {
+const signin = async ( userData) => {
+    const { email, password } = userData;
     try{
-        const response = await axios.post("http://localhost:3000/auth/signin/auth.signin", {
+        const response = await axios.post("http://localhost:3000/auth/signin", {
             email,
             password,
         });
+        console.log(response.data)
         return response.data;
     }
     catch (err) {

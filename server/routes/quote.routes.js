@@ -20,4 +20,6 @@ router.route('/api/quotes/:quoteId')
     .get(quoteCtrl.getQuoteByID)
     .put(quoteCtrl.updateQuote);
 
+router.route('/api/:userId/quotes/combine')
+    .post(quoteCtrl.combineQuotes)
 export default router;

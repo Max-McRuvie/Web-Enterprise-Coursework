@@ -73,6 +73,43 @@ const getQuoteByID = async (req, res) => {
     }
 }
 
+const combineQuotes = async (req, res) => {
+  try {
+    const ids = req.body.data.quoteIds;
+    const quotes = await Quote.find({_id : {$in : ids}});
+
+    const titles = quotes.map(quote => quote.title);
+    const combinedTitles = titles.join(' + ');
+
+    const combinedWorkers = quotes.reduce((acc, curr) => {
+        // Combine the workers of each quote into one array
+        return acc.concat(curr.workers);
+    }, []);
+    
+    const combinedPhysicalResources = quotes.reduce((acc, curr) => {
+        // Combine the physical resources of each quote into one array
+        return acc.concat(curr.physicalResources);
+    }, []);
+
+    const combinedTotalCost = quotes.reduce((acc, curr) => {
+        // Combine the total costs of each quote into one number
+        return acc + curr.total_cost;
+    }, 0);
+
+    const combinedQuote = {
+        title: combinedTitles,
+        workers: combinedWorkers,
+        physicalResources: combinedPhysicalResources,
+        total_cost: combinedTotalCost
+    };
+    res.json(combinedQuote);
+  } catch (err) {
+    return res.status(400).json({
+      error: err
+    });
+  }
+};
+
 const listQuotes = async (req, res) => {
     try {
         const id = req.params.userId
@@ -124,6 +161,7 @@ export default {
     createQuote,
     listQuotes,
     getQuoteByID,
+    combineQuotes,
     updateQuote,
     calculateQuote,
     removeQuote

@@ -56,6 +56,26 @@ const updateQuote = (quoteId, quote) => {
         });
 }
 
+const combineQuotes = (quoteIds) => {
+    console.log("made it here")
+    console.log(quoteIds)
+    let item = sessionStorage.getItem('auth');
+    const data = JSON.parse(item)
+    let userId = data.user._id
+    
+    try{
+        return axios.post(`http://localhost:3000/api/${userId}/quotes/combine`, {
+            data: { quoteIds: quoteIds },
+        })
+        .then(response => {
+            return response.data;
+        });
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
 const deleteQuote = (quoteIds) => {
     let item = sessionStorage.getItem('auth');
     const data = JSON.parse(item)
@@ -78,6 +98,7 @@ export {
     getQuote,
     getQuoteList,
     updateQuote,
+    combineQuotes,
     calculateQuote,
     deleteQuote
 }

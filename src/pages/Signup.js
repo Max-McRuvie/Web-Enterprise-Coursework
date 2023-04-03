@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import { Form } from 'react-router-dom';
 import { signup } from "../features/user/user-api";
 import authenticate from "../features/auth/auth-helper";
+import { validateEmail, validatePassword } from "../features/validation";
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
@@ -23,6 +24,14 @@ export default function Signup() {
     }
     
     const handleSubmit = (e) => {
+        const emailError = validateEmail(values.email);
+        const passwordError = validatePassword(values.password);
+
+        if(emailError || passwordError){
+            alert(emailError || passwordError)
+            return;
+        }
+
         signup(values).then(() => {
                 authenticate.authenticate()
         }).then (() => {

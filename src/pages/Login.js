@@ -9,6 +9,8 @@ import auth from '../features/auth/auth-helper'
 import { signin } from '../features/auth/auth-api.js'
 import { useNavigate } from "react-router-dom";
 
+import { validateEmail, validatePassword } from "../features/validation";
+
 export default function Login() {
     const navigate = useNavigate();
     const [values, setValues] = useState({
@@ -24,6 +26,15 @@ export default function Login() {
     const handleSubmit = (e) => {
             e.preventDefault();
             console.log("Logging In")
+
+            const emailError = validateEmail(values.email);
+            const passwordError = validatePassword(values.password);
+
+            if(emailError || passwordError){
+                alert(emailError || passwordError)
+                return;
+            }
+
             let userData = {
                 "email": values.email, 
                 "password" : values.password
@@ -47,7 +58,6 @@ export default function Login() {
                         <TextField 
                             label="Email"
                             variant="outlined"
-                            required
                             sx={{marginBottom: "2%"}}
                             fullWidth
                             onChange={handleChange('email')}
@@ -55,7 +65,6 @@ export default function Login() {
                         <TextField 
                             label="Password"
                             variant="outlined"
-                            required
                             sx={{marginBottom: "2%"}}
                             type="password"
                             fullWidth

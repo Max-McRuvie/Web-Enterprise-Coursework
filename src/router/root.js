@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { Outlet } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,8 +12,8 @@ import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
 import store from '../state/store';
 import { styled } from '@mui/material/styles';
 import auth from '../features/auth/auth-helper';
-
-
+import { signout } from '../features/auth/auth-api.js';
+import { useNavigate } from "react-router-dom";
 
 const { main, darkNavbar, light, contrastText } = theme.palette.primary;
 
@@ -24,23 +24,39 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
     },
 }));
 
-
 export default function Root() {
-    if(auth.isAuthenticated()) {
-        console.log("auth is true")
-    }else {
-        console.log("auth is false")
-    }
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = useState(auth.isAuthenticated());
 
-    const authCheck = auth.isAuthenticated()
+    const handleLogout = () => {
+        signout().then((response) => {
+            auth.clearToken(() => console.log("signed out"))
+        })
+        setIsLoggedIn(false);
+        navigate('/login');
+    };
 
-    let loginDisplay = <StyledButton variant='raised' href='/login'>Login</StyledButton>;
-    let signupDisplay = <StyledButton variant='raised' href='/signup'>Sign Up</StyledButton>;
+    const loginDisplay = isLoggedIn ? (
+        <StyledButton variant="raised" onClick={handleLogout}>Logout</StyledButton>
+    ) : (
+        <StyledButton variant="raised" href="/login">Login</StyledButton>
+    );
 
-    if (authCheck) {
-        loginDisplay = <StyledButton variant='raised' href='/logoff'>Logout</StyledButton>;
-        signupDisplay = <StyledButton variant='raised' href='/profile'>Profile</StyledButton>;
-    }
+    const signupDisplay = isLoggedIn ? (
+        <StyledButton variant="raised" href="/profile">Profile</StyledButton>
+    ) : (
+        <StyledButton variant="raised" href="/signup">Sign Up</StyledButton>
+    );
+
+    // const authCheck = auth.isAuthenticated()
+
+    // let loginDisplay = <StyledButton variant='raised' href='/login'>Login</StyledButton>;
+    // let signupDisplay = <StyledButton variant='raised' href='/signup'>Sign Up</StyledButton>;
+
+    // if (authCheck) {
+    //     loginDisplay = <StyledButton variant='raised' href='/logoff'>Logout</StyledButton>;
+    //     signupDisplay = <StyledButton variant='raised' href='/profile'>Profile</StyledButton>;
+    // }
 
     return (
         <ThemeProvider theme={theme}>
@@ -57,17 +73,15 @@ export default function Root() {
                             >
                                 <MenuIcon />
                             </IconButton> */}
-                            { !authCheck 
-                                ? 
-                                    <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
-                                : 
+                            {isLoggedIn ? (
                                 <>
-                                    <StyledButton color="inherit" variant='raised' href='/'>Home</StyledButton>
-                                    <StyledButton color="inherit" variant='raised' href='/quote'>Get Quote</StyledButton>
-                                    <StyledButton color="inherit" variant='raised' href='/quote-list'>Quote List</StyledButton>
+                                <StyledButton color="inherit" variant="raised" href="/">Home</StyledButton>
+                                <StyledButton color="inherit" variant="raised" href="/quote">Get Quote</StyledButton>
+                                <StyledButton color="inherit" variant="raised" href="/quote-list">Quote List</StyledButton>
                                 </>
-                                
-                            }
+                            ) : (
+                                <StyledButton color="inherit" variant="raised" href="/">Home</StyledButton>
+                            )}
                         </div>
                         <div styles={{direction:"row"}}>
                             {loginDisplay}
@@ -75,7 +89,7 @@ export default function Root() {
                         </div>
                     </Toolbar>
                 </AppBar>
-                <Outlet />
+                <Outlet isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
             </Box>
         </ThemeProvider>
     );

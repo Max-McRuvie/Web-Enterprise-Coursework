@@ -11,7 +11,6 @@ import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Logoff from "./pages/Logoff";
 import Quote from './pages/Quote';
 import QuoteList from './pages/QuoteList';
 import Profile from './pages/Profile';
@@ -32,15 +31,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/quote",
-        element: <Quote />,
+        element: (
+          <PrivateRoute>
+            <Quote />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/quote-list",
-        element: <QuoteList />,
+        element: (
+          <PrivateRoute>
+            <QuoteList />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/signup",
@@ -49,14 +60,6 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
-      },
-      {
-        path: "/logoff",
-        element: 
-          <PrivateRoute>,
-            <Logoff />,
-          </PrivateRoute>
-        
       }
     ],
   },

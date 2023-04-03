@@ -7,8 +7,10 @@ import { Form } from 'react-router-dom';
 import Text from '@mui/material/Typography';
 import auth from '../features/auth/auth-helper'
 import { signin } from '../features/auth/auth-api.js'
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         password: '',
         email: '',
@@ -31,6 +33,9 @@ export default function Login() {
                 auth.authenticate(response, () => {
                     setValues({ ...values, 'authorised': true })
             })
+            }).then (() => {
+                navigate("/");
+                window.location.reload();
             })
     }
 

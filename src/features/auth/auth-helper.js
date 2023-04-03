@@ -1,7 +1,6 @@
 // import {useDispatch} from 'react-redux';
-// import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
-
 const auth = {
+
     isAuthenticated() {
         if(sessionStorage.getItem("auth")) {
             return JSON.parse(sessionStorage.getItem("auth"))
@@ -14,6 +13,10 @@ const auth = {
     authenticate(token, callback) {
         sessionStorage.setItem("auth", JSON.stringify(token))
     },
+
+    clearToken(callback) {
+        sessionStorage.removeItem("auth")
+    }
 }
 
 export default auth 

@@ -5,14 +5,16 @@ import Button from '@mui/material/Button';
 import Text from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { Form } from 'react-router-dom';
-
+import { signup } from "../features/user/user-api";
+import authenticate from "../features/auth/auth-helper";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         name: '',
         password: '',
         email: '',
-        open: false,
         error: ''
       })
     
@@ -21,13 +23,12 @@ export default function Signup() {
     }
     
     const handleSubmit = (e) => {
-            e.preventDefault();
-            console.log("Signing up")
-            let data = {"name": values.name, "email": values.email, "password" : values.password}
-            var requestURI = "http://localhost:3000/api/users"
-            console.log(requestURI)
-            axios.post(requestURI, data)
-
+        signup(values).then(() => {
+                authenticate.authenticate()
+        }).then (() => {
+            navigate("/");
+            window.location.reload();
+        })
     }
 
     return (

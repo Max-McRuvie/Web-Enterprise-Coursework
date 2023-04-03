@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getQuoteList, deleteQuote } from '../features/quote/quote-api'
+import { getQuoteList, saveQuote, combineQuotes, deleteQuote } from '../features/quote/quote-api'
 import {
     Paper,
     Grid,
@@ -28,6 +28,13 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 const QuoteList = () => {
     const [quoteList, setQuoteList] = useState([])
     const [selectedQuotes, setSelectedQuotes] = useState([])
+    const [combinedQuote, setCombinedQuote] = useState({
+        title: '',
+        workers: [],
+        physicalResources: [],
+        total_cost: '',
+    })
+    const [showCombinedQuote, setShowCombinedQuote] = useState(false);
 
     useEffect(() => {
         getQuoteList()
@@ -46,6 +53,26 @@ const QuoteList = () => {
             newSelectedQuotes.push(quoteId)
         }
         setSelectedQuotes(newSelectedQuotes)
+    }
+
+    const handleCombineQuotes = () => {
+        combineQuotes(selectedQuotes).then((response) => {
+            setCombinedQuote(
+                {
+                    title: response.title,
+                    workers: response.workers,
+                    physicalResources: response.physicalResources,
+                    total_cost: response.total_cost,
+                }
+            )
+        })
+        setShowCombinedQuote(true);
+    }
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        console.log("Saving quote")
+        await saveQuote(combinedQuote)
     }
 
     const handleDeleteQuote = () => {
@@ -81,6 +108,18 @@ const QuoteList = () => {
                 ))}
             </Grid>
         <StyledButton onClick={handleDeleteQuote}>Delete</StyledButton>
+        <StyledButton onClick={handleCombineQuotes}>Combine</StyledButton>
+
+                        
+        {showCombinedQuote ?
+            <div>
+                <Typography variant="h6">Title: {combinedQuote.title}</Typography>
+                <Typography variant="body1">Workers: {combinedQuote.workers.length}</Typography>
+                <Typography variant="body1">Total Cost: £{combinedQuote.total_cost}</Typography>
+                <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleSave}>Save Quote</Button>
+            </div>
+            : null
+        }        
         </Container>
     )
 }

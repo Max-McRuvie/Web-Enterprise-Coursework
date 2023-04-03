@@ -41,7 +41,7 @@ const QuoteForm = ({ quote, edit }) => {
         physicalResources: [
             {
                 title: '',
-                cost: 0,
+                cost: '',
             },
         ],
         total_cost: '',

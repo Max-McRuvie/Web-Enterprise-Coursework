@@ -32,10 +32,9 @@ export default function Signup() {
             return;
         }
 
-        signup(values).then(() => {
-                authenticate.authenticate()
-        }).then (() => {
-            navigate("/");
+        signup(values).then (() => {
+            alert("Signup Successful")
+            navigate("/login");
             window.location.reload();
         })
     }

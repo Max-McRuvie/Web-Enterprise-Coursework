@@ -1,6 +1,5 @@
 // import {useDispatch} from 'react-redux';
 const auth = {
-
     isAuthenticated() {
         if(sessionStorage.getItem("auth")) {
             return JSON.parse(sessionStorage.getItem("auth"))
@@ -10,8 +9,8 @@ const auth = {
         }
     },
 
-    authenticate(token, callback) {
-        sessionStorage.setItem("auth", JSON.stringify(token))
+    authenticate(userData) {
+        sessionStorage.setItem("auth", JSON.stringify(userData))
     },
 
     clearToken(callback) {

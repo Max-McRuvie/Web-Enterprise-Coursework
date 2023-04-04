@@ -27,8 +27,8 @@ export default function Login() {
             e.preventDefault();
             console.log("Logging In")
 
-            const emailError = validateEmail(values.email);
-            const passwordError = validatePassword(values.password);
+            const emailError = validateEmail(values.email, true);
+            const passwordError = validatePassword(values.password, true);
 
             if(emailError || passwordError){
                 alert(emailError || passwordError)
@@ -44,6 +44,7 @@ export default function Login() {
                 auth.authenticate(response, () => {
                     setValues({ ...values, 'authorised': true })
             })
+            
             }).then (() => {
                 navigate("/");
                 window.location.reload();

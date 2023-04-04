@@ -12,6 +12,7 @@ import theme from '../theme';
 import { styled } from '@mui/material/styles';
 import { calculateQuote, saveQuote, updateQuote } from '../features/quote/quote-api';
 import { useParams } from 'react-router-dom';
+import { validateTitle } from '../features/validation';
 
 import WorkersFields from './WorkersFields';
 import PhysicalResourcesFields from './PhysicalResourcesFields';
@@ -28,6 +29,7 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 
 const QuoteForm = ({ quote, edit }) => {
     const { quoteId } = useParams();
+    const [errors, setErrors] = useState({});
 
     const [projectInfo, setProjectInfo] = useState({
         title: '',
@@ -71,16 +73,24 @@ const QuoteForm = ({ quote, edit }) => {
         }
       };
 
-    const handleSubmit = async (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting quote")
-        let budget = await calculateQuote(projectInfo)
-        
+      
+        const titleError = validateTitle(projectInfo.title);
+        if (titleError) {
+            alert(titleError);
+        }
+      
+        console.log("Submitting quote");
+
+        let budget = await calculateQuote(projectInfo);
+      
         setProjectInfo((prevState) => ({
-            ...prevState,
-            total_cost: budget.totalCost,
-          }));
-    }
+        ...prevState,
+        total_cost: budget.totalCost,
+        }));
+       
+      };
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -113,13 +123,15 @@ const QuoteForm = ({ quote, edit }) => {
                         value={projectInfo.title}
                         fullWidth
                         onChange={(e) => setProjectInfo({...projectInfo, title: e.target.value})}
+                        error={Boolean(errors.title)}
+                        helperText={errors.title}
                     />
                     <Grid container spacing={2} sx={{ display: 'flex' }}>
                         <Grid item sx={{ flex: 1 }}>
-                            <WorkersFields workers={projectInfo.workers} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField} />
+                            <WorkersFields workers={projectInfo.workers} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField} errors={errors} />
                         </Grid>
                         <Grid item sx={{ flex: 1 }}>
-                            <PhysicalResourcesFields physicalResources={projectInfo.physicalResources} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField}/>
+                            <PhysicalResourcesFields physicalResources={projectInfo.physicalResources} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField} errors={errors}/>
                         </Grid>
                     </Grid>
 

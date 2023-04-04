@@ -38,6 +38,7 @@ const WorkersFields = ({workers, handleFieldChange, handleRemoveField}) => {
                 variant="filled"
                 sx={{ marginBottom: "2%" }}
                 fullWidth
+                type="number"
                 value={worker.hoursRequired}
                 onChange={(e) => handleFieldChange(e, index, "hoursRequired", "workers")}
                 />

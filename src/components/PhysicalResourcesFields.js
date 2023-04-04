@@ -27,6 +27,7 @@ const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRe
                             type="number"
                             value={resource.cost}
                             onChange={(e) => handleFieldChange(e, index, "cost", "physicalResources")}
+                  
                             />
                             <Button
                                 sx={{ margin: "2%" }}

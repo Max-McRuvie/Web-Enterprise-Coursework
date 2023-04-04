@@ -6,20 +6,21 @@ import quoteCtrl from '../controllers/quote.controller.js';
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.route('/api/calculation')
-    .post(quoteCtrl.calculateQuote);
+    .post(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.calculateQuote);
 
 router.route('/api/quotes')
-    .post(quoteCtrl.createQuote);
+    .post(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.createQuote);
     
 
 router.route('/api/:userId/quotes')
-    .get(quoteCtrl.listQuotes)
-    .delete(quoteCtrl.removeQuote);
+    .get(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.listQuotes)
+    .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.removeQuote);
 
 router.route('/api/quotes/:quoteId')
-    .get(quoteCtrl.getQuoteByID)
-    .put(quoteCtrl.updateQuote);
+    .get(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.getQuoteByID)
+    .put(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.updateQuote);
 
 router.route('/api/:userId/quotes/combine')
-    .post(quoteCtrl.combineQuotes)
+    .post(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.combineQuotes)
+    
 export default router;

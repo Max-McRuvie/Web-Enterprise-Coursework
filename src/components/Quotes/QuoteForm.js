@@ -14,6 +14,8 @@ import { styled } from '@mui/material/styles';
 import { calculateQuote, saveQuote, updateQuote } from '../../features/quote/quote-api';
 import { useParams } from 'react-router-dom';
 import { validateTitle } from '../../features/validation';
+import auth from '../../features/auth/auth-helper';
+import { calculationWithoutFudgeFactor } from '../../features/admin/admin-api';
 
 import WorkersFields from './WorkersFields';
 import PhysicalResourcesFields from './PhysicalResourcesFields';
@@ -31,6 +33,7 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 const QuoteForm = ({ quote, edit }) => {
     const { quoteId } = useParams();
     const [errors, setErrors] = useState({});
+    const [isAdmin] = useState(auth.isAdmin());
 
     const [projectInfo, setProjectInfo] = useState({
         title: '',
@@ -81,8 +84,6 @@ const QuoteForm = ({ quote, edit }) => {
         if (titleError) {
             alert(titleError);
         }
-      
-        console.log("Submitting quote");
 
         let budget = await calculateQuote(projectInfo);
       
@@ -90,8 +91,24 @@ const QuoteForm = ({ quote, edit }) => {
         ...prevState,
         total_cost: budget.totalCost,
         }));
-       
       };
+
+      const handleAdminSubmit = async (e) => {
+        e.preventDefault();
+
+        const titleError = validateTitle(projectInfo.title);
+        if (titleError) {
+            alert(titleError);
+        }
+
+        let budget = await calculationWithoutFudgeFactor(projectInfo);
+
+        setProjectInfo((prevState) => ({
+        ...prevState,
+        total_cost: budget.totalCost,
+        }));
+      }
+
 
     const handleSave = async (e) => {
         e.preventDefault();
@@ -116,7 +133,7 @@ const QuoteForm = ({ quote, edit }) => {
         <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
             <Grid container item xs={5} direction="column">
                 <Text variant="h4" sx={{marginBottom: "2%"}}>{edit ? 'Edit Quote' : 'Create Quote'}</Text>
-                <Form onSubmit={handleSubmit}>
+                <Form>
                     <TextField
                         label="Project Title"
                         variant="outlined"
@@ -168,14 +185,23 @@ const QuoteForm = ({ quote, edit }) => {
                         Add Physical Resource
                         </StyledButton>
                     </Box>
-                    <StyledButton type="submit" variant={"contained"}>
+                    <StyledButton onClick={handleSubmit}>
                         Calculate Quote
                     </StyledButton>
+
+                    { isAdmin ? (
+                        <StyledButton onClick={handleAdminSubmit}>
+                            Admin Calculate Quote
+                        </StyledButton>
+                    ) : (
+                        <></>
+                    )}
                     </Form>
 
-                    { projectInfo.total_cost > 0 || projectInfo.total_cost == null && (
+                    <Text variant="h5">Total Cost: ${projectInfo.total_cost || 0 }</Text>
+
+                    { projectInfo.total_cost > 0 && (
                         <Box sx={{ marginTop: "2%" }}>
-                            <Text variant="h5">Total Cost: ${projectInfo.total_cost || 0 }</Text>
                             { edit ? (
                                 <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleUpdate}>Update Quote</Button>
                             ) : (

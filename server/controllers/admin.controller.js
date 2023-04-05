@@ -23,24 +23,57 @@ const updatePaygrade = async (req, res) => {
   }
 }
 
-const updateFudgeFactor = async (req, res) => {
-    const { fudgeFactor } = req.body;
+const calculateWithoutFudgeFactor = async (req, res) => {
+  const projectInfo = req.body;
+    
+  // fetch paygrades from the database
+  let paygrades;
+  try {
+      paygrades = await CalculationSettings.findOne();
+      paygrades = { junior: paygrades.juniorPaygrade, standard: paygrades.standardPaygrade, senior: paygrades.seniorPaygrade };
+  } catch (error) {
+      console.error(error);
+      // if there's an error fetching paygrades from the database, use the default values
+      paygrades = { junior: 10, standard: 15, senior: 20 };
+  }
 
-    const filter = {};
-    const update = { $set: { fudgeFactor } };
-    const options = { upsert: true };
-
-    try {
-        const result = await CalculationSettings.updateOne(filter, update, options);
-        res.json(result);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Failed to update fudge factor" });
+  let totalLaborCost = 0;
+  for (let i = 0; i < projectInfo.workers.length; i++) {
+      const worker = projectInfo.workers[i];
+      switch (worker.hourlyRate) {
+          case "Junior":
+              worker.hourlyRate = paygrades.junior;
+              break;
+          case "Standard":
+              worker.hourlyRate = paygrades.standard;
+              break;
+          case "Senior":
+              worker.hourlyRate = paygrades.senior;
+              break;
+          default:
+              worker.hourlyRate = 0;
       }
+      const workerCost = worker.hourlyRate * worker.hoursRequired;
+      totalLaborCost += Number(workerCost);
+  }
+
+  for(let i = 0; i < projectInfo.physicalResources.length; i++) {
+      const resource = projectInfo.physicalResources[i];
+      totalLaborCost += Number(resource.cost);
+  }
+
+  let finalQuote = {
+      totalCost: Number(totalLaborCost)
+  }
+
+
+  return res.status(200).json({
+      finalQuote
+  })
 }
 
 
 export default {
     updatePaygrade,
-    updateFudgeFactor
+    calculateWithoutFudgeFactor
 }

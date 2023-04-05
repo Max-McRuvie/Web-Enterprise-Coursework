@@ -9,20 +9,18 @@ const fudgeFactorCalculator = (amount) => {
 
 const calculateQuote = async (req, res) => {
     const projectInfo = req.body;
-
+    
     // fetch paygrades from the database
     let paygrades;
     try {
         paygrades = await CalculationSettings.findOne();
+        paygrades = { junior: paygrades.juniorPaygrade, standard: paygrades.standardPaygrade, senior: paygrades.seniorPaygrade };
     } catch (error) {
         console.error(error);
         // if there's an error fetching paygrades from the database, use the default values
         paygrades = { junior: 10, standard: 15, senior: 20 };
     }
 
-    console.log(paygrades)
-
-    console.log(projectInfo)
     let totalLaborCost = 0;
     for (let i = 0; i < projectInfo.workers.length; i++) {
         const worker = projectInfo.workers[i];

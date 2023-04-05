@@ -9,7 +9,7 @@ router.route('/api/admin/paygrade/:userId')
     .put(authCtrl.requireSignin, authCtrl.hasAdminAuthorization, adminCtrl.updatePaygrade);
 
 router.route('/api/admin/fudge-factor/:userId')
-    .put(authCtrl.requireSignin, authCtrl.hasAdminAuthorization, adminCtrl.updateFudgeFactor);
+    .post(authCtrl.requireSignin, authCtrl.hasAdminAuthorization, adminCtrl.calculateWithoutFudgeFactor);
 
 router.param('userId', userCtrl.userByID);
 

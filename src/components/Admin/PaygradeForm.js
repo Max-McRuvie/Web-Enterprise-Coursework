@@ -25,7 +25,7 @@ const PaygradeForm = ({handleSubmit, handleChange, paygrade}) => {
 
 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={12}>
       <Text marginBottom={"2%"}>
         <Typography variant="h4">Paygrade</Typography>
       </Text>

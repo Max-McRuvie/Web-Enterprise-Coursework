@@ -16,7 +16,7 @@ const FudgeFactorForm = ({handleSubmit, handleChange,  fudgeFactor}) => {
   const [error, setError] = useState(false);
 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={12}>
       <Text marginBottom={"2%"}>
         <Typography variant="h4">Fudge Factor</Typography>
       </Text>

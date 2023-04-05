@@ -37,26 +37,47 @@ const Dashboard = () => {
         }
       };
 
-    const handleSubmit = (e) => {
-        // e.preventDefault();
-        // console.log(e.target);
+    const handleSubmit = (e, actionType) => {
+        e.preventDefault();
+        if(actionType === "Paygrade") {
+            adjustPayGrades(paygrade);
+        }
+        if(actionType=== "FudgeFactor") {
+            adjustFudgeFactor(fudgeFactor);
+        }
     }
 
     return (
         <Container maxWidth="lg" marginBottom={5}>
-                    <Grid container item xs={12} spacing={2} marginTop="2%" direction="row" justifyContent="center">
-                        <FudgeFactorForm handleSubmit={handleSubmit} handleChange={handleChange} fudgeFactor={fudgeFactor}/>
-                        <PaygradeForm handleSubmit={handleSubmit} handleChange={handleChange} paygrade={paygrade}/>
+                    <Grid container item xs={12} direction="row" justifyContent="center" spacing={2}>
+                        <Grid item>
+                            <PaygradeForm handleSubmit={handleSubmit} handleChange={handleChange} paygrade={paygrade}/>
+                        </Grid>
+                        <Grid item>
+                            <FudgeFactorForm handleSubmit={handleSubmit} handleChange={handleChange} fudgeFactor={fudgeFactor}/>
+                        </Grid>
 
-                        <Grid item xs={12}>
-                            <Button>
-                                Submit Paygrade
-                            </Button>
-
-                            <Button>
-                                Submit Fudge Factor
-                            </Button>
-
+                        <Grid container item xs={12} direction="row" justifyContent="center" spacing={2}>
+                            <Grid item>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={(e) => handleSubmit(e, 'Paygrade')}
+                                >
+                                    Submit Paygrade
+                                </Button>
+                            </Grid>
+                            <Grid item>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={(e) => handleSubmit(e, 'FudgeFactor')}
+                                >
+                                    Submit Fudge Factor
+                                </Button>
+                            </Grid>
                     </Grid>
                 </Grid>
                 </Container>

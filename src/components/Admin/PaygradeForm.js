@@ -33,8 +33,7 @@ const PaygradeForm = ({handleSubmit, handleChange, paygrade}) => {
         <Grid container direction="column" spacing={2}>
             <Grid item>
                 <TextField 
-                id="standard-basic" 
-                label="Standard" 
+                label="Junior" 
                 title="Junior Paygrade"
                 value={junior}
                 type='number'
@@ -53,7 +52,6 @@ const PaygradeForm = ({handleSubmit, handleChange, paygrade}) => {
             </Grid>
             <Grid item>
             <TextField 
-            id="standard-basic" 
             label="Standard" 
             title="Standard Paygrade"
             value={standard}
@@ -73,8 +71,7 @@ const PaygradeForm = ({handleSubmit, handleChange, paygrade}) => {
           </Grid>
           <Grid item>
             <TextField 
-            id="standard-basic" 
-            label="Standard" 
+            label="Senior" 
             title="Senior Paygrade"
             value={senior}
             type='number'

@@ -15,10 +15,6 @@ const CalculationSettingsSchema = new mongoose.Schema({
         type: Number,
         required: 'Paygrade is required'
     },
-    fudgeFactor: {
-        type: Number,
-        required: 'Fudge Factor is required'
-    },
     updated: Date,
     created: {
         type: Date,

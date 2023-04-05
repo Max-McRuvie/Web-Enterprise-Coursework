@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import PrivateRoute from "./router/PrivateRoute";
+
 import Root from "./router/root";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
@@ -15,7 +15,10 @@ import Quote from './pages/Quote';
 import EditQuote from './pages/EditQuote';
 import QuoteList from './pages/QuoteList';
 import Profile from './pages/Profile';
+import Admin from './pages/Admin';
 
+import PrivateRoute from "./router/PrivateRoute";
+import AdminRoute from './router/AdminRoute'
 
 import store from './state/store';
 import { Provider } from 'react-redux';
@@ -69,7 +72,15 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
-      }
+      },
+      {
+        path: "/admin",
+        element: (
+          <AdminRoute>
+            <Admin />
+          </AdminRoute>
+        ),
+      },
     ],
   },
 

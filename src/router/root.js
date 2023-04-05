@@ -27,12 +27,16 @@ const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
 export default function Root() {
     const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(auth.isAuthenticated());
+    const [isAdmin, setIsAdmin] = useState(auth.isAdmin());
+
+    isAdmin ? console.log("Admin") : console.log("Not Admin");
 
     const handleLogout = () => {
         signout().then((response) => {
             auth.clearToken(() => console.log("signed out"))
         })
         setIsLoggedIn(false);
+        setIsAdmin(false);
         navigate('/login');
     };
 
@@ -84,6 +88,11 @@ export default function Root() {
                             )}
                         </div>
                         <div styles={{direction:"row"}}>
+                            { isAdmin ? (
+                                <StyledButton color="inherit" variant="raised" href="/admin">Admin</StyledButton>   
+                            ) : (
+                                <></>
+                            )}
                             {loginDisplay}
                             {signupDisplay}
                         </div>

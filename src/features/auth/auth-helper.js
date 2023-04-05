@@ -1,4 +1,3 @@
-// import {useDispatch} from 'react-redux';
 const auth = {
     isAuthenticated() {
         if(sessionStorage.getItem("auth")) {
@@ -15,7 +14,17 @@ const auth = {
 
     clearToken(callback) {
         sessionStorage.removeItem("auth")
+    },
+
+    isAdmin() {
+        if(sessionStorage.getItem("auth")) {
+            return JSON.parse(sessionStorage.getItem("auth")).user.admin === true
+        }
+        else {
+            return false
+        }
     }
+        
 }
 
 export default auth 

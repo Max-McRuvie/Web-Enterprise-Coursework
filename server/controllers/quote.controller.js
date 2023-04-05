@@ -74,43 +74,46 @@ const getQuoteByID = async (req, res) => {
 }
 
 const combineQuotes = async (req, res) => {
-  try {
-    const ids = req.body.data.quoteIds;
-    const quotes = await Quote.find({_id : {$in : ids}});
+    console.log("combineQuotes")
+    console.log(req.body)
+//   try {
+//     const ids = req.body.quoteIds;
+//     const quotes = await Quote.find({_id : {$in : ids}});
 
-    const titles = quotes.map(quote => quote.title);
-    const combinedTitles = titles.join(' + ');
+//     const titles = quotes.map(quote => quote.title);
+//     const combinedTitles = titles.join(' + ');
 
-    const combinedWorkers = quotes.reduce((acc, curr) => {
-        // Combine the workers of each quote into one array
-        return acc.concat(curr.workers);
-    }, []);
+//     const combinedWorkers = quotes.reduce((acc, curr) => {
+//         // Combine the workers of each quote into one array
+//         return acc.concat(curr.workers);
+//     }, []);
     
-    const combinedPhysicalResources = quotes.reduce((acc, curr) => {
-        // Combine the physical resources of each quote into one array
-        return acc.concat(curr.physicalResources);
-    }, []);
+//     const combinedPhysicalResources = quotes.reduce((acc, curr) => {
+//         // Combine the physical resources of each quote into one array
+//         return acc.concat(curr.physicalResources);
+//     }, []);
 
-    const combinedTotalCost = quotes.reduce((acc, curr) => {
-        // Combine the total costs of each quote into one number
-        return acc + curr.total_cost;
-    }, 0);
+//     const combinedTotalCost = quotes.reduce((acc, curr) => {
+//         // Combine the total costs of each quote into one number
+//         return acc + curr.total_cost;
+//     }, 0);
 
-    const combinedQuote = {
-        title: combinedTitles,
-        workers: combinedWorkers,
-        physicalResources: combinedPhysicalResources,
-        total_cost: combinedTotalCost
-    };
-    res.json(combinedQuote);
-  } catch (err) {
-    return res.status(400).json({
-      error: err
-    });
-  }
+//     const combinedQuote = {
+//         title: combinedTitles,
+//         workers: combinedWorkers,
+//         physicalResources: combinedPhysicalResources,
+//         total_cost: combinedTotalCost
+//     };
+//     res.json(combinedQuote);
+//   } catch (err) {
+//     return res.status(400).json({
+//       error: err
+//     });
+//   }
 };
 
 const listQuotes = async (req, res) => {
+    console.log("listQuotes")
     try {
         const id = req.params.userId
         let quotes = await Quote.find({uID : id})
@@ -140,20 +143,27 @@ const updateQuote = async (req, res) => {
 
 const removeQuote = async (req, res) => {
     try {
-      let id = req.body.quoteIds;
-      let userId = req.params.userId;
-        
-      if (Array.isArray(id)) {
-        await Quote.deleteMany({ _id: { $in: id}, uID: userId });
+        const userId = req.params.userId;
+        const quoteIds = req.body.quoteIds;
+
+        if (!userId || !quoteIds) {
+            return res.status(400).json({
+                error: 'Missing id or userId parameter'
+            });
+        }
+
+        if (Array.isArray(quoteIds)) {
+            await Quote.deleteMany({ _id: { $in: quoteIds }, uID: userId });
+        } else {
+            await Quote.deleteOne({ _id: quoteIds, uID: userId });
+        }
+
         res.sendStatus(204);
-      } else {
-        await Quote.deleteOne({ _id: id, uID: userId });
-        res.sendStatus(204);
-      }
     } catch (err) {
-      return res.status(400).json({
-        error: { err },
-      });
+        console.error('Error deleting quote:', err);
+        return res.status(500).json({
+            error: 'An error occurred while deleting the quote'
+        });
     }
   };
 

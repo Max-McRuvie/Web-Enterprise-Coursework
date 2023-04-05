@@ -1,7 +1,13 @@
 import axios from "axios";
 
 const calculateQuote = (quote) => {
-    return axios.post(`http://localhost:3000/api/calculation`, quote)
+    let item = sessionStorage.getItem('auth');
+    const data = JSON.parse(item)
+    return axios.post(`http://localhost:3000/api/calculation`, quote, {
+        headers: {
+            'Authorization': `Bearer ${data.token}`
+        }
+    })
         .then(response => {
             return response.data.finalQuote
         })
@@ -21,7 +27,11 @@ const saveQuote = (quote) => {
     }
 
     try{
-        return axios.post(`http://localhost:3000/api/quotes`, requestData)
+        return axios.post(`http://localhost:3000/api/quotes`, requestData, {
+            headers: {
+                'Authorization': `Bearer ${data.token}`
+            }
+        })
         .then(response => {
             console.log(response)
             return response.data;
@@ -32,7 +42,15 @@ const saveQuote = (quote) => {
 }
 
 const getQuote = (quoteId) => {
-    return axios.get(`http://localhost:3000/api/quotes/${quoteId}`)
+    let item = sessionStorage.getItem('auth');
+    const data = JSON.parse(item)
+    let userId = data.user._id
+
+    return axios.get(`http://localhost:3000/api/quotes/${quoteId}/${userId}` , {
+        headers: {
+            'Authorization': `Bearer ${data.token}`
+        }
+    })
     .then(response => {
         return response.data;
     });
@@ -41,56 +59,78 @@ const getQuote = (quoteId) => {
 const getQuoteList = () => {
     let item = sessionStorage.getItem('auth');
     const data = JSON.parse(item)
-    let userId = data.user._id
+    let userID = data.user._id
 
-    return axios.get(`http://localhost:3000/api/${userId}/quotes`)
-    .then(response => {
-      return response.data;
-    });
+    return axios
+      .get(`http://localhost:3000/api/quotes/${userID}`, {
+        headers: {
+          Authorization: `Bearer ${data.token}`,
+        }
+      })
+      .then((response) => {
+        return response.data;
+      });
 }
 
 const updateQuote = (quoteId, quote) => {
-    return axios.put(`http://localhost:3000/api/quotes/${quoteId}`, quote)
+    let item = sessionStorage.getItem('auth');
+    const data = JSON.parse(item)
+    let userId = data.user._id
+
+    return axios.post(`http://localhost:3000/api/quotes/${quoteId}/${userId}`, quote, {
+        headers: {
+            'Authorization': `Bearer ${data.token}`
+        }
+    })
         .then(response => {
             return response.data;
         });
 }
 
 const combineQuotes = (quoteIds) => {
-    console.log("made it here")
-    console.log(quoteIds)
     let item = sessionStorage.getItem('auth');
     const data = JSON.parse(item)
     let userId = data.user._id
     
     try{
-        return axios.post(`http://localhost:3000/api/${userId}/quotes/combine`, {
-            data: { quoteIds: quoteIds },
-        })
-        .then(response => {
-            return response.data;
-        });
+      return axios.post(`http://localhost:3000/api/quotes/${userId}`, 
+        { quoteIds: quoteIds },
+        {
+          headers: {
+            'Authorization': `Bearer ${data.token}`
+          }
+        }
+      )
+      .then(response => {
+        return response.data;
+      });
     }
     catch (err) {
-        console.log(err)
+      console.log(err)
     }
-}
+  }
 
 const deleteQuote = (quoteIds) => {
-    let item = sessionStorage.getItem('auth');
-    const data = JSON.parse(item)
-    let userId = data.user._id
+  let item = sessionStorage.getItem('auth');
+  const data = JSON.parse(item)
+  let userId = data.user._id
 
-    if (!Array.isArray(quoteIds)) {
-        quoteIds = [quoteIds];
+  if (!Array.isArray(quoteIds)) {
+    quoteIds = [quoteIds];
+  }
+  try{
+    return axios.delete(`http://localhost:3000/api/quotes/${userId}`, {
+    headers: {
+      'Authorization': `Bearer ${data.token}`
+    },
+    data: { quoteIds: quoteIds }
+  })
+  .then(response => {
+    return response.data;
+  });
+    } catch (err) {
+        console.log(err)
     }
-
-    return axios.delete(`http://localhost:3000/api/${userId}/quotes`, {
-        data: { quoteIds: quoteIds }
-    })
-    .then(response => {
-        return response.data;
-    });
 }
 
 export {

@@ -11,15 +11,15 @@ router.route('/api/calculation')
 router.route('/api/quotes')
     .post(authCtrl.requireSignin, quoteCtrl.createQuote);
     
-router.route('/api/:userId/quotes')
-    .get(authCtrl.requireSignin, quoteCtrl.listQuotes)
-    .delete(authCtrl.requireSignin, quoteCtrl.removeQuote);
+router.route('/api/quotes/:userId')
+    .get(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.listQuotes)
+    .post(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.combineQuotes)
+    .delete(authCtrl.requireSignin, authCtrl.hasAuthorization,quoteCtrl.removeQuote);
 
-router.route('/api/quotes/:quoteId')
-    .get(authCtrl.requireSignin, quoteCtrl.getQuoteByID)
-    .put(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.updateQuote);
+router.route('/api/quotes/:quoteId/:userId')
+    .get(authCtrl.requireSignin, authCtrl.hasAuthorization,quoteCtrl.getQuoteByID)
+    .post(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.updateQuote);
 
-router.route('/api/:userId/quotes/combine')
-    .post(authCtrl.requireSignin, quoteCtrl.combineQuotes)
-    
+router.param('userId', userCtrl.userByID);
+
 export default router;

@@ -8,11 +8,12 @@ import {
 } from '@mui/material';
 import Text from '@mui/material/Typography';
 import { Form } from 'react-router-dom';
-import theme from '../theme';
+import theme from '../../theme';
+
 import { styled } from '@mui/material/styles';
-import { calculateQuote, saveQuote, updateQuote } from '../features/quote/quote-api';
+import { calculateQuote, saveQuote, updateQuote } from '../../features/quote/quote-api';
 import { useParams } from 'react-router-dom';
-import { validateTitle } from '../features/validation';
+import { validateTitle } from '../../features/validation';
 
 import WorkersFields from './WorkersFields';
 import PhysicalResourcesFields from './PhysicalResourcesFields';

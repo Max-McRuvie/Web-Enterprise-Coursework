@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getQuote } from '../features/quote/quote-api';
-import QuoteForm from '../components/QuoteForm';
+import QuoteForm from '../components/Quotes/QuoteForm';
 
 const EditQuote = () => {
     const { quoteId } = useParams();

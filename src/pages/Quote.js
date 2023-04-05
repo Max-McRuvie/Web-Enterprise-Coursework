@@ -2,7 +2,7 @@ import React from 'react'
 import theme from '../theme';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import QuoteForm from '../components/QuoteForm';
+import QuoteForm from '../components/Quotes/QuoteForm';
 
 const { main, light, darkNavbar, contrastText } = theme.palette.primary;
 

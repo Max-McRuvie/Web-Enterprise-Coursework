@@ -49,7 +49,7 @@ export default function Signup() {
                                 variant="outlined"
                                 sx={{marginBottom: "2%"}}
                                 fullWidth
-                                onChange={handleChange('email')}
+                                onChange={handleChange('name')}
                             />
                         <TextField 
                             label="Email"

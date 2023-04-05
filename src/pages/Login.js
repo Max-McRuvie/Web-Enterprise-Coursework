@@ -41,14 +41,26 @@ export default function Login() {
             }
 
             signin(userData).then((response) => {
-                auth.authenticate(response, () => {
-                    setValues({ ...values, 'authorised': true })
+                auth.authenticate(response);
             })
-            
-            }).then (() => {
+            .then (() => {
                 navigate("/");
                 window.location.reload();
             })
+            .catch((error) => {
+                console.log(error)
+                alert("Login Failed")
+            });
+
+            
+            // }).then (() => {
+            //     navigate("/");
+            //     window.location.reload();
+            // })
+            // .catch((error) => {
+            //     console.log(error)
+            //     alert("Login Failed")
+            // })
     }
 
     return (

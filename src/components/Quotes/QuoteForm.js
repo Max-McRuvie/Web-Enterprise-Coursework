@@ -173,9 +173,9 @@ const QuoteForm = ({ quote, edit }) => {
                     </StyledButton>
                     </Form>
 
-                    { projectInfo.total_cost > 0 && (
+                    { projectInfo.total_cost > 0 || projectInfo.total_cost == null && (
                         <Box sx={{ marginTop: "2%" }}>
-                            <Text variant="h5">Total Cost: ${projectInfo.total_cost}</Text>
+                            <Text variant="h5">Total Cost: ${projectInfo.total_cost || 0 }</Text>
                             { edit ? (
                                 <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleUpdate}>Update Quote</Button>
                             ) : (

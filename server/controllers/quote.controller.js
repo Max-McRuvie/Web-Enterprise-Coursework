@@ -1,4 +1,5 @@
 import Quote from '../models/quote.model.js';
+import CalculationSettings from '../models/calculationSettings.model.js';
 
 const fudgeFactorCalculator = (amount) => {
     let fudgeFactor = 1.5;
@@ -9,19 +10,31 @@ const fudgeFactorCalculator = (amount) => {
 const calculateQuote = async (req, res) => {
     const projectInfo = req.body;
 
+    // fetch paygrades from the database
+    let paygrades;
+    try {
+        paygrades = await CalculationSettings.findOne();
+    } catch (error) {
+        console.error(error);
+        // if there's an error fetching paygrades from the database, use the default values
+        paygrades = { junior: 10, standard: 15, senior: 20 };
+    }
+
+    console.log(paygrades)
+
     console.log(projectInfo)
     let totalLaborCost = 0;
     for (let i = 0; i < projectInfo.workers.length; i++) {
         const worker = projectInfo.workers[i];
         switch (worker.hourlyRate) {
             case "Junior":
-                worker.hourlyRate = 10;
+                worker.hourlyRate = paygrades.junior;
                 break;
             case "Standard":
-                worker.hourlyRate = 15;
+                worker.hourlyRate = paygrades.standard;
                 break;
             case "Senior":
-                worker.hourlyRate = 20;
+                worker.hourlyRate = paygrades.senior;
                 break;
             default:
                 worker.hourlyRate = 0;

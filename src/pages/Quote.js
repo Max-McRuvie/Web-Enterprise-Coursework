@@ -1,23 +1,8 @@
-import React from 'react'
-import theme from '../theme';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import QuoteForm from '../components/Quotes/QuoteForm';
-
-const { main, light, darkNavbar, contrastText } = theme.palette.primary;
-
-const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
-    backgroundColor: darkNavbar,
-    ':hover': {
-      backgroundColor: light,
-        color: darkNavbar,
-    },
-}));
+import React from "react";
+import QuoteForm from "../components/Quotes/QuoteForm";
 
 const Quote = () => {
-    return (
-        <QuoteForm edit={false} />
-    )
-}
+  return <QuoteForm edit={false} />;
+};
 
-export default Quote
+export default Quote;

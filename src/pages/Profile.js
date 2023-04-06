@@ -1,35 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import {getProfile} from '../features/user/user-api'
-
+// imports
+import React, { useEffect, useState } from "react";
+import { getProfile } from "../features/user/user-api";
+import { Typography } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 
 const Profile = () => {
-    const [profile, setProfile] = useState({
-        name: '',
-        email: '',
-    })
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+  });
 
-    useEffect(() => {
-        getProfile()
-            .then(response => {
-                setProfile({
-                    name: response.name,
-                    email: response.email,
-                })
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }, [])
+  // Get profile on page load
+  useEffect(() => {
+    getProfile()
+      .then((response) => {
+        setProfile({
+          name: response.name,
+          email: response.email,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
-    return (
-        <div>
-            <h1>Profile</h1>
-            <p>Name: {profile.name}</p>
-            <p>Email: {profile.email}</p>
+  return (
+    <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
+      <Grid container item xs={5} direction="column">
+        <Grid item mt={"5%"} mb={"5%"}>
+          <Typography variant="h4" m={"5%"}>
+            Profile
+          </Typography>
+        </Grid>
+        <Grid item mt={"5%"}>
+          <TextField label="Name" value={profile.name} fullWidth disabled />
+        </Grid>
+        <Grid item mt={"2%"}>
+          <TextField label="Email" value={profile.email} fullWidth disabled />
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+};
 
-        </div>
-    )
-}
-
-
-export default Profile
+export default Profile;

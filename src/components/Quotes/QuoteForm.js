@@ -1,217 +1,262 @@
-import React, { useState, useEffect } from 'react';
+// Description: This component is used to create a new quote or edit an existing quote. It is used in the CreateQuote and EditQuote components.
+
+// React Imports
+import React, { useState, useEffect } from "react";
+
+// Material UI imports
+import { Grid, TextField, Button, Box } from "@mui/material";
+import Text from "@mui/material/Typography";
+import { styled } from "@mui/material/styles";
+
+// React Router Imports
+import { Form, useParams } from "react-router-dom";
+
+// Feature Imports
 import {
-    Grid,
-    TextField,
-    Button,
-    MenuItem,
-    Box
-} from '@mui/material';
-import Text from '@mui/material/Typography';
-import { Form } from 'react-router-dom';
-import theme from '../../theme';
+  calculateQuote,
+  saveQuote,
+  updateQuote,
+} from "../../features/quote/quote-api";
+import { validateTitle } from "../../features/validation";
+import auth from "../../features/auth/auth-helper";
+import { calculationWithoutFudgeFactor } from "../../features/admin/admin-api";
 
-import { styled } from '@mui/material/styles';
-import { calculateQuote, saveQuote, updateQuote } from '../../features/quote/quote-api';
-import { useParams } from 'react-router-dom';
-import { validateTitle } from '../../features/validation';
-import auth from '../../features/auth/auth-helper';
-import { calculationWithoutFudgeFactor } from '../../features/admin/admin-api';
+// Component Imports
+import WorkersFields from "./WorkersFields";
+import PhysicalResourcesFields from "./PhysicalResourcesFields";
 
-import WorkersFields from './WorkersFields';
-import PhysicalResourcesFields from './PhysicalResourcesFields';
+// Theme & Styled Components
+const { light, darkNavbar } = theme.palette.primary;
 
-const { main, light, darkNavbar, contrastText } = theme.palette.primary;
-
-const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
-    backgroundColor: darkNavbar,
-    ':hover': {
-      backgroundColor: light,
-        color: darkNavbar,
-    },
+const StyledButton = styled(Button)(({ theme, color = "primary" }) => ({
+  backgroundColor: darkNavbar,
+  ":hover": {
+    backgroundColor: light,
+    color: darkNavbar,
+  },
 }));
 
+// Component
 const QuoteForm = ({ quote, edit }) => {
-    const { quoteId } = useParams();
-    const [errors, setErrors] = useState({});
-    const [isAdmin] = useState(auth.isAdmin());
+  const { quoteId } = useParams();
+  const [errors, setErrors] = useState({});
+  const [isAdmin] = useState(auth.isAdmin());
 
-    const [projectInfo, setProjectInfo] = useState({
-        title: '',
-        workers: [
-          {
-            name: '',
-            hourlyRate: '',
-            hoursRequired: '',
-          },
-        ],
-        physicalResources: [
-            {
-                title: '',
-                cost: '',
-            },
-        ],
-        total_cost: '',
-      });
+  const [projectInfo, setProjectInfo] = useState({
+    title: "",
+    workers: [
+      {
+        name: "",
+        hourlyRate: "",
+        hoursRequired: "",
+      },
+    ],
+    physicalResources: [
+      {
+        title: "",
+        cost: "",
+      },
+    ],
+    total_cost: "",
+  });
 
-    const handleFieldChange = (e, index, field, type) => {
-        if (type === "workers") {
-            const workers = [...projectInfo.workers];
-            workers[index][field] = e.target.value;
-            setProjectInfo({ ...projectInfo, workers });
-        } else if (type === "physicalResources") {
-            const physicalResources = [...projectInfo.physicalResources];
-            physicalResources[index][field] = e.target.value;
-            setProjectInfo({ ...projectInfo, physicalResources });
-        }
-    };
+  // Handle Change
+  const handleFieldChange = (e, index, field, type) => {
+    // Check field type prior to setting state to avoid errors
+    if (type === "workers") {
+      const workers = [...projectInfo.workers];
+      workers[index][field] = e.target.value;
+      setProjectInfo({ ...projectInfo, workers });
+    } else if (type === "physicalResources") {
+      const physicalResources = [...projectInfo.physicalResources];
+      physicalResources[index][field] = e.target.value;
+      setProjectInfo({ ...projectInfo, physicalResources });
+    }
+  };
 
-    const handleRemoveField = (index, type) => {
-        if (type === "workers") {
-          const workers = [...projectInfo.workers];
-          workers.splice(index, 1);
-          setProjectInfo({ ...projectInfo, workers });
-        } else if (type === "physicalResources") {
-          const physicalResources = [...projectInfo.physicalResources];
-          physicalResources.splice(index, 1);
-          setProjectInfo({ ...projectInfo, physicalResources });
-        }
-      };
+  // Handle Remove Field
+  const handleRemoveField = (index, type) => {
+    // Check field type prior to setting state to avoid errors
+    if (type === "workers") {
+      const workers = [...projectInfo.workers];
+      workers.splice(index, 1);
+      setProjectInfo({ ...projectInfo, workers });
+    } else if (type === "physicalResources") {
+      const physicalResources = [...projectInfo.physicalResources];
+      physicalResources.splice(index, 1);
+      setProjectInfo({ ...projectInfo, physicalResources });
+    }
+  };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-      
-        const titleError = validateTitle(projectInfo.title);
-        if (titleError) {
-            alert(titleError);
-        }
+  // Handle Submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        let budget = await calculateQuote(projectInfo);
-      
-        setProjectInfo((prevState) => ({
-        ...prevState,
-        total_cost: budget.totalCost,
-        }));
-      };
-
-      const handleAdminSubmit = async (e) => {
-        e.preventDefault();
-
-        const titleError = validateTitle(projectInfo.title);
-        if (titleError) {
-            alert(titleError);
-        }
-
-        let budget = await calculationWithoutFudgeFactor(projectInfo);
-
-        setProjectInfo((prevState) => ({
-        ...prevState,
-        total_cost: budget.totalCost,
-        }));
-      }
-
-
-    const handleSave = async (e) => {
-        e.preventDefault();
-        console.log("Saving quote")
-        await saveQuote(projectInfo)
+    // Validate title
+    const titleError = validateTitle(projectInfo.title);
+    if (titleError) {
+      alert(titleError);
     }
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
-        await updateQuote(quoteId, projectInfo)
+    // Calculate quote
+    let budget = await calculateQuote(projectInfo);
+
+    // Set total cost
+    setProjectInfo((prevState) => ({
+      ...prevState,
+      total_cost: budget.totalCost,
+    }));
+  };
+
+  // Handle Admin Submit
+  const handleAdminSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate title
+    const titleError = validateTitle(projectInfo.title);
+    if (titleError) {
+      alert(titleError);
     }
-    
-      useEffect(() => {
-        if (quote) {
-          setProjectInfo(quote);
-          console.log(quote)
-          console.log(projectInfo)
-        }
-      }, [quote]);
 
-    return (
-        <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
-            <Grid container item xs={5} direction="column">
-                <Text variant="h4" sx={{marginBottom: "2%"}}>{edit ? 'Edit Quote' : 'Create Quote'}</Text>
-                <Form>
-                    <TextField
-                        label="Project Title"
-                        variant="outlined"
-                        sx={{marginBottom: "2%"}}
-                        value={projectInfo.title}
-                        fullWidth
-                        onChange={(e) => setProjectInfo({...projectInfo, title: e.target.value})}
-                        error={Boolean(errors.title)}
-                        helperText={errors.title}
-                    />
-                    <Grid container spacing={2} sx={{ display: 'flex' }}>
-                        <Grid item sx={{ flex: 1 }}>
-                            <WorkersFields workers={projectInfo.workers} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField} errors={errors} />
-                        </Grid>
-                        <Grid item sx={{ flex: 1 }}>
-                            <PhysicalResourcesFields physicalResources={projectInfo.physicalResources} handleFieldChange={handleFieldChange} handleRemoveField={handleRemoveField} errors={errors}/>
-                        </Grid>
-                    </Grid>
+    // Calculate quote
+    let budget = await calculationWithoutFudgeFactor(projectInfo);
 
-                    <Box sx={{ textAlign: "center" }}>
-                        <StyledButton
-                        sx={{ margin: "2%" }}
-                        variant={"contained"}
-                        onClick={() =>
-                            setProjectInfo({
-                            ...projectInfo,
-                            workers: [
-                                ...projectInfo.workers,
-                                { hourlyRate: 0, hoursRequired: 0 },
-                            ],
-                            })
-                        }
-                        >
-                        Add Worker
-                        </StyledButton>
-                        <StyledButton
-                        sx={{ margin: "2%" }}
-                        variant={"contained"}
-                        onClick={() =>
-                            setProjectInfo({
-                            ...projectInfo,
-                            physicalResources: [
-                                ...projectInfo.physicalResources,
-                                { cost: 0 },
-                            ],
-                            })
-                        }
-                        >
-                        Add Physical Resource
-                        </StyledButton>
-                    </Box>
-                    <StyledButton onClick={handleSubmit}>
-                        Calculate Quote
-                    </StyledButton>
+    // Set total cost
+    setProjectInfo((prevState) => ({
+      ...prevState,
+      total_cost: budget.totalCost,
+    }));
+  };
 
-                    { isAdmin ? (
-                        <StyledButton onClick={handleAdminSubmit}>
-                            Admin Calculate Quote
-                        </StyledButton>
-                    ) : (
-                        <></>
-                    )}
-                    </Form>
+  // Handle Save
+  const handleSave = async (e) => {
+    e.preventDefault();
+    await saveQuote(projectInfo);
+  };
 
-                    <Text variant="h5">Total Cost: ${projectInfo.total_cost || 0 }</Text>
+  // Handle Delete
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    await updateQuote(quoteId, projectInfo);
+  };
 
-                    { projectInfo.total_cost > 0 && (
-                        <Box sx={{ marginTop: "2%" }}>
-                            { edit ? (
-                                <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleUpdate}>Update Quote</Button>
-                            ) : (
-                                <Button variant="contained" sx={{ marginTop: "2%" }} onClick={handleSave}>Save Quote</Button>
-                            )}
-                        </Box>
-                    )}
+  // If quote is passed in, set project info to quote to populate form
+  // used for edit mode
+  useEffect(() => {
+    if (quote) {
+      setProjectInfo(quote);
+    }
+  }, [quote]);
+
+  // Render
+  return (
+    <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
+      <Grid container item xs={5} direction="column">
+        <Text variant="h4" sx={{ marginBottom: "2%" }}>
+          {edit ? "Edit Quote" : "Create Quote"}
+        </Text>
+        <Form>
+          <TextField
+            label="Project Title"
+            variant="outlined"
+            sx={{ marginBottom: "2%" }}
+            value={projectInfo.title}
+            fullWidth
+            onChange={(e) =>
+              setProjectInfo({ ...projectInfo, title: e.target.value })
+            }
+            error={Boolean(errors.title)}
+            helperText={errors.title}
+          />
+          <Grid container spacing={2} sx={{ display: "flex" }}>
+            <Grid item sx={{ flex: 1 }}>
+              <WorkersFields
+                workers={projectInfo.workers}
+                handleFieldChange={handleFieldChange}
+                handleRemoveField={handleRemoveField}
+                errors={errors}
+              />
             </Grid>
-        </Grid>
-    );
-}
+            <Grid item sx={{ flex: 1 }}>
+              <PhysicalResourcesFields
+                physicalResources={projectInfo.physicalResources}
+                handleFieldChange={handleFieldChange}
+                handleRemoveField={handleRemoveField}
+                errors={errors}
+              />
+            </Grid>
+          </Grid>
 
-export default QuoteForm
+          <Box sx={{ textAlign: "center" }}>
+            <StyledButton
+              sx={{ margin: "2%" }}
+              variant={"contained"}
+              onClick={() =>
+                setProjectInfo({
+                  ...projectInfo,
+                  workers: [
+                    ...projectInfo.workers,
+                    { hourlyRate: 0, hoursRequired: 0 },
+                  ],
+                })
+              }
+            >
+              Add Worker
+            </StyledButton>
+            <StyledButton
+              sx={{ margin: "2%" }}
+              variant={"contained"}
+              onClick={() =>
+                setProjectInfo({
+                  ...projectInfo,
+                  physicalResources: [
+                    ...projectInfo.physicalResources,
+                    { cost: 0 },
+                  ],
+                })
+              }
+            >
+              Add Physical Resource
+            </StyledButton>
+          </Box>
+          <StyledButton onClick={handleSubmit}>Calculate Quote</StyledButton>
+
+          {isAdmin ? (
+            <StyledButton onClick={handleAdminSubmit}>
+              Admin Calculate Quote
+            </StyledButton>
+          ) : (
+            <></>
+          )}
+        </Form>
+
+        <Text variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Text>
+
+        {projectInfo.total_cost > 0 && (
+          <Box sx={{ marginTop: "2%" }}>
+            {edit ? (
+              <Button
+                variant="contained"
+                sx={{ marginTop: "2%" }}
+                onClick={handleUpdate}
+              >
+                Update Quote
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                sx={{ marginTop: "2%" }}
+                onClick={handleSave}
+              >
+                Save Quote
+              </Button>
+            )}
+          </Box>
+        )}
+      </Grid>
+    </Grid>
+  );
+};
+
+// Export
+export default QuoteForm;

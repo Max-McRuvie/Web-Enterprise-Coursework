@@ -1,7 +1,11 @@
+// Description: This component is used to create a new quote or edit an existing quote. It is used in the CreateQuote and EditQuote components.
+
+// Imports
 import React from 'react';
 import { Box, TextField, Button } from "@mui/material";
 import Text from "@mui/material/Typography";
 
+// Component
 const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRemoveField}) => {
     return (
         <>
@@ -45,4 +49,5 @@ const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRe
     )
 }
 
+// Export
 export default PhysicalResourcesFields;

@@ -4,9 +4,7 @@
 import React, { useState, useEffect } from "react";
 
 // Material UI imports
-import { Grid, TextField, Button, Box } from "@mui/material";
-import Text from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
+import { Grid, TextField, Button, Box, Typography, styled } from "@mui/material";
 
 // React Router Imports
 import { Form, useParams } from "react-router-dom";
@@ -16,15 +14,16 @@ import {
   calculateQuote,
   saveQuote,
   updateQuote,
-} from "../../features/quote/quote-api";
-import { validateTitle } from "../../features/validation";
-import auth from "../../features/auth/auth-helper";
-import { calculationWithoutFudgeFactor } from "../../features/admin/admin-api";
+} from "../../features/quote/quote-api.js";
+import { validateTitle } from "../../features/validation.js";
+import auth from "../../features/auth/auth-helper.js";
+import { calculationWithoutFudgeFactor } from "../../features/admin/admin-api.js";
 
 // Component Imports
-import WorkersFields from "./WorkersFields";
-import PhysicalResourcesFields from "./PhysicalResourcesFields";
+import WorkersFields from "./WorkersFields.js";
+import PhysicalResourcesFields from "./PhysicalResourcesFields.js";
 
+import theme from "../../theme.js";
 // Theme & Styled Components
 const { light, darkNavbar } = theme.palette.primary;
 
@@ -152,9 +151,9 @@ const QuoteForm = ({ quote, edit }) => {
   return (
     <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
       <Grid container item xs={5} direction="column">
-        <Text variant="h4" sx={{ marginBottom: "2%" }}>
+        <Typography variant="h4" sx={{ marginBottom: "2%" }}>
           {edit ? "Edit Quote" : "Create Quote"}
-        </Text>
+        </Typography>
         <Form>
           <TextField
             label="Project Title"
@@ -230,7 +229,7 @@ const QuoteForm = ({ quote, edit }) => {
           )}
         </Form>
 
-        <Text variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Text>
+        <Typography variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Typography>
 
         {projectInfo.total_cost > 0 && (
           <Box sx={{ marginTop: "2%" }}>

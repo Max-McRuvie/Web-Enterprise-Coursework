@@ -2,8 +2,7 @@
 
 // Imports
 import React from "react";
-import { Box, TextField, MenuItem, Button } from "@mui/material";
-import Text from "@mui/material/Typography";
+import { Box, TextField, MenuItem, Button, Typography} from "@mui/material";
 
 // Component
 const WorkersFields = ({ workers, handleFieldChange, handleRemoveField }) => {
@@ -13,7 +12,7 @@ const WorkersFields = ({ workers, handleFieldChange, handleRemoveField }) => {
         workers.map((worker, index) => {
           return (
             <Box key={index}>
-              <Text>Worker: {index + 1}</Text>
+              <Typography>Worker: {index + 1}</Typography>
               <TextField
                 label="Name"
                 variant="filled"

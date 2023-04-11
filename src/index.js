@@ -6,21 +6,21 @@ import {
 } from "react-router-dom";
 
 
-import Root from "./router/root";
-import ErrorPage from "./pages/ErrorPage";
-import Home from "./pages/Home";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Quote from './pages/Quote';
-import EditQuote from './pages/EditQuote';
-import QuoteList from './pages/QuoteList';
-import Profile from './pages/Profile';
-import Admin from './pages/Admin';
+import Root from "./router/root.js";
+import ErrorPage from "./pages/ErrorPage.js";
+import Home from "./pages/Home.js";
+import Signup from "./pages/Signup.js";
+import Login from "./pages/Login.js";
+import Quote from './pages/Quote.js';
+import EditQuote from './pages/EditQuote.js';
+import QuoteList from './pages/QuoteList.js';
+import Profile from './pages/Profile.js';
+import Admin from './pages/Admin.js';
 
-import PrivateRoute from "./router/PrivateRoute";
-import AdminRoute from './router/AdminRoute'
+import PrivateRoute from "./router/PrivateRoute.js";
+import AdminRoute from './router/AdminRoute.js'
 
-import store from './state/store';
+import store from './state/store.js';
 import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([

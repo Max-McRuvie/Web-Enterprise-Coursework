@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import React from 'react';
-import auth from '../features/auth/auth-helper';
+import auth from '../features/auth/auth-helper.js';
 
 export default function PrivateRoute({ children }) {
     if (!auth.isAuthenticated()) {

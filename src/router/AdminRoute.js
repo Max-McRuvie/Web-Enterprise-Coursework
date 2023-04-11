@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import auth from "../features/auth/auth-helper";
+import auth from "../features/auth/auth-helper.js";
 
 
 export default function AdminRoute({ children }) {

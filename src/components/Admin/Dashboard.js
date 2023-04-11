@@ -5,10 +5,10 @@ import React, { useState } from "react";
 import { Button, Container, Grid } from "@mui/material";
 
 // Component Imports
-import PaygradeForm from "./PaygradeForm";
+import PaygradeForm from "./PaygradeForm.js";
 
 // Feature Imports
-import { adjustPayGrades } from "../../features/admin/admin-api";
+import { adjustPayGrades } from "../../features/admin/admin-api.js";
 
 // Component
 const Dashboard = () => {

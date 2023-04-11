@@ -32,6 +32,5 @@ const QuoteSchema = new mongoose.Schema({
     }
 })
 
-const quoteModel = mongoose.model('Quote', QuoteSchema);
-quoteModel.createIndexes();
-export default quoteModel;
+
+export default mongoose.model('Quote', QuoteSchema);;

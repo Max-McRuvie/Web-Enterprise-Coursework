@@ -1,10 +1,9 @@
 // imports
 import React, { useState } from "react";
-import { Grid, Button, TextField } from "@mui/material";
-import Text from "@mui/material/Typography";
+import { Grid, Button, TextField, Typography } from "@mui/material";
 import { Form } from "react-router-dom";
-import { signup } from "../features/user/user-api";
-import { validateEmail, validatePassword } from "../features/validation";
+import { signup } from "../features/user/user-api.js";
+import { validateEmail, validatePassword } from "../features/validation.js";
 import { useNavigate } from "react-router-dom";
 
 // Signup page component
@@ -48,9 +47,9 @@ export default function Signup() {
   return (
     <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
       <Grid container item xs={3} direction="column">
-        <Text variant="h4" sx={{ marginBottom: "2%" }}>
+        <Typography variant="h4" sx={{ marginBottom: "2%" }}>
           Signup
-        </Text>
+        </Typography>
         <Form onSubmit={handleSubmit}>
           <TextField
             label="Name"

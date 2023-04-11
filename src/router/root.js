@@ -1,17 +1,13 @@
 import React, { useState} from 'react';
 import { Outlet } from "react-router-dom";
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
-import theme from '../theme';
-import { ThemeProvider } from '@mui/material/styles';
+import theme from '../theme.js';
+import {AppBar, Box, Button, Toolbar, styled, ThemeProvider } from '@mui/material';
+
 import {useSelector, useDispatch} from 'react-redux';
-import { getAuthBool } from '../state/auth/authReducer';
-import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer';
-import store from '../state/store';
-import { styled } from '@mui/material/styles';
-import auth from '../features/auth/auth-helper';
+import { getAuthBool } from '../state/auth/authReducer.js';
+import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer.js';
+import store from '../state/store.js';
+import auth from '../features/auth/auth-helper.js';
 import { signout } from '../features/auth/auth-api.js';
 import { useNavigate } from "react-router-dom";
 

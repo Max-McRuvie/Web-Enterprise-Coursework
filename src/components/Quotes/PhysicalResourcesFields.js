@@ -2,8 +2,7 @@
 
 // Imports
 import React from 'react';
-import { Box, TextField, Button } from "@mui/material";
-import Text from "@mui/material/Typography";
+import { Box, TextField, Button, Typography} from "@mui/material";
 
 // Component
 const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRemoveField}) => {
@@ -12,7 +11,7 @@ const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRe
          {physicalResources && physicalResources.map((resource, index) => {
                         return (
                         <Box key={index}>
-                            <Text>Resource: {index + 1}</Text>
+                            <Typography>Resource: {index + 1}</Typography>
                             <TextField
                             label="Title"
                             variant="filled"

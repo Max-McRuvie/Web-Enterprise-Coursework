@@ -5,7 +5,7 @@ import {
   saveQuote,
   combineQuotes,
   deleteQuote,
-} from "../features/quote/quote-api";
+} from "../features/quote/quote-api.js";
 import {
   Paper,
   Grid,
@@ -13,10 +13,10 @@ import {
   Button,
   Container,
   Checkbox,
+  styled
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { styled } from "@mui/material/styles";
-import theme from "../theme";
+import theme from "../theme.js";
 
 // Theme colors
 const { light, darkNavbar, contrastText } = theme.palette.primary;

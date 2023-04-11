@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Grid, Paper, Typography, Box } from "@mui/material";
 
-import Dashboard from "../components/Admin/Dashboard";
+import Dashboard from "../components/Admin/Dashboard.js";
 
 const Admin = () => {
   return (

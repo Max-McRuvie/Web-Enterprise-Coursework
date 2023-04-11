@@ -22,6 +22,4 @@ const CalculationSettingsSchema = new mongoose.Schema({
     }
 })
 
-const calculationSettingsModel = mongoose.model('CalculationSettings', CalculationSettingsSchema);
-calculationSettingsModel.createIndexes();
-export default calculationSettingsModel;
+export default mongoose.model('CalculationSettings', CalculationSettingsSchema);;

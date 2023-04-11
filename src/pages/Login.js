@@ -1,12 +1,11 @@
 // Imports
 import React, { useState } from "react";
-import { Grid, TextField, Button } from "@mui/material";
+import { Grid, TextField, Button, Typography } from "@mui/material";
 import { Form } from "react-router-dom";
-import Text from "@mui/material/Typography";
-import auth from "../features/auth/auth-helper";
+import auth from "../features/auth/auth-helper.js";
 import { signin } from "../features/auth/auth-api.js";
 import { useNavigate } from "react-router-dom";
-import { validateEmail, validatePassword } from "../features/validation";
+import { validateEmail, validatePassword } from "../features/validation.js";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -63,9 +62,9 @@ export default function Login() {
   return (
     <Grid container spacing={2} justifyContent={"center"} marginTop={"2%"}>
       <Grid container item xs={3} direction="column">
-        <Text variant="h4" sx={{ marginBottom: "2%" }}>
+        <Typography variant="h4" sx={{ marginBottom: "2%" }}>
           Login
-        </Text>
+        </Typography>
         <Form onSubmit={handleSubmit}>
           <TextField
             label="Email"

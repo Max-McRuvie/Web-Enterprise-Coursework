@@ -3,7 +3,6 @@
 // Imports
 import React, { useState } from "react";
 import { Grid, Typography, TextField } from "@mui/material";
-import Text from "@mui/material/Typography";
 import { Form } from "react-router-dom";
 
 // Component
@@ -21,9 +20,9 @@ const PaygradeForm = ({ handleChange, paygrade }) => {
   // Render
   return (
     <Grid item xs={12}>
-      <Text marginBottom={"2%"}>
+      <Typography marginBottom={"2%"}>
         <Typography variant="h4">Paygrade</Typography>
-      </Text>
+      </Typography>
       <Form noValidate autoComplete="off">
         <Grid container direction="column" spacing={2}>
           <Grid item>

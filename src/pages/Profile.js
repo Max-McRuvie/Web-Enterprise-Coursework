@@ -1,8 +1,7 @@
 // imports
 import React, { useEffect, useState } from "react";
-import { getProfile } from "../features/user/user-api";
-import { Typography } from "@mui/material";
-import { Grid, TextField } from "@mui/material";
+import { getProfile } from "../features/user/user-api.js";
+import { Grid, TextField, Typography } from "@mui/material";
 
 const Profile = () => {
   const [profile, setProfile] = useState({

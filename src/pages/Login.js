@@ -44,16 +44,15 @@ export default function Login() {
     try {
       signin(userData)
         .then((response) => {
+          if(!response){
+            throw new Error("Login Failed");
+          }
           auth.authenticate(response);
         })
         .then(() => {
           navigate("/");
           window.location.reload();
         })
-        .catch((error) => {
-          console.log(error);
-          alert("Login Failed");
-        });
     } catch (error) {
       alert(error);
     }

@@ -1,5 +1,6 @@
 import User from './models/user.model.js';
 
+// Populates DB with base admin
 const baseAdmin = async () => {
     const admin = new User({
         name: "admin",
@@ -8,9 +9,15 @@ const baseAdmin = async () => {
         admin: true,
 
     })
-    await admin.save()
+
+    try{
+        await admin.save()
+    } catch(err) {
+        console.log("Base admin already added")
+    }
 }
 
+// Populates DB with base user
 const baseUser = async () => {
     const user = new User({
         name: "user",
@@ -18,12 +25,19 @@ const baseUser = async () => {
         password: "user123",
         admin: false,
     })
-    await user.save()
+
+    try{
+        await user.save()
+    } catch(err) {
+        console.log("Base user already added")
+    }
 }
 
+// Populates DB with base admin and user
 const populateDB = async () => {
     await baseAdmin()
     await baseUser()
 }
 
+// Export
 export default populateDB

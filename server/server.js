@@ -23,12 +23,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Connect to MongoDB
-
-await mongoose.connect(MONGOURI)
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.log(err));
-
-
+const run = async () => {
+    await mongoose.connect(MONGOURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false
+    });
+    console.log("MongoDB connected");
+}
+run().catch(error => console.error(error));
 
 // Body Parser
 app.use(bodyParser.json())

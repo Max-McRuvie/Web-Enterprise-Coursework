@@ -11,6 +11,8 @@ import authRoutes from './routes/auth.routes.js';
 import quoteRoutes from './routes/quote.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 
+import populateDB from './populateDB.js';
+
 // Config
 import config from '../config/config.js';
 const PORT = config.port;
@@ -24,6 +26,11 @@ const __dirname = dirname(__filename);
 
 // Connect to MongoDB
 await mongoose.connect(MONGOURI)
+    .then(() => console.log("MongoDB connected"))
+    .catch(err => console.log(err));
+
+// Populate DB
+await populateDB()
 
 // Body Parser
 app.use(bodyParser.json())

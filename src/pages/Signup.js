@@ -38,6 +38,8 @@ export default function Signup() {
         alert("Signup Successful");
         navigate("/login");
         window.location.reload();
+      }).catch((error) => {
+        alert(error);
       });
     } catch (error) {
       alert(error);

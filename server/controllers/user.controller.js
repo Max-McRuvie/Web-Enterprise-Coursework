@@ -4,6 +4,14 @@ import errorHandler from './../helpers/dbErrorHandler.js';
 
 // Create a new user
 const create = async (req, res) => {
+
+  const { email } = req.body;
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ error: "Email already exists" });
+  }
+
     const user = new User(req.body)
     try {
         await user.save()

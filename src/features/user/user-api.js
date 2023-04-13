@@ -10,14 +10,15 @@ const signup = async (userData) => {
     email: userData.email,
     password: userData.password,
   };
+  
   try {
-    return await axios
-      .post("http://localhost:3000/api/users", data)
-      .then((response) => {
-        return response.data;
-      });
+    const response = await axios.post("http://localhost:3000/api/users", data);
+    return response.data;
   } catch (error) {
-    return error;
+    if (error.response && error.response.status === 400 && error.response.data.error === "Email already exists") {
+      throw new Error("Email already exists");
+    }
+    throw error;
   }
 };
 

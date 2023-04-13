@@ -14,7 +14,7 @@ const signin = async (userData) => {
     console.log(response.data);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return err.response.data;
   }
 };
 
@@ -24,7 +24,7 @@ const signout = async () => {
     const response = axios.get("http://localhost:3000/auth/signout");
     return response.data;
   } catch (err) {
-    console.log(err);
+    return err.response.data;
   }
 };
 

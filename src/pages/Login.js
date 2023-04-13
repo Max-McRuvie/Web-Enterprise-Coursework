@@ -53,8 +53,11 @@ export default function Login() {
           navigate("/");
           window.location.reload();
         })
+        .catch((error) => {
+          alert(error);
+        });
     } catch (error) {
-      alert(error);
+      console.log(error)
     }
   };
 

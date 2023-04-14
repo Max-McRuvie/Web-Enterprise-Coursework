@@ -41,24 +41,18 @@ export default function Login() {
     };
 
     // Call login API and navigate to home on success
-    try {
-      signin(userData)
-        .then((response) => {
-          if(!response){
-            throw new Error("Login Failed");
-          }
-          auth.authenticate(response);
-        })
-        .then(() => {
-          navigate("/");
-          window.location.reload();
-        })
-        .catch((error) => {
-          alert(error);
-        });
-    } catch (error) {
-      console.log(error)
-    }
+    signin(userData)
+      .then((response) => {
+        console.log(response);
+        if (response.error) {
+          throw new Error(response.error);
+        }
+        auth.authenticate(response);
+      })
+
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   return (

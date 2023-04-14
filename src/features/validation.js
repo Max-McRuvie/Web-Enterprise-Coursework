@@ -70,8 +70,8 @@ const validatePassword = (password, isSignin) => {
   }
 
   // Check if password less than 8 characters long
-  if (sanitisedPassword.length < 6 && !isSignin) {
-    return "Password must be at least 6 characters long";
+  if (sanitisedPassword.length < 8 && !isSignin) {
+    return "Password must be at least 8 characters long";
   }
 
   // // Check if password is strong

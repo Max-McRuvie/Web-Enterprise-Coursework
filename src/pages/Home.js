@@ -1,3 +1,5 @@
+// Description: This file contains the code for the home page of the site.
+
 // Imports
 import React from "react";
 import { Container, Grid, Typography } from "@mui/material";
@@ -65,4 +67,5 @@ const Home = () => {
   );
 };
 
+// Export
 export default Home;

@@ -1,6 +1,7 @@
-// import blue from '@material-ui/core/colors/blue';
-import { ThemeProvider, createTheme } from '@mui/material';
+// import
+import { createTheme } from '@mui/material';
 
+// Create a theme instance.
 const theme = createTheme({
     palette: {
         primary: {
@@ -12,4 +13,5 @@ const theme = createTheme({
       },
     });
 
+// Export 
 export default theme;

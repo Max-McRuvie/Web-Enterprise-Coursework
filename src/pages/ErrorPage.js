@@ -1,3 +1,5 @@
+// Description: Error page
+
 // Imports
 import React from "react";
 
@@ -10,4 +12,5 @@ const ErrorPage = () => {
   );
 };
 
+// Export
 export default ErrorPage;

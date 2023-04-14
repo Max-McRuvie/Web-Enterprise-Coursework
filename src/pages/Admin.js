@@ -1,7 +1,12 @@
+// Description: Admin page
+
+// Imports
 import React from "react";
 import { Container, Grid, Paper, Typography, Box } from "@mui/material";
 
+// Import Components
 import Dashboard from "../components/Admin/Dashboard.js";
+
 
 const Admin = () => {
   return (
@@ -28,4 +33,5 @@ const Admin = () => {
   );
 };
 
+// Export
 export default Admin;

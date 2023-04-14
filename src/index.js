@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-
+// Import root and pages
 import Root from "./router/root.js";
 import ErrorPage from "./pages/ErrorPage.js";
 import Home from "./pages/Home.js";
@@ -17,9 +17,11 @@ import QuoteList from './pages/QuoteList.js';
 import Profile from './pages/Profile.js';
 import Admin from './pages/Admin.js';
 
+// Import PrivateRoute and AdminRoute
 import PrivateRoute from "./router/PrivateRoute.js";
 import AdminRoute from './router/AdminRoute.js'
 
+// Router
 const router = createBrowserRouter([
   {
     path: "/",
@@ -83,6 +85,7 @@ const router = createBrowserRouter([
 
 ]);
 
+// Render
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

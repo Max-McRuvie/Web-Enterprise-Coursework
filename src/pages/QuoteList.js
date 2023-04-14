@@ -1,3 +1,5 @@
+// This page displays a list of quotes and allows the user to combine and remove quotes
+
 // imports
 import React, { useEffect, useState } from "react";
 import {
@@ -6,6 +8,7 @@ import {
   combineQuotes,
   deleteQuote,
 } from "../features/quote/quote-api.js";
+
 import {
   Paper,
   Grid,
@@ -163,4 +166,5 @@ const QuoteList = () => {
   );
 };
 
+// export
 export default QuoteList;

@@ -2,12 +2,11 @@ import React, { useState} from 'react';
 import { Outlet } from "react-router-dom";
 import theme from '../theme.js';
 import {AppBar, Box, Button, Toolbar, styled, ThemeProvider } from '@mui/material';
-
 import auth from '../features/auth/auth-helper.js';
 import { signout } from '../features/auth/auth-api.js';
 import { useNavigate } from "react-router-dom";
 
-const { main, darkNavbar, light, contrastText } = theme.palette.primary;
+const { darkNavbar, light } = theme.palette.primary;
 
 const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
     ':hover': {

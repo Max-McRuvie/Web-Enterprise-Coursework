@@ -1,3 +1,5 @@
+// Description: This page is used to edit a quote
+
 // Imports
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -42,4 +44,5 @@ const EditQuote = () => {
   return <QuoteForm quote={quote} quoteID={currentQuoteId} edit={true} />;
 };
 
+// Export
 export default EditQuote;

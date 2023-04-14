@@ -1,3 +1,5 @@
+// This file contains the login page
+
 // Imports
 import React, { useState } from "react";
 import { Grid, TextField, Button, Typography } from "@mui/material";

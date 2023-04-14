@@ -1,3 +1,5 @@
+// Description: Profile page
+
 // imports
 import React, { useEffect, useState } from "react";
 import { getProfile } from "../features/user/user-api.js";
@@ -42,4 +44,5 @@ const Profile = () => {
   );
 };
 
+// Export
 export default Profile;

@@ -1,3 +1,5 @@
+// Description: Signup page 
+
 // imports
 import React, { useState } from "react";
 import { Grid, Button, TextField, Typography } from "@mui/material";
@@ -7,7 +9,7 @@ import { validateName, validateEmail, validatePassword } from "../features/valid
 import { useNavigate } from "react-router-dom";
 
 // Signup page component
-export default function Signup() {
+const Signup = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
     name: "",
@@ -86,3 +88,6 @@ export default function Signup() {
     </Grid>
   );
 }
+
+// Export
+export default Signup;

@@ -46,9 +46,17 @@ const WorkersFields = ({ workers, handleFieldChange, handleRemoveField }) => {
                 fullWidth
                 type="number"
                 value={worker.hoursRequired}
+                inputProps={{ min: 0 }} // Set minimum value to 0
                 onChange={(e) =>
                   handleFieldChange(e, index, "hoursRequired", "workers")
                 }
+                onKeyPress={(e) => {
+                  // Prevent non-numeric characters from being entered
+                  const isNumeric = /^[0-9]*$/;
+                  if (!isNumeric.test(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
               />
               <Button
                 sx={{ margin: "2%" }}

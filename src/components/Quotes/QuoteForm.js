@@ -9,6 +9,8 @@ import { Grid, TextField, Button, Box, Typography, styled } from "@mui/material"
 // React Router Imports
 import { Form, useParams } from "react-router-dom";
 
+import DOMPurify, { sanitize } from "dompurify";
+
 // Feature Imports
 import {
   calculateQuote,
@@ -61,6 +63,14 @@ const QuoteForm = ({ quote, edit }) => {
 
   // Handle Change
   const handleFieldChange = (e, index, field, type) => {
+    // Sanitize value to prevent XSS attacks
+    let sanitisedValue = DOMPurify.sanitize(e.target.value);
+
+    if(sanitisedValue !== e.target.value) {
+      alert("Invalid input. Please try again.");
+      return;
+    }
+
     // Check field type prior to setting state to avoid errors
     if (type === "workers") {
       const workers = [...projectInfo.workers];

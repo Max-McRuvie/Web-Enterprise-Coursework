@@ -29,8 +29,15 @@ const PhysicalResourcesFields = ({physicalResources, handleFieldChange, handleRe
                             fullWidth
                             type="number"
                             value={resource.cost}
+                            inputProps={{ min: 0 }} // Set minimum value to 0
                             onChange={(e) => handleFieldChange(e, index, "cost", "physicalResources")}
-                  
+                            onKeyPress={(e) => {
+                                // Prevent non-numeric characters from being entered
+                                const isNumeric = /^[0-9]*$/;
+                                if (!isNumeric.test(e.key)) {
+                                  e.preventDefault();
+                                }
+                              }}
                             />
                             <Button
                                 sx={{ margin: "2%" }}

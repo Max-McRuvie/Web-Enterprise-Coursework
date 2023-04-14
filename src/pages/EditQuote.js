@@ -9,13 +9,21 @@ const EditQuote = () => {
   const currentQuoteId = quoteId;
   const [quote, setQuote] = useState({
     title: "",
+    manHours: "",
     workers: [
       {
+        name: "",
         hourlyRate: "",
         hoursRequired: "",
       },
     ],
-    cost: "",
+    physicalResources: [
+      {
+        title: "",
+        cost: "",
+      },
+    ],
+    total_cost: "",
   });
 
   // Get quote from API using quiteID
@@ -23,6 +31,7 @@ const EditQuote = () => {
     getQuote(quoteId).then((response) => {
       setQuote({
         title: response[0].title,
+        manHours: response[0].manHours,
         workers: response[0].workers,
         physicalResources: response[0].physicalResources,
         cost: response[0].total_cost,

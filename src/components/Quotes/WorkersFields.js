@@ -5,7 +5,7 @@ import React from "react";
 import { Box, TextField, MenuItem, Button, Typography} from "@mui/material";
 
 // Component
-const WorkersFields = ({ workers, handleFieldChange, handleRemoveField }) => {
+const WorkersFields = ({ workers, handleFieldChange, handleRemoveField, manHours }) => {
   return (
     <>
       {workers &&
@@ -47,7 +47,7 @@ const WorkersFields = ({ workers, handleFieldChange, handleRemoveField }) => {
                 type="number"
                 value={worker.hoursRequired}
                 inputProps={{ min: 0 }} // Set minimum value to 0
-                onChange={(e) =>
+                onChange={(e) => 
                   handleFieldChange(e, index, "hoursRequired", "workers")
                 }
                 onKeyPress={(e) => {
@@ -55,6 +55,12 @@ const WorkersFields = ({ workers, handleFieldChange, handleRemoveField }) => {
                   const isNumeric = /^[0-9]*$/;
                   if (!isNumeric.test(e.key)) {
                     e.preventDefault();
+                  } else {
+                    const newValue = parseInt((e.target.value || '') + e.key, 10);
+                    if (newValue > manHours) {
+                      e.preventDefault();
+                      alert("The hours required cannot be above the total")
+                    }
                   }
                 }}
               />

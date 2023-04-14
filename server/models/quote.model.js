@@ -13,6 +13,9 @@ const QuoteSchema = new mongoose.Schema({
         trim: true,
         required: 'Title is required'
     },
+    manHours: {
+        type: Number,
+    },
     workers: {
         type: Array,
         required: 'Workers are required'

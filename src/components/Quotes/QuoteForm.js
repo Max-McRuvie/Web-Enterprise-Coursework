@@ -45,6 +45,7 @@ const QuoteForm = ({ quote, edit }) => {
 
   const [projectInfo, setProjectInfo] = useState({
     title: "",
+    manHours: "",
     workers: [
       {
         name: "",
@@ -154,6 +155,7 @@ const QuoteForm = ({ quote, edit }) => {
   // used for edit mode
   useEffect(() => {
     if (quote) {
+      console.log(quote)
       setProjectInfo(quote);
     }
   }, [quote]);
@@ -178,6 +180,25 @@ const QuoteForm = ({ quote, edit }) => {
             error={Boolean(errors.title)}
             helperText={errors.title}
           />
+          <TextField
+            label="Total Man Hours Required"
+            variant="outlined"
+            sx={{ marginBottom: "2%" }}
+            value={projectInfo.manHours}
+            fullWidth
+            type="number"
+            onChange={(e) =>
+              setProjectInfo({ ...projectInfo, manHours: e.target.value })
+            }
+            onKeyPress={(e) => {
+              // Prevent non-numeric characters from being entered
+              const isNumeric = /^[0-9]*$/;
+              if (!isNumeric.test(e.key)) {
+                e.preventDefault();
+              }
+            }}
+
+          />
           <Grid container spacing={2} sx={{ display: "flex" }}>
             <Grid item sx={{ flex: 1 }}>
               <WorkersFields
@@ -185,6 +206,7 @@ const QuoteForm = ({ quote, edit }) => {
                 handleFieldChange={handleFieldChange}
                 handleRemoveField={handleRemoveField}
                 errors={errors}
+                manHours={projectInfo.manHours}
               />
             </Grid>
             <Grid item sx={{ flex: 1 }}>

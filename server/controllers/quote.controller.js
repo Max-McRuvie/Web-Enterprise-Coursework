@@ -58,8 +58,6 @@ const calculateQuote = async (req, res) => {
 
 const createQuote = async (req, res) => {
     const quote = new Quote(req.body);
-    console.log(quote)
-    console.log('jeff')
     try {
         await quote.save();
         return res.status(200).json({
@@ -128,7 +126,6 @@ const listQuotes = async (req, res) => {
     try {
         const id = req.params.userId
         let quotes = await Quote.find({uID : id})
-        // .select('quote author');
         res.json(quotes);
     } catch (err) {
         return res.status(400).json({

@@ -38,6 +38,7 @@ const QuoteList = () => {
   const [selectedQuotes, setSelectedQuotes] = useState([]);
   const [combinedQuote, setCombinedQuote] = useState({
     title: "",
+    manHours: 0,
     workers: [],
     physicalResources: [],
     total_cost: "",
@@ -47,6 +48,7 @@ const QuoteList = () => {
   // Get quote list
   useEffect(() => {
     getQuoteList().then((response) => {
+      console.log(response)
       setQuoteList(response);
     });
   }, []);
@@ -68,6 +70,7 @@ const QuoteList = () => {
     combineQuotes(selectedQuotes).then((response) => {
       setCombinedQuote({
         title: response.title,
+        manHours: response.manHours,
         workers: response.workers,
         physicalResources: response.physicalResources,
         total_cost: response.total_cost,
@@ -101,7 +104,13 @@ const QuoteList = () => {
             <Paper elevation={3}>
               <Typography variant="h6">Title: {quote.title}</Typography>
               <Typography variant="body1">
+                Manhours: {quote.manHours}
+              </Typography>
+              <Typography variant="body1">
                 Workers: {quote.workers.length}
+              </Typography>
+              <Typography variant="body1">
+               Physical Resources: {quote.physicalResources.length}
               </Typography>
               <Typography variant="body1">
                 Total Cost: £{quote.total_cost}

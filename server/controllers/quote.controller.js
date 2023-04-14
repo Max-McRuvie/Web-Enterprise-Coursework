@@ -83,42 +83,45 @@ const getQuoteByID = async (req, res) => {
 }
 
 const combineQuotes = async (req, res) => {
-    console.log("combineQuotes")
-    console.log(req.body)
-//   try {
-//     const ids = req.body.quoteIds;
-//     const quotes = await Quote.find({_id : {$in : ids}});
+  try {
+    const ids = req.body.quoteIds;
+    const quotes = await Quote.find({_id : {$in : ids}});
 
-//     const titles = quotes.map(quote => quote.title);
-//     const combinedTitles = titles.join(' + ');
+    const titles = quotes.map(quote => quote.title);
+    const combinedTitles = titles.join(' + ');
 
-//     const combinedWorkers = quotes.reduce((acc, curr) => {
-//         // Combine the workers of each quote into one array
-//         return acc.concat(curr.workers);
-//     }, []);
+    const combinedManHours = quotes.reduce((acc, curr) => {
+        return acc + curr.manHours;
+    }, 0);
+
+    const combinedWorkers = quotes.reduce((acc, curr) => {
+        // Combine the workers of each quote into one array
+        return acc.concat(curr.workers);
+    }, []);
     
-//     const combinedPhysicalResources = quotes.reduce((acc, curr) => {
-//         // Combine the physical resources of each quote into one array
-//         return acc.concat(curr.physicalResources);
-//     }, []);
+    const combinedPhysicalResources = quotes.reduce((acc, curr) => {
+        // Combine the physical resources of each quote into one array
+        return acc.concat(curr.physicalResources);
+    }, []);
 
-//     const combinedTotalCost = quotes.reduce((acc, curr) => {
-//         // Combine the total costs of each quote into one number
-//         return acc + curr.total_cost;
-//     }, 0);
+    const combinedTotalCost = quotes.reduce((acc, curr) => {
+        // Combine the total costs of each quote into one number
+        return acc + curr.total_cost;
+    }, 0);
 
-//     const combinedQuote = {
-//         title: combinedTitles,
-//         workers: combinedWorkers,
-//         physicalResources: combinedPhysicalResources,
-//         total_cost: combinedTotalCost
-//     };
-//     res.json(combinedQuote);
-//   } catch (err) {
-//     return res.status(400).json({
-//       error: err
-//     });
-//   }
+    const combinedQuote = {
+        title: combinedTitles,
+        manHours: combinedManHours,
+        workers: combinedWorkers,
+        physicalResources: combinedPhysicalResources,
+        total_cost: combinedTotalCost
+    };
+    res.json(combinedQuote);
+  } catch (err) {
+    return res.status(400).json({
+      error: err
+    });
+  }
 };
 
 const listQuotes = async (req, res) => {

@@ -139,7 +139,13 @@ const QuoteList = () => {
         <div>
           <Typography variant="h6">Title: {combinedQuote.title}</Typography>
           <Typography variant="body1">
+            Manhours: {combinedQuote.manHours}
+          </Typography>
+          <Typography variant="body1">
             Workers: {combinedQuote.workers.length}
+          </Typography>
+          <Typography variant="body1">
+            Physical Resources: {combinedQuote.physicalResources.length}
           </Typography>
           <Typography variant="body1">
             Total Cost: £{combinedQuote.total_cost}

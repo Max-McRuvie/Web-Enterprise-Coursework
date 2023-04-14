@@ -3,10 +3,6 @@ import { Outlet } from "react-router-dom";
 import theme from '../theme.js';
 import {AppBar, Box, Button, Toolbar, styled, ThemeProvider } from '@mui/material';
 
-import {useSelector, useDispatch} from 'react-redux';
-import { getAuthBool } from '../state/auth/authReducer.js';
-import { setAuthBool, unsetAuthBool } from '../state/auth/authReducer.js';
-import store from '../state/store.js';
 import auth from '../features/auth/auth-helper.js';
 import { signout } from '../features/auth/auth-api.js';
 import { useNavigate } from "react-router-dom";

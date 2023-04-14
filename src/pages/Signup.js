@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Grid, Button, TextField, Typography } from "@mui/material";
 import { Form } from "react-router-dom";
 import { signup } from "../features/user/user-api.js";
-import { validateEmail, validatePassword } from "../features/validation.js";
+import { validateName, validateEmail, validatePassword } from "../features/validation.js";
 import { useNavigate } from "react-router-dom";
 
 // Signup page component
@@ -23,12 +23,13 @@ export default function Signup() {
 
   // Handle submit
   const handleSubmit = (e) => {
+    const nameError = validateName(values.name);
     const emailError = validateEmail(values.email);
     const passwordError = validatePassword(values.password);
 
     // Check for errors
-    if (emailError || passwordError) {
-      alert(emailError || passwordError);
+    if (nameError || emailError || passwordError) {
+      alert(nameError || emailError || passwordError );
       return;
     }
 

@@ -95,6 +95,7 @@ const QuoteForm = ({ quote, edit }) => {
     const titleError = validateTitle(projectInfo.title);
     if (titleError) {
       alert(titleError);
+      return;
     }
 
     // Calculate quote

@@ -36,7 +36,7 @@ const EditQuote = () => {
         manHours: response[0].manHours,
         workers: response[0].workers,
         physicalResources: response[0].physicalResources,
-        cost: response[0].total_cost,
+        total_cost: response[0].total_cost,
       });
     });
   }, [quoteId]);

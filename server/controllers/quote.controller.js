@@ -57,7 +57,25 @@ const calculateQuote = async (req, res) => {
     
 
 const createQuote = async (req, res) => {
-    const quote = new Quote(req.body);
+    // Sanitize quote data
+    const quote = new Quote({
+        uID: req.body.uID,
+        title: req.body.title.replace(/[^a-zA-Z0-9\s+]/g, ''),
+        manHours: req.body.manHours.replace(/[^0-9]/g, ''),
+        workers: req.body.workers.map((worker) => {
+            const name = worker.name.replace(/[^a-zA-Z\s]/g, '');
+            const hourlyRate = worker.hourlyRate;
+            const hoursRequired = worker.hoursRequired.replace(/[^0-9]/g, '');
+            return { name, hourlyRate, hoursRequired };
+        }),
+        physicalResources: req.body.physicalResources.map((resource) => {
+            const title = resource.title.replace(/[^a-zA-Z\s]/g, '');
+            const cost = resource.cost.replace(/[^0-9.]/g, '');
+            return { title, cost };
+        }),
+        total_cost: req.body.total_cost,
+    });
+
     try {
         await quote.save();
         return res.status(200).json({
@@ -125,7 +143,6 @@ const combineQuotes = async (req, res) => {
 };
 
 const listQuotes = async (req, res) => {
-    console.log("listQuotes")
     try {
         const id = req.params.userId
         let quotes = await Quote.find({uID : id})
@@ -138,9 +155,26 @@ const listQuotes = async (req, res) => {
 }
 
 const updateQuote = async (req, res) => {
+    // Sanitize quote data
     try{
         let id = req.params.quoteId
-        let quote = req.body
+        const quote = new Quote({
+            uID: req.body.uID,
+            title: req.body.title.replace(/[^a-zA-Z0-9\s+]/g, ''),
+            manHours: req.body.manHours.replace(/[^0-9]/g, ''),
+            workers: req.body.workers.map((worker) => {
+                const name = worker.name.replace(/[^a-zA-Z\s]/g, '');
+                const hourlyRate = worker.hourlyRate;
+                const hoursRequired = worker.hoursRequired.replace(/[^0-9]/g, '');
+                return { name, hourlyRate, hoursRequired };
+            }),
+            physicalResources: req.body.physicalResources.map((resource) => {
+                const title = resource.title.replace(/[^a-zA-Z\s]/g, '');
+                const cost = resource.cost.replace(/[^0-9.]/g, '');
+                return { title, cost };
+            }),
+            total_cost: req.body.total_cost,
+        });        
 
         await Quote.updateOne({_id : id}, quote)
         res.sendStatus(204);

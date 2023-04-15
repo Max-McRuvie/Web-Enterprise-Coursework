@@ -87,6 +87,8 @@ const QuoteList = () => {
     e.preventDefault();
     console.log("Saving quote");
     await saveQuote(combinedQuote);
+    alert("Quote saved");
+    window.location.reload();
   };
 
   // Handle delete quote

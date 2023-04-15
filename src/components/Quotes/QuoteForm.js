@@ -7,6 +7,9 @@ import React, { useState, useEffect } from "react";
 import { Grid, TextField, Button, Box, Typography, styled } from "@mui/material";
 
 // React Router Imports
+import { useNavigate } from "react-router-dom";
+
+// React Router Imports
 import { Form, useParams } from "react-router-dom";
 
 import DOMPurify, { sanitize } from "dompurify";
@@ -39,6 +42,9 @@ const StyledButton = styled(Button)(({ theme, color = "primary" }) => ({
 
 // Component
 const QuoteForm = ({ quote, edit }) => {
+  // Navigate
+  const navigate = useNavigate();
+  
   const { quoteId } = useParams();
   const [errors, setErrors] = useState({});
   const [isAdmin] = useState(auth.isAdmin());
@@ -157,12 +163,16 @@ const QuoteForm = ({ quote, edit }) => {
   const handleSave = async (e) => {
     e.preventDefault();
     await saveQuote(projectInfo);
+    alert("Quote saved successfully!");
+    navigate("/quote-list");
   };
 
   // Handle Delete
   const handleUpdate = async (e) => {
     e.preventDefault();
     await updateQuote(quoteId, projectInfo);
+    alert("Quote updated successfully!");
+    navigate("/quote-list");
   };
 
   // If quote is passed in, set project info to quote to populate form

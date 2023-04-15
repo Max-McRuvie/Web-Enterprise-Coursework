@@ -45,13 +45,13 @@ export default function Login() {
     // Call login API and navigate to home on success
     signin(userData)
       .then((response) => {
-        console.log(response);
         if (response.error) {
           throw new Error(response.error);
         }
         auth.authenticate(response);
+        navigate("/");
+        window.location.reload();
       })
-
       .catch((error) => {
         alert(error);
       });

@@ -109,6 +109,20 @@ const QuoteForm = ({ quote, edit }) => {
       return;
     }
 
+    projectInfo.workers.forEach((worker) => {
+      if (worker.name === "" || worker.hourlyRate === "" || worker.hoursRequired === "") {
+        alert("Please fill out all fields for workers.");
+        return;
+      }
+    });
+
+    projectInfo.physicalResources.forEach((resource) => {
+      if (resource.title === "" || resource.cost === "") {
+        alert("Please fill out all fields for physical resources.");
+        return;
+      }
+    });
+
     // Calculate quote
     let budget = await calculateQuote(projectInfo);
 
@@ -208,6 +222,21 @@ const QuoteForm = ({ quote, edit }) => {
                 errors={errors}
                 manHours={projectInfo.manHours}
               />
+                <StyledButton
+                sx={{ margin: "2%" }}
+                variant={"contained"}
+                onClick={() =>
+                  setProjectInfo({
+                    ...projectInfo,
+                    workers: [
+                      ...projectInfo.workers,
+                      { hourlyRate: 0, hoursRequired: 0 },
+                    ],
+                  })
+                }
+              >
+                Add Worker
+              </StyledButton>
             </Grid>
             <Grid item sx={{ flex: 1 }}>
               <PhysicalResourcesFields
@@ -216,26 +245,7 @@ const QuoteForm = ({ quote, edit }) => {
                 handleRemoveField={handleRemoveField}
                 errors={errors}
               />
-            </Grid>
-          </Grid>
-
-          <Box sx={{ textAlign: "center" }}>
-            <StyledButton
-              sx={{ margin: "2%" }}
-              variant={"contained"}
-              onClick={() =>
-                setProjectInfo({
-                  ...projectInfo,
-                  workers: [
-                    ...projectInfo.workers,
-                    { hourlyRate: 0, hoursRequired: 0 },
-                  ],
-                })
-              }
-            >
-              Add Worker
-            </StyledButton>
-            <StyledButton
+              <StyledButton
               sx={{ margin: "2%" }}
               variant={"contained"}
               onClick={() =>
@@ -250,22 +260,26 @@ const QuoteForm = ({ quote, edit }) => {
             >
               Add Physical Resource
             </StyledButton>
-          </Box>
-          <StyledButton onClick={handleSubmit}>Calculate Quote</StyledButton>
+            </Grid>
+          </Grid>
 
-          {isAdmin ? (
-            <StyledButton onClick={handleAdminSubmit}>
-              Admin Calculate Quote
-            </StyledButton>
-          ) : (
-            <></>
-          )}
+          <Box sx={{ textAlign: "center", marginBottom:"5%", marginTop:"5%"}}>
+            <StyledButton onClick={handleSubmit}>Calculate Quote</StyledButton>
+
+            {isAdmin ? (
+              <StyledButton sx={{marginLeft: "5%"}} onClick={handleAdminSubmit}>
+                Admin Calculate Quote
+              </StyledButton>
+            ) : (
+              <></>
+            )}
+          </Box>
         </Form>
 
         <Typography variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Typography>
 
         {projectInfo.total_cost > 0 && (
-          <Box sx={{ marginTop: "2%" }}>
+          <Box sx={{ marginTop: "5%" }}>
             {edit ? (
               <Button
                 variant="contained"

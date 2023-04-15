@@ -158,23 +158,7 @@ const updateQuote = async (req, res) => {
     // Sanitize quote data
     try{
         let id = req.params.quoteId
-        const quote = new Quote({
-            uID: req.body.uID,
-            title: req.body.title.replace(/[^a-zA-Z0-9\s+]/g, ''),
-            manHours: req.body.manHours.replace(/[^0-9]/g, ''),
-            workers: req.body.workers.map((worker) => {
-                const name = worker.name.replace(/[^a-zA-Z\s]/g, '');
-                const hourlyRate = worker.hourlyRate;
-                const hoursRequired = worker.hoursRequired.replace(/[^0-9]/g, '');
-                return { name, hourlyRate, hoursRequired };
-            }),
-            physicalResources: req.body.physicalResources.map((resource) => {
-                const title = resource.title.replace(/[^a-zA-Z\s]/g, '');
-                const cost = resource.cost.replace(/[^0-9.]/g, '');
-                return { title, cost };
-            }),
-            total_cost: req.body.total_cost,
-        });        
+        const quote = req.body;      
 
         await Quote.updateOne({_id : id}, quote)
         res.sendStatus(204);

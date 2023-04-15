@@ -2,16 +2,38 @@ import User from '../models/user.model.js';
 import lodash from 'lodash';
 import errorHandler from './../helpers/dbErrorHandler.js';
 
+// Import for validaiton and sanitisation
+import validator from "validator";
+import DOMPurify from 'dompurify';
+
 // Create a new user
 const create = async (req, res) => {
-
   const { email } = req.body;
+  
+  // Validate email
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({ error: "Invalid email format" });
+    }
 
+  // Check for invalid characters
+  const invalidChars = /[^a-zA-Z0-9@._-]/g;
+  if (invalidChars.test(email)) {
+    return "Email can only contain letters, numbers, and @._-";
+  }
+  const sanitisedEmail = DOMPurify.sanitize(email);
+  
+  // Check if email contains invalid characters
+  if(sanitisedEmail !== email) {
+    return "Email must not contain HTML tags";
+  }
+
+  // Check if user already exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.status(400).json({ error: "Email already exists" });
   }
 
+  // Create new user
     const user = new User(req.body)
     try {
         await user.save()
@@ -29,8 +51,6 @@ const create = async (req, res) => {
 const list = async (req, res) => {
   try {
     let users = await User.find()
-    // .select('name email updated created')
-    console.log("Got users" + users)
     res.json(users)
   } catch (err) {
     return res.status(400).json({

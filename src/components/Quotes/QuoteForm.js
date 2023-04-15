@@ -279,7 +279,7 @@ const QuoteForm = ({ quote, edit }) => {
         <Typography variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Typography>
 
         {projectInfo.total_cost > 0 && (
-          <Box sx={{ marginTop: "5%" }}>
+          <Box sx={{ marginTop: "2%", marginBottom:"5%" }}>
             {edit ? (
               <Button
                 variant="contained"

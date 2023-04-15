@@ -61,7 +61,7 @@ const createQuote = async (req, res) => {
     const quote = new Quote({
         uID: req.body.uID,
         title: req.body.title.replace(/[^a-zA-Z0-9\s+]/g, ''),
-        manHours: req.body.manHours.replace(/[^0-9]/g, ''),
+        manHours: req.body.manHours,
         workers: req.body.workers.map((worker) => {
             const name = worker.name.replace(/[^a-zA-Z\s]/g, '');
             const hourlyRate = worker.hourlyRate;

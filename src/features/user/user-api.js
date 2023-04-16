@@ -39,5 +39,24 @@ const getProfile = () => {
     });
 };
 
+const deleteProfile = () => {
+  let item = sessionStorage.getItem("auth");
+  const data = JSON.parse(item);
+  let userID = data.user._id;
+
+  console.log(userID)
+
+  return axios
+    .delete(`http://localhost:3000/api/users/${userID}`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+
 // Export the functions
-export { signup, getProfile };
+export { signup, getProfile, deleteProfile };

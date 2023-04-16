@@ -58,23 +58,7 @@ const calculateQuote = async (req, res) => {
 
 const createQuote = async (req, res) => {
     // Sanitize quote data
-    const quote = new Quote({
-        uID: req.body.uID,
-        title: req.body.title.replace(/[^a-zA-Z0-9\s+]/g, ''),
-        manHours: req.body.manHours,
-        workers: req.body.workers.map((worker) => {
-            const name = worker.name.replace(/[^a-zA-Z\s]/g, '');
-            const hourlyRate = worker.hourlyRate;
-            const hoursRequired = worker.hoursRequired.replace(/[^0-9]/g, '');
-            return { name, hourlyRate, hoursRequired };
-        }),
-        physicalResources: req.body.physicalResources.map((resource) => {
-            const title = resource.title.replace(/[^a-zA-Z\s]/g, '');
-            const cost = resource.cost.replace(/[^0-9.]/g, '');
-            return { title, cost };
-        }),
-        total_cost: req.body.total_cost,
-    });
+    const quote = new Quote(req.body)
 
     try {
         await quote.save();

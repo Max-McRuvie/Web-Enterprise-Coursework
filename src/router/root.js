@@ -43,31 +43,12 @@ export default function Root() {
         <StyledButton variant="raised" href="/signup">Sign Up</StyledButton>
     );
 
-    // const authCheck = auth.isAuthenticated()
-
-    // let loginDisplay = <StyledButton variant='raised' href='/login'>Login</StyledButton>;
-    // let signupDisplay = <StyledButton variant='raised' href='/signup'>Sign Up</StyledButton>;
-
-    // if (authCheck) {
-    //     loginDisplay = <StyledButton variant='raised' href='/logoff'>Logout</StyledButton>;
-    //     signupDisplay = <StyledButton variant='raised' href='/profile'>Profile</StyledButton>;
-    // }
-
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" sx={{background: darkNavbar}}>
                     <Toolbar sx={{justifyContent: 'space-between'}}>
                         <div styles={{direction:"row"}}>
-                            {/* <IconButton
-                                size="large"
-                                edge="start"
-                                color="inherit"
-                                aria-label="menu"
-                                sx={{ mr: 2 }}
-                            >
-                                <MenuIcon />
-                            </IconButton> */}
                             {isLoggedIn ? (
                                 <>
                                 <StyledButton color="inherit" variant="raised" href="/">Home</StyledButton>

@@ -1,14 +1,14 @@
 // Description: This is the main dashboard for the admin page. It contains the paygrade form and the fudge factor form.
 
 // Imports
-import React, { useState } from "react";
-import { Button, Container, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Grid, Typography } from "@mui/material";
 
 // Component Imports
 import PaygradeForm from "./PaygradeForm.js";
 
 // Feature Imports
-import { adjustPayGrades } from "../../features/admin/admin-api.js";
+import { getPaygradeSettings, adjustPayGrades } from "../../features/admin/admin-api.js";
 
 // Component
 const Dashboard = () => {
@@ -17,6 +17,9 @@ const Dashboard = () => {
     standard: 0,
     senior: 0,
   });
+
+  const [loading, setLoading] = useState(true);
+
 
   // This function is used to handle changes to the paygrade form.
   const handleChange = (event, fieldName, fieldType) => {
@@ -33,27 +36,28 @@ const Dashboard = () => {
     e.preventDefault();
     if (actionType === "Paygrade") {
       adjustPayGrades(paygrade);
+      alert("Paygrade settings have been updated.")
     }
   };
+
+  useEffect(() => {
+    getPaygradeSettings()
+    .then((response) => {
+      setPaygrade({
+        junior: response.junior,
+        standard: response.standard,
+        senior: response.senior,
+      });
+      setLoading(false);
+    })
+  }, []);
 
   // Render
   return (
     <Container maxWidth="lg" marginBottom={5}>
-      <Grid
-        container
-        item
-        xs={12}
-        direction="row"
-        justifyContent="center"
-        spacing={2}
-      >
-        <Grid item>
-          <PaygradeForm
-            handleChange={handleChange}
-            paygrade={paygrade}
-          />
-        </Grid>
-
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
         <Grid
           container
           item
@@ -63,17 +67,33 @@ const Dashboard = () => {
           spacing={2}
         >
           <Grid item>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={(e) => handleSubmit(e, "Paygrade")}
-            >
-              Submit Paygrade
-            </Button>
+            <PaygradeForm
+              handleChange={handleChange}
+              paygrade={paygrade}
+            />
+          </Grid>
+
+          <Grid
+            container
+            item
+            xs={12}
+            direction="row"
+            justifyContent="center"
+            spacing={2}
+          >
+            <Grid item>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={(e) => handleSubmit(e, "Paygrade")}
+              >
+                Submit Paygrade
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   );
 };

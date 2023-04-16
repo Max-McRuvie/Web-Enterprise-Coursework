@@ -3,6 +3,22 @@
 // Import axios
 import axios from "axios";
 
+const getPaygradeSettings = async () => {
+  let item = sessionStorage.getItem("auth");
+  const data = JSON.parse(item);
+  let userID = data.user._id;
+
+  return await axios
+    .get(`http://localhost:3000/api/admin/paygrade/${userID}`, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 // This function is used to adjust the pay grades
 const adjustPayGrades = async (payGrades) => {
   let item = sessionStorage.getItem("auth");
@@ -56,4 +72,4 @@ const calculationWithoutFudgeFactor = (quote) => {
 };
 
 // Export the functions
-export { adjustPayGrades, calculationWithoutFudgeFactor };
+export { getPaygradeSettings, adjustPayGrades, calculationWithoutFudgeFactor };

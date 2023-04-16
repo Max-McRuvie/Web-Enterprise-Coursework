@@ -3,6 +3,15 @@ import CalculationSettings from '../models/calculationSettings.model.js';
 import lodash from 'lodash';
 import errorHandler from '../helpers/dbErrorHandler.js';
 
+const getPaygrades = async (req, res) => {
+    try {
+        const paygrades = await CalculationSettings.findOne();
+        res.json({ junior: paygrades.juniorPaygrade, standard: paygrades.standardPaygrade, senior: paygrades.seniorPaygrade });
+    } catch (error) {
+        res.json({ junior: 10, standard: 15, senior: 20 })
+    }
+}
+
 const updatePaygrade = async (req, res) => {
   const { junior, standard, senior } = req.body;
 
@@ -74,6 +83,7 @@ const calculateWithoutFudgeFactor = async (req, res) => {
 
 
 export default {
+    getPaygrades,
     updatePaygrade,
     calculateWithoutFudgeFactor
 }

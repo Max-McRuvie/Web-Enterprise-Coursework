@@ -108,6 +108,8 @@ const QuoteForm = ({ quote, edit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const errorFound = false;
+
     // Validate title
     const titleError = validateTitle(projectInfo.title);
     if (titleError) {
@@ -118,6 +120,7 @@ const QuoteForm = ({ quote, edit }) => {
     projectInfo.workers.forEach((worker) => {
       if (worker.name === "" || worker.hourlyRate === "" || worker.hoursRequired === "") {
         alert("Please fill out all fields for workers.");
+        errorFound = true;
         return;
       }
     });
@@ -125,9 +128,14 @@ const QuoteForm = ({ quote, edit }) => {
     projectInfo.physicalResources.forEach((resource) => {
       if (resource.title === "" || resource.cost === "") {
         alert("Please fill out all fields for physical resources.");
+        errorFound = true;
         return;
       }
     });
+
+    if(errorFound) {
+      return;
+    }
 
     // Calculate quote
     let budget = await calculateQuote(projectInfo);

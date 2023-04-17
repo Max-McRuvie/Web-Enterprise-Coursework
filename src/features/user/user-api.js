@@ -39,6 +39,28 @@ const getProfile = () => {
     });
 };
 
+const updateProfile = (userData) => {
+  let item = sessionStorage.getItem("auth");
+  const data = JSON.parse(item);
+  let userID = data.user._id;
+
+  return axios
+    .put(`http://localhost:3000/api/users/${userID}`, userData, {
+      headers: {
+        Authorization: `Bearer ${data.token}`,
+      },
+    })
+    .then((response) => {
+      return response.data;
+    }).catch((error) => {
+      if (error.response && error.response.data && error.response.data.error) {
+        throw new Error(error.response.data.error);
+      } else {
+        throw new Error('Something went wrong.');
+      }
+    });
+};
+
 const deleteProfile = () => {
   let item = sessionStorage.getItem("auth");
   const data = JSON.parse(item);
@@ -59,4 +81,4 @@ const deleteProfile = () => {
 
 
 // Export the functions
-export { signup, getProfile, deleteProfile };
+export { signup, getProfile, updateProfile, deleteProfile };

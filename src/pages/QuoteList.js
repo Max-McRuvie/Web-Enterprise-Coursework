@@ -70,6 +70,11 @@ const QuoteList = () => {
 
   // Handle combine quotes
   const handleCombineQuotes = () => {
+    if(selectedQuotes.length < 2) {
+      alert("Please select at least 2 quotes to combine");
+      return;
+    }
+    
     combineQuotes(selectedQuotes).then((response) => {
       setCombinedQuote({
         title: response.title,

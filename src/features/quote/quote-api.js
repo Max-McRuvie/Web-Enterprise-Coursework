@@ -90,7 +90,7 @@ const updateQuote = (quoteId, quote) => {
   let userId = data.user._id;
 
   return axios
-    .post(`http://localhost:3000/api/quotes/${quoteId}/${userId}`, quote, {
+    .put(`http://localhost:3000/api/quotes/${quoteId}/${userId}`, quote, {
       headers: {
         Authorization: `Bearer ${data.token}`,
       },

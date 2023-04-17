@@ -18,7 +18,7 @@ router.route('/api/quotes/:userId')
 
 router.route('/api/quotes/:quoteId/:userId')
     .get(authCtrl.requireSignin, authCtrl.hasAuthorization,quoteCtrl.getQuoteByID)
-    .post(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.updateQuote);
+    .put(authCtrl.requireSignin, authCtrl.hasAuthorization, quoteCtrl.updateQuote);
 
 router.param('userId', userCtrl.userByID);
 

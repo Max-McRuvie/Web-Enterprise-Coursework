@@ -46,9 +46,10 @@ const calculationWithoutFudgeFactor = (quote) => {
   let requestData = {
     uID: userID,
     title: quote.title,
+    manHours: quote.manHours,
     workers: quote.workers,
     physicalResources: quote.physicalResources,
-    total_cost: quote.total_cost,
+    totalCost: quote.totalCost,
   };
 
   try {

@@ -11,6 +11,7 @@ const baseAdmin = async () => {
 
     })
 
+    // Save admin
     try{
         await admin.save()
     } catch(err) {
@@ -27,6 +28,7 @@ const baseUser = async () => {
         admin: false,
     })
 
+    // Save user
     try{
         await user.save()
     } catch(err) {
@@ -36,18 +38,23 @@ const baseUser = async () => {
 
 // Populates DB with base calculation settings
 const baseCalculationSettings = async () => {
-    const calculationSettings = new CalculationSettings({
-        juniorPaygrade: 10,
-        standardPaygrade: 15,
-        seniorPaygrade: 20,
-    })
-
-    try{
-        await calculationSettings.save()
-    } catch(err) {
-        console.log("Base calculation settings already added")
+    // Check if calculation settings already exist
+    const existingSettings = await CalculationSettings.findOne()
+  
+    if (existingSettings) {
+      console.log("Base calculation settings already added")
+      return
     }
-}
+  
+    // Create new calculation settings
+    const calculationSettings = new CalculationSettings({
+      juniorPaygrade: 10,
+      standardPaygrade: 15,
+      seniorPaygrade: 20,
+    })
+  
+    await calculationSettings.save()
+  }
 
 
 // Populates DB with base admin and user

@@ -48,7 +48,7 @@ const QuoteForm = ({ quote, edit }) => {
   const { quoteId } = useParams();
   const [errors, setErrors] = useState({});
   const [isAdmin] = useState(auth.isAdmin());
-  const [hideCost, setHideCost] = useState(true);
+  const [hideButtons, sethideButtons] = useState(true);
 
   const [projectInfo, setProjectInfo] = useState({
     title: "",
@@ -66,12 +66,12 @@ const QuoteForm = ({ quote, edit }) => {
         cost: "",
       },
     ],
-    total_cost: "",
+    totalCost: "",
   });
 
   // Handle Change
   const handleFieldChange = (e, index, field, type) => {
-    setHideCost(true);
+    sethideButtons(true);
     // Sanitize value to prevent XSS attacks
     let sanitisedValue = DOMPurify.sanitize(e.target.value);
 
@@ -94,7 +94,7 @@ const QuoteForm = ({ quote, edit }) => {
 
   // Handle Remove Field
   const handleRemoveField = (index, type) => {
-    setHideCost(true);
+    sethideButtons(true);
     // Check field type prior to setting state to avoid errors
     if (type === "workers") {
       const workers = [...projectInfo.workers];
@@ -146,9 +146,9 @@ const QuoteForm = ({ quote, edit }) => {
     // Set total cost
     setProjectInfo((prevState) => ({
       ...prevState,
-      total_cost: budget.totalCost,
+      totalCost: budget.totalCost,
     }));
-    setHideCost(false);
+    sethideButtons(false);
   };
 
   // Handle Admin Submit
@@ -167,9 +167,9 @@ const QuoteForm = ({ quote, edit }) => {
     // Set total cost
     setProjectInfo((prevState) => ({
       ...prevState,
-      total_cost: budget.totalCost,
+      totalCost: budget.totalCost,
     }));
-    setHideCost(false);
+    sethideButtons(false);
   };
 
   // Handle Save
@@ -299,9 +299,9 @@ const QuoteForm = ({ quote, edit }) => {
           </Box>
         </Form>
 
-        <Typography variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Typography>
+        <Typography variant="h5">Total Cost: ${projectInfo.totalCost || 0}</Typography>
 
-        {!hideCost && (
+        {!hideButtons && (
           <Box sx={{ marginTop: "2%", marginBottom:"5%" }}>
             {edit ? (
               <Button

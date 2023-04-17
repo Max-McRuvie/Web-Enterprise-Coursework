@@ -24,7 +24,7 @@ const QuoteSchema = new mongoose.Schema({
         type: Array,
         required: 'Physical Resources are required'
     },
-    total_cost: {
+    totalCost: {
         type: Number,
         required: 'Total Cost is required'
     },

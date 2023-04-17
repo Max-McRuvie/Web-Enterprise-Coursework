@@ -30,7 +30,7 @@ const saveQuote = (quote) => {
     manHours: quote.manHours,
     workers: quote.workers,
     physicalResources: quote.physicalResources,
-    total_cost: quote.total_cost,
+    totalCost: quote.totalCost,
   };
 
   try {

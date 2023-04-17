@@ -44,7 +44,7 @@ const QuoteList = () => {
     manHours: 0,
     workers: [],
     physicalResources: [],
-    total_cost: "",
+    totalCost: "",
   });
   const [showCombinedQuote, setShowCombinedQuote] = useState(false);
 
@@ -81,7 +81,7 @@ const QuoteList = () => {
         manHours: response.manHours,
         workers: response.workers,
         physicalResources: response.physicalResources,
-        total_cost: response.total_cost,
+        totalCost: response.totalCost,
       });
     });
     setShowCombinedQuote(true);
@@ -123,7 +123,7 @@ const QuoteList = () => {
                Physical Resources: {quote.physicalResources.length}
               </Typography>
               <Typography variant="body1">
-                Total Cost: £{quote.total_cost}
+                Total Cost: £{quote.totalCost}
               </Typography>
               <Checkbox
                 checked={selectedQuotes.includes(quote._id)}
@@ -158,7 +158,7 @@ const QuoteList = () => {
             Physical Resources: {combinedQuote.physicalResources.length}
           </Typography>
           <Typography variant="body1">
-            Total Cost: £{combinedQuote.total_cost}
+            Total Cost: £{combinedQuote.totalCost}
           </Typography>
           <Button
             variant="contained"

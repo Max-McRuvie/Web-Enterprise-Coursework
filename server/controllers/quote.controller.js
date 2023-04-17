@@ -57,8 +57,10 @@ const calculateQuote = async (req, res) => {
     
 
 const createQuote = async (req, res) => {
+
     // Sanitize quote data
     const quote = new Quote({
+        uID: req.body.uID,
         title: req.body.title.replace(/[^a-zA-Z\s]/g, '').trim(),
         manHours: parseFloat(req.body.manHours),
         workers: req.body.workers ? req.body.workers.map(worker => {   
@@ -76,6 +78,9 @@ const createQuote = async (req, res) => {
         }) : [],
         totalCost: req.body.totalCost
     })
+    console.log(req.body.totalCost)
+
+    console.log(quote)
 
     try {
         await quote.save();
@@ -83,6 +88,7 @@ const createQuote = async (req, res) => {
             message: "Successfully created quote!"
         })
     } catch (err) {
+        console.log(err)
         return res.status(400).json({
             error: {err}
         })
@@ -128,7 +134,7 @@ const combineQuotes = async (req, res) => {
 
     const combinedTotalCost = quotes.reduce((acc, curr) => {
         // Combine the total costs of each quote into one number
-        return acc + curr.total_cost;
+        return acc + curr.totalCost;
     }, 0);
 
     const combinedQuote = {
@@ -136,7 +142,7 @@ const combineQuotes = async (req, res) => {
         manHours: combinedManHours,
         workers: combinedWorkers,
         physicalResources: combinedPhysicalResources,
-        total_cost: combinedTotalCost
+        totalCost: combinedTotalCost
     };
     res.json(combinedQuote);
   } catch (err) {
@@ -166,6 +172,7 @@ const updateQuote = async (req, res) => {
 
         // Sanitize quote data
         const quote = {
+            uID: req.body.uID,
             title: req.body.title.replace(/[^a-zA-Z\s]/g, '').trim(),
             manHours: parseFloat(req.body.manHours),
             workers: req.body.workers ? req.body.workers.map(worker => {   

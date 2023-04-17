@@ -58,7 +58,24 @@ const calculateQuote = async (req, res) => {
 
 const createQuote = async (req, res) => {
     // Sanitize quote data
-    const quote = new Quote(req.body)
+    const quote = new Quote({
+        title: req.body.title.replace(/[^a-zA-Z\s]/g, '').trim(),
+        manHours: parseFloat(req.body.manHours),
+        workers: req.body.workers ? req.body.workers.map(worker => {   
+            return {
+                name: worker.name.replace(/[^a-zA-Z\s]/g, ''),
+                hourlyRate: worker.hourlyRate.replace(/[^a-zA-Z\s]/g, ''),
+                hoursRequired: parseFloat(worker.hoursRequired)
+            }
+        }) : [],
+        physicalResources: req.body.physicalResources ? req.body.physicalResources.map(resource => {
+            return {
+                name: resource.name.replace(/[^a-zA-Z\s]/g, ''),
+                cost: parseFloat(resource.cost)
+            }
+        }) : [],
+        totalCost: req.body.totalCost
+    })
 
     try {
         await quote.save();
@@ -84,15 +101,18 @@ const getQuoteByID = async (req, res) => {
     }
 }
 
+// Combine multiple quotes into one quote
 const combineQuotes = async (req, res) => {
   try {
     const ids = req.body.quoteIds;
     const quotes = await Quote.find({_id : {$in : ids}});
 
+    // Combine the titles of each quote into one string
     const titles = quotes.map(quote => quote.title);
     const combinedTitles = titles.join(' + ');
 
     const combinedManHours = quotes.reduce((acc, curr) => {
+        // Combine man hours of each quote into one number
         return acc + curr.manHours;
     }, 0);
 
@@ -126,6 +146,7 @@ const combineQuotes = async (req, res) => {
   }
 };
 
+// List all quotes in the database
 const listQuotes = async (req, res) => {
     try {
         const id = req.params.userId
@@ -138,11 +159,30 @@ const listQuotes = async (req, res) => {
     }
 }
 
+// Update a quote in the database
 const updateQuote = async (req, res) => {
-    // Sanitize quote data
     try{
         let id = req.params.quoteId
-        const quote = req.body;      
+
+        // Sanitize quote data
+        const quote = {
+            title: req.body.title.replace(/[^a-zA-Z\s]/g, '').trim(),
+            manHours: parseFloat(req.body.manHours),
+            workers: req.body.workers ? req.body.workers.map(worker => {   
+                return {
+                    name: worker.name.replace(/[^a-zA-Z\s]/g, ''),
+                    hourlyRate: worker.hourlyRate.replace(/[^a-zA-Z\s]/g, ''),
+                    hoursRequired: parseFloat(worker.hoursRequired)
+                }
+            }) : [],
+            physicalResources: req.body.physicalResources ? req.body.physicalResources.map(resource => {
+                return {
+                    name: resource.name.replace(/[^a-zA-Z\s]/g, ''),
+                    cost: parseFloat(resource.cost)
+                }
+            }) : [],
+            totalCost: req.body.totalCost
+        };      
 
         await Quote.updateOne({_id : id}, quote)
         res.sendStatus(204);
@@ -154,6 +194,7 @@ const updateQuote = async (req, res) => {
     }
 }
 
+// Remove a quote from the database
 const removeQuote = async (req, res) => {
     try {
         const userId = req.params.userId;

@@ -1,4 +1,5 @@
 import User from './models/user.model.js';
+import CalculationSettings from './models/calculationSettings.model.js';
 
 // Populates DB with base admin
 const baseAdmin = async () => {
@@ -33,10 +34,27 @@ const baseUser = async () => {
     }
 }
 
+// Populates DB with base calculation settings
+const baseCalculationSettings = async () => {
+    const calculationSettings = new CalculationSettings({
+        juniorPaygrade: 10,
+        standardPaygrade: 15,
+        seniorPaygrade: 20,
+    })
+
+    try{
+        await calculationSettings.save()
+    } catch(err) {
+        console.log("Base calculation settings already added")
+    }
+}
+
+
 // Populates DB with base admin and user
 const populateDB = async () => {
     await baseAdmin()
     await baseUser()
+    await baseCalculationSettings()
 }
 
 // Export

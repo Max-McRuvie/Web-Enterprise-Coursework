@@ -21,10 +21,9 @@ const updatePaygrade = async (req, res) => {
 
   const filter = {};
   const update = { $set: { juniorPaygrade: parsedJunior, standardPaygrade: parsedStandard, seniorPaygrade: parsedSenior } };
-  const options = { upsert: true };
 
   try {
-    const result = await CalculationSettings.updateOne(filter, update, options);
+    const result = await CalculationSettings.updateOne(filter, update);
     res.json(result);
   } catch (error) {
     console.error(error);

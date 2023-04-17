@@ -5,7 +5,6 @@ import crypto from 'crypto';
 
 // Import for validaiton and sanitisation
 import validator from "validator";
-import DOMPurify from 'dompurify';
 
 // Create a new user
 const create = async (req, res) => {
@@ -20,12 +19,6 @@ const create = async (req, res) => {
   const invalidChars = /[^a-zA-Z0-9@._-]/g;
   if (invalidChars.test(email)) {
     return "Email can only contain letters, numbers, and @._-";
-  }
-  const sanitisedEmail = DOMPurify.sanitize(email);
-  
-  // Check if email contains invalid characters
-  if(sanitisedEmail !== email) {
-    return "Email must not contain HTML tags";
   }
 
   // Check if user already exists

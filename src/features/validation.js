@@ -28,21 +28,13 @@ const validateName = (name) => {
 
 // Validate email function
 const validateEmail = (email) => {
-  // Sanitize email input to prevent XSS
-  const sanitisedEmail = DOMPurify.sanitize(email);
-
-  // Check if email contains invalid characters
-  if(sanitisedEmail !== email) {
-    return "Email must not contain HTML tags";
-  }
-
   // Check if email is empty
-  if (!sanitisedEmail) {
+  if (!email) {
     return "Email is required";
   }
 
   // Check if email is valid
-  if (!validator.isEmail(sanitisedEmail)) {
+  if (!validator.isEmail(email)) {
     return "Email is invalid";
   }
 
@@ -55,22 +47,14 @@ const validateEmail = (email) => {
 };
 
 // Validate password function
-const validatePassword = (password, isSignin) => {
-  // Sanitize password input to prevent XSS
-  const sanitisedPassword = DOMPurify.sanitize(password);
-
-  // Check if email contains invalid characters
-  if(sanitisedPassword !== password) {
-    return "Email must not contain HTML tags";
-  }
-  
+const validatePassword = (password, isSignin) => {  
   // Check if password is empty
-  if (!sanitisedPassword && isSignin) {
+  if (!password && isSignin) {
     return "Password is required";
   }
 
   // Check if password less than 8 characters long
-  if (sanitisedPassword.length < 8 && !isSignin) {
+  if (password.length < 8 && !isSignin) {
     return "Password must be at least 8 characters long";
   }
 

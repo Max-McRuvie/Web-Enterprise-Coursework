@@ -48,6 +48,7 @@ const QuoteForm = ({ quote, edit }) => {
   const { quoteId } = useParams();
   const [errors, setErrors] = useState({});
   const [isAdmin] = useState(auth.isAdmin());
+  const [hideCost, setHideCost] = useState(true);
 
   const [projectInfo, setProjectInfo] = useState({
     title: "",
@@ -70,6 +71,7 @@ const QuoteForm = ({ quote, edit }) => {
 
   // Handle Change
   const handleFieldChange = (e, index, field, type) => {
+    setHideCost(true);
     // Sanitize value to prevent XSS attacks
     let sanitisedValue = DOMPurify.sanitize(e.target.value);
 
@@ -92,6 +94,7 @@ const QuoteForm = ({ quote, edit }) => {
 
   // Handle Remove Field
   const handleRemoveField = (index, type) => {
+    setHideCost(true);
     // Check field type prior to setting state to avoid errors
     if (type === "workers") {
       const workers = [...projectInfo.workers];
@@ -108,7 +111,7 @@ const QuoteForm = ({ quote, edit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const errorFound = false;
+    let errorFound = false;
 
     // Validate title
     const titleError = validateTitle(projectInfo.title);
@@ -145,6 +148,7 @@ const QuoteForm = ({ quote, edit }) => {
       ...prevState,
       total_cost: budget.totalCost,
     }));
+    setHideCost(false);
   };
 
   // Handle Admin Submit
@@ -165,6 +169,7 @@ const QuoteForm = ({ quote, edit }) => {
       ...prevState,
       total_cost: budget.totalCost,
     }));
+    setHideCost(false);
   };
 
   // Handle Save
@@ -296,7 +301,7 @@ const QuoteForm = ({ quote, edit }) => {
 
         <Typography variant="h5">Total Cost: ${projectInfo.total_cost || 0}</Typography>
 
-        {projectInfo.total_cost > 0 && (
+        {!hideCost && (
           <Box sx={{ marginTop: "2%", marginBottom:"5%" }}>
             {edit ? (
               <Button

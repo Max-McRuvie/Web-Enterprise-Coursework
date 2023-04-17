@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import lodash from 'lodash';
 import errorHandler from './../helpers/dbErrorHandler.js';
+import crypto from 'crypto';
 
 // Import for validaiton and sanitisation
 import validator from "validator";
@@ -87,6 +88,39 @@ const read = (req, res) => {
 const update = async (req, res) => {
   try {
     let user = req.profile
+
+    const hash = crypto
+      .createHmac('sha1', user.salt)
+      .update(req.body.currentPassword)
+      .digest('hex');
+
+    if (hash !== user.hashed_password) {
+      return res.status(400).json({
+        error: "Current password is incorrect"
+      })
+    }
+
+    if (req.body.newPassword) {
+      if (req.body.newPassword.length < 6) {
+        return res.status(400).json({
+          error: "Password must be at least 6 characters long"
+        })
+      }
+      if (req.body.newPassword === req.body.currentPassword) {
+        return res.status(400).json({
+          error: "New password must be different from current password"
+        })
+      }
+
+      const salt = await crypto.randomBytes(16).toString('hex');
+      const hashed_password = await crypto
+        .createHmac('sha1', salt)
+        .update(req.body.newPassword)
+        .digest('hex');
+
+      user = lodash.extend(user, { hashed_password, salt })
+    }
+
     user = lodash.extend(user, req.body)
     user.updated = Date.now()
     await user.save()
@@ -114,5 +148,6 @@ const remove = async (req, res) => {
     })
   }
 }
+
 
 export default { create, userByID, read, list, remove, update }

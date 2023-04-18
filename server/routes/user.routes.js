@@ -1,10 +1,13 @@
+// Description: This file contains all the routes for the user model
+
+// Imports
 import express from 'express';
 import userCtrl from '../controllers/user.controller.js';
 import authCtrl from '../controllers/auth.controller.js';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-// Route for creating user and getting list of users
+// Route for creating a new user
 router.route('/api/users')
   .post(userCtrl.create)
 
@@ -16,4 +19,5 @@ router.route('/api/users/:userId')
 
 router.param('userId', userCtrl.userByID);
 
+// Export the router
 export default router;

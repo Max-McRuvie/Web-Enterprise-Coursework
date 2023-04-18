@@ -1,3 +1,6 @@
+// Description: This file contains all the routes for the quote controller
+
+// Imports
 import express from 'express';
 import userCtrl from '../controllers/user.controller.js';
 import authCtrl from '../controllers/auth.controller.js';
@@ -26,4 +29,5 @@ router.route('/api/quotes/:quoteId/:userId')
 
 router.param('userId', userCtrl.userByID);
 
+// Export the router
 export default router;

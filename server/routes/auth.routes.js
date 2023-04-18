@@ -1,3 +1,6 @@
+// Description: This file contains all the routes for the authentication controller
+
+// Imports
 import express from 'express';
 import authCtrl from '../controllers/auth.controller.js';
 
@@ -11,4 +14,5 @@ router.route('/auth/signin')
 router.route('/auth/signout')
     .get(authCtrl.signout);
 
+// Export the router
 export default router;

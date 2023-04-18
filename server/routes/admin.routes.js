@@ -1,3 +1,6 @@
+// Description: This file contains all the routes for the admin
+
+// Imports
 import express from 'express';
 import authCtrl from '../controllers/auth.controller.js';
 import adminCtrl from '../controllers/admin.controller.js';
@@ -17,4 +20,5 @@ router.route('/api/admin/fudge-factor/:userId')
 
 router.param('userId', userCtrl.userByID);
 
+// Export the router
 export default router;

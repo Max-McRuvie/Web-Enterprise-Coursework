@@ -106,67 +106,80 @@ const QuoteList = () => {
 
   return (
     <Container>
-      <Grid container spacing={3} marginTop={"2%"}>
-        {quoteList.map((quote) => (
-          <Grid item xs={12} sm={6} md={4} key={quote._id}>
-            <Paper elevation={3}>
-              <Typography variant="h6">Title: {quote.title}</Typography>
-              <Typography variant="body1">
-                Manhours: {quote.manHours}
-              </Typography>
-              <Typography variant="body1">
-                Workers: {quote.workers.length}
-              </Typography>
-              <Typography variant="body1">
-               Physical Resources: {quote.physicalResources.length}
-              </Typography>
-              <Typography variant="body1">
-                Total Cost: £{quote.totalCost}
-              </Typography>
-              <Checkbox
-                checked={selectedQuotes.includes(quote._id)}
-                onChange={() => handleToggleQuote(quote._id)}
-                sx={{
-                  color: darkNavbar,
-                  "&.Mui-checked": { color: darkNavbar },
-                }}
-              />
-              <div>
-                <StyledButton component={Link} to={`/quote/${quote._id}`}>
-                  Edit
-                </StyledButton>
-              </div>
-            </Paper>
+      {quoteList.length === 0 ? (
+        <Grid container spacing={3} marginTop={"2%"}>
+          <Typography variant="h6">No quotes to display</Typography>
+        </Grid>
+      ) : (
+        <>
+          <Grid container spacing={3} marginTop={"2%"}>
+            {quoteList.map((quote) => (
+              <Grid item xs={12} sm={6} md={4} key={quote._id}>
+                <Paper elevation={3}>
+                  <Typography variant="h6">Title: {quote.title}</Typography>
+                  <Typography variant="body1">
+                    Manhours: {quote.manHours}
+                  </Typography>
+                  <Typography variant="body1">
+                    Workers: {quote.workers.length}
+                  </Typography>
+                  <Typography variant="body1">
+                    Physical Resources: {quote.physicalResources.length}
+                  </Typography>
+                  <Typography variant="body1">
+                    Total Cost: £{quote.totalCost}
+                  </Typography>
+                  <Checkbox
+                    checked={selectedQuotes.includes(quote._id)}
+                    onChange={() => handleToggleQuote(quote._id)}
+                    sx={{
+                      color: darkNavbar,
+                      "&.Mui-checked": { color: darkNavbar },
+                    }}
+                  />
+                  <div>
+                    <StyledButton
+                      component={Link}
+                      to={`/quote/${quote._id}`}
+                    >
+                      Edit
+                    </StyledButton>
+                  </div>
+                </Paper>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-      <StyledButton onClick={handleDeleteQuote}>Delete</StyledButton>
-      <StyledButton onClick={handleCombineQuotes}>Combine</StyledButton>
-
-      {showCombinedQuote ? (
-        <div>
-          <Typography variant="h6">Title: {combinedQuote.title}</Typography>
-          <Typography variant="body1">
-            Manhours: {combinedQuote.manHours}
-          </Typography>
-          <Typography variant="body1">
-            Workers: {combinedQuote.workers.length}
-          </Typography>
-          <Typography variant="body1">
-            Physical Resources: {combinedQuote.physicalResources.length}
-          </Typography>
-          <Typography variant="body1">
-            Total Cost: £{combinedQuote.totalCost}
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{ marginTop: "2%" }}
-            onClick={handleSave}
-          >
-            Save Quote
-          </Button>
-        </div>
-      ) : null}
+          <StyledButton onClick={handleDeleteQuote}>Delete</StyledButton>
+          <StyledButton onClick={handleCombineQuotes}>Combine</StyledButton>
+  
+          {showCombinedQuote ? (
+            <div>
+              <Typography variant="h6">
+                Title: {combinedQuote.title}
+              </Typography>
+              <Typography variant="body1">
+                Manhours: {combinedQuote.manHours}
+              </Typography>
+              <Typography variant="body1">
+                Workers: {combinedQuote.workers.length}
+              </Typography>
+              <Typography variant="body1">
+                Physical Resources: {combinedQuote.physicalResources.length}
+              </Typography>
+              <Typography variant="body1">
+                Total Cost: £{combinedQuote.totalCost}
+              </Typography>
+              <Button
+                variant="contained"
+                sx={{ marginTop: "2%" }}
+                onClick={handleSave}
+              >
+                Save Quote
+              </Button>
+            </div>
+          ) : null}
+        </>
+      )}
     </Container>
   );
 };

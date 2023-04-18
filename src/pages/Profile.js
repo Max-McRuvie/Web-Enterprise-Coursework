@@ -3,13 +3,24 @@
 // imports
 import React, { useEffect, useState } from "react";
 import { getProfile, updateProfile, deleteProfile } from "../features/user/user-api.js";
-import { Grid, TextField, Typography, Button } from "@mui/material";
+import { Grid, TextField, Typography, Button, styled } from "@mui/material";
 
 import auth from '../features/auth/auth-helper.js';
 import { signout } from '../features/auth/auth-api.js';
 import { useNavigate } from "react-router-dom";
 
 import { validateName, validateEmail, validatePassword } from "../features/validation.js";
+import theme from '../theme.js';
+const { darkNavbar, light, main, darkText} = theme.palette.primary;
+
+const StyledButton = styled(Button)(({ theme, color = 'primary' }) => ({
+    backgroundColor: darkNavbar,
+    color: light,
+    ':hover': {
+      backgroundColor: main,
+        color: darkText,
+    },
+}));
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -114,10 +125,10 @@ const Profile = () => {
           <TextField label="Current Password" name="currentPassword" type="password" value={profile.currentPassword} onChange={(event) => handleChange(event)} fullWidth />
         </Grid>
         <Grid item mt={"2%"}>
-          <Button onClick={handleUpdate}>Update</Button>
+          <StyledButton variant="raised" onClick={handleUpdate}>Update</StyledButton>
         </Grid>
         <Grid item mt={"2%"}>
-          <Button onClick={handleDelete}>Delete</Button>
+          <StyledButton variant="raised" onClick={handleDelete}>Delete</StyledButton>
         </Grid>
       </Grid>
     </Grid>

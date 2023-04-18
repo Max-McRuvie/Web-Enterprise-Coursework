@@ -20,8 +20,6 @@ export default function Root() {
     const [isLoggedIn, setIsLoggedIn] = useState(auth.isAuthenticated());
     const [isAdmin, setIsAdmin] = useState(auth.isAdmin());
 
-    isAdmin ? console.log("Admin") : console.log("Not Admin");
-
     const handleLogout = () => {
         signout().then((response) => {
             auth.clearToken(() => console.log("signed out"))

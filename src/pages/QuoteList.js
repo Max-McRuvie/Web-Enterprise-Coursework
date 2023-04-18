@@ -51,7 +51,6 @@ const QuoteList = () => {
   // Get quote list
   useEffect(() => {
     getQuoteList().then((response) => {
-      console.log(response)
       setQuoteList(response);
     });
   }, []);
@@ -90,7 +89,6 @@ const QuoteList = () => {
   // Handle save combined quote
   const handleSave = async (e) => {
     e.preventDefault();
-    console.log("Saving quote");
     await saveQuote(combinedQuote);
     alert("Quote saved");
     window.location.reload();

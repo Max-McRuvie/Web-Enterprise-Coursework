@@ -11,7 +11,6 @@ const signin = async (userData) => {
       email,
       password,
     });
-    console.log(response.data);
     return response.data;
   } catch (err) {
     return err.response.data;

@@ -192,7 +192,6 @@ const QuoteForm = ({ quote, edit }) => {
   // used for edit mode
   useEffect(() => {
     if (quote) {
-      console.log(quote)
       setProjectInfo(quote);
     }
   }, [quote]);

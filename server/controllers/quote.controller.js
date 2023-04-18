@@ -57,7 +57,7 @@ const calculateQuote = async (req, res) => {
     
 
 const createQuote = async (req, res) => {
-
+    console.log(req.body)
     // Sanitize quote data
     const quote = new Quote({
         uID: req.body.uID,
@@ -72,7 +72,7 @@ const createQuote = async (req, res) => {
         }) : [],
         physicalResources: req.body.physicalResources ? req.body.physicalResources.map(resource => {
             return {
-                name: resource.name.replace(/[^a-zA-Z\s]/g, ''),
+                name: resource.title.replace(/[^a-zA-Z\s]/g, ''),
                 cost: parseFloat(resource.cost)
             }
         }) : [],
@@ -184,7 +184,7 @@ const updateQuote = async (req, res) => {
             }) : [],
             physicalResources: req.body.physicalResources ? req.body.physicalResources.map(resource => {
                 return {
-                    name: resource.name.replace(/[^a-zA-Z\s]/g, ''),
+                    name: resource.title.replace(/[^a-zA-Z\s]/g, ''),
                     cost: parseFloat(resource.cost)
                 }
             }) : [],

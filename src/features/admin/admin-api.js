@@ -64,7 +64,6 @@ const calculationWithoutFudgeFactor = (quote) => {
         }
       )
       .then((response) => {
-        console.log(response);
         return response.data.finalQuote;
       });
   } catch (err) {

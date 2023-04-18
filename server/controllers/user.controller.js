@@ -1,3 +1,6 @@
+// Description: This file contains the controller methods for the user model
+
+// Imports
 import User from '../models/user.model.js';
 import lodash from 'lodash';
 import errorHandler from './../helpers/dbErrorHandler.js';
@@ -70,6 +73,7 @@ const update = async (req, res) => {
   try {
     let user = req.profile
 
+    // Check if current password is correct
     const hash = crypto
       .createHmac('sha1', user.salt)
       .update(req.body.currentPassword)
@@ -81,27 +85,32 @@ const update = async (req, res) => {
       })
     }
 
+    // Check if new password is valid
     if (req.body.newPassword) {
       if (req.body.newPassword.length < 6) {
         return res.status(400).json({
           error: "Password must be at least 6 characters long"
         })
       }
+
       if (req.body.newPassword === req.body.currentPassword) {
         return res.status(400).json({
           error: "New password must be different from current password"
         })
       }
 
+      // Hash new password
       const salt = await crypto.randomBytes(16).toString('hex');
       const hashed_password = await crypto
         .createHmac('sha1', salt)
         .update(req.body.newPassword)
         .digest('hex');
 
+      // Update user password with new hashed password and salt
       user = lodash.extend(user, { hashed_password, salt })
     }
 
+    // Update user
     user = lodash.extend(user, req.body)
     user.updated = Date.now()
     await user.save()
@@ -130,5 +139,5 @@ const remove = async (req, res) => {
   }
 }
 
-
+// Export controller functions
 export default { create, userByID, read, remove, update }

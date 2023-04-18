@@ -1,5 +1,9 @@
+// Description: This file contains the functions that are used to calculate the quote without the fudge factor
+
+// Imports
 import CalculationSettings from '../models/calculationSettings.model.js';
 
+// Gets the paygrades from the database
 const getPaygrades = async (req, res) => {
     try {
         const paygrades = await CalculationSettings.findOne();
@@ -9,6 +13,7 @@ const getPaygrades = async (req, res) => {
     }
 }
 
+// Updates the paygrades in the database
 const updatePaygrade = async (req, res) => {
   const { junior, standard, senior } = req.body;
 
@@ -28,10 +33,11 @@ const updatePaygrade = async (req, res) => {
   }
 }
 
+// Calculates the quote without the fudge factor
 const calculateWithoutFudgeFactor = async (req, res) => {
   const projectInfo = req.body;
     
-  // fetch paygrades from the database
+  // fetch paygrades from the database, if they don't exist, use the default values
   let paygrades;
   try {
       paygrades = await CalculationSettings.findOne();
@@ -77,7 +83,7 @@ const calculateWithoutFudgeFactor = async (req, res) => {
   })
 }
 
-
+// Exports
 export default {
     getPaygrades,
     updatePaygrade,

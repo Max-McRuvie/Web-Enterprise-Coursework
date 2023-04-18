@@ -1,12 +1,17 @@
+// Description: This file contains the functions that handle the logic for the quote routes
+
+// Import Models
 import Quote from '../models/quote.model.js';
 import CalculationSettings from '../models/calculationSettings.model.js';
 
+// This function is used for applying a set fudge factor to the quote
 const fudgeFactorCalculator = (amount) => {
     let fudgeFactor = 1.5;
 
     return amount * fudgeFactor;
 }
 
+// This function is used to calculate the quote
 const calculateQuote = async (req, res) => {
     const projectInfo = req.body;
     
@@ -55,7 +60,7 @@ const calculateQuote = async (req, res) => {
     })
 }
     
-
+// This function is used to create a quote
 const createQuote = async (req, res) => {
     console.log(req.body)
     // Sanitize quote data
@@ -95,6 +100,7 @@ const createQuote = async (req, res) => {
     }
 }
 
+// Delete a quote from the database
 const getQuoteByID = async (req, res) => {
     try {
         const id = req.params.quoteId;
@@ -228,6 +234,7 @@ const removeQuote = async (req, res) => {
     }
   };
 
+// Exports controller functions
 export default {
     createQuote,
     listQuotes,

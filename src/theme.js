@@ -9,6 +9,7 @@ const theme = createTheme({
           light: ' #f8f8f8',
           darkNavbar: '#272727',
           contrastText: '#ffffff',
+          darkText: '#000000',
         },
       },
     });

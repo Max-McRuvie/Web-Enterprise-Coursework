@@ -104,6 +104,7 @@ const QuoteList = () => {
     });
   };
 
+  // If list is empty display message, if not display quotes & buttons
   return (
     <Container>
       {quoteList.length === 0 ? (

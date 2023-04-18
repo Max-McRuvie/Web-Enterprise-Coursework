@@ -5,11 +5,12 @@ import userCtrl from '../controllers/user.controller.js';
 
 const router = express.Router();
 
+// Route for getting and changing paygrade
 router.route('/api/admin/paygrade/:userId')
     .get(authCtrl.requireSignin, authCtrl.hasAdminAuthorization, adminCtrl.getPaygrades)
     .put(authCtrl.requireSignin, authCtrl.hasAdminAuthorization, adminCtrl.updatePaygrade);
 
-
+// Route for calculating without fudge factor
 router.route('/api/admin/fudge-factor/:userId')
     .post(authCtrl.requireSignin, authCtrl.hasAdminAuthorization, adminCtrl.calculateWithoutFudgeFactor);
 

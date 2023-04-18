@@ -1,7 +1,4 @@
-import User from '../models/user.model.js';
 import CalculationSettings from '../models/calculationSettings.model.js';
-import lodash from 'lodash';
-import errorHandler from '../helpers/dbErrorHandler.js';
 
 const getPaygrades = async (req, res) => {
     try {

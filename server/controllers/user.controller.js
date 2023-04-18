@@ -41,18 +41,6 @@ const create = async (req, res) => {
       }
 }
 
-// List all users
-const list = async (req, res) => {
-  try {
-    let users = await User.find()
-    res.json(users)
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler.getErrorMessage(err)
-    })
-  }
-}
-
 // Find user by ID
 const userByID = async (req, res, next, id) => {
   try {
@@ -143,4 +131,4 @@ const remove = async (req, res) => {
 }
 
 
-export default { create, userByID, read, list, remove, update }
+export default { create, userByID, read, remove, update }

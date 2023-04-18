@@ -38,6 +38,11 @@ const Profile = () => {
 
   // Handle updating the profile
   const handleUpdate = () => {
+    if(auth.isAdmin()){
+      alert("Cannot update admin profile");
+      return;
+    }
+
     // Validate fields
     const nameError = validateName(profile.name, false);
     const emailError = validateEmail(profile.email, false);
@@ -79,6 +84,11 @@ const Profile = () => {
 
   // Handle deleting the profile
   const handleDelete = () => {
+    if(auth.isAdmin()){
+      alert("Cannot delete admin profile");
+      return;
+    }
+
     deleteProfile().then(() => {
       signout().then(() => {
         auth.clearToken(() => console.log("signed out"))
